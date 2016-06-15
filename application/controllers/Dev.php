@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -21,7 +21,6 @@ $password = 'demo';
         CURLOPT_POST => true,
         //CURLOPT_USERPWD => "rndwiga:)R31nA?21",
 
-                
     ));
     curl_setopt($curl, CURLOPT_POSTFIELDS, 'username='.$username.'&password='.$password);
 
@@ -29,9 +28,8 @@ $password = 'demo';
     curl_close($curl);
     print_r($result);
     //print_r(json_decode($result));
-    
-    }
-    
-    
-}
 
+    }
+
+
+}
