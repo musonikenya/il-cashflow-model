@@ -7,7 +7,7 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Dev extends CI_Controller {
+class Api_Dev extends CI_Controller {
 
     public function index()
     {
