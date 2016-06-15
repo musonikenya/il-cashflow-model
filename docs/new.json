@@ -1,2 +1,2 @@
 
-[{"id":"","crop":"Bananas","acer":"1.5","cropping":"No","hybrid":"No","fertilizer":"3","pesticides":"No","month":"June","consume":"30%","storing":"2","new_id":"1"}, {"id":"","crop":"Maize","acer":"2","cropping":"Yes","hybrid":"Yes","fertilizer":"2","pesticides":"No","month":"May","consume":"10%","storing":"5","new_id":"2"}]
+[{"id":"","crop":"Bananas","acer":"1.5","cropping":"No","hybrid":"No","fertilizer":"3","pesticides":"No","month":"June","consume":"30%","storing":"2","new_id":"1"}, {"id":"","crop":"Other crops","acer":"2","cropping":"Yes","hybrid":"Yes","fertilizer":"2","pesticides":"No","month":"May","consume":"10%","storing":"5","new_id":"2"}]

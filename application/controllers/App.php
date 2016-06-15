@@ -95,7 +95,7 @@ class App extends CI_Controller {
 			$today = date('Y-m-d');
 			$time = date('H:i:s');
 		// $inputFileType = 'Excel5';
-        $inputFile = './docs/demo.xls';
+        $inputFile = './docs/flow-demo.xlsx';
         //load the excel library
         $this->load->library('excel');
 
@@ -119,7 +119,7 @@ class App extends CI_Controller {
 						//while ($fileContent = json_decode($str_data, true)) { //rewrite this loop
 						//Setting Variables for the file
                            $baseRow = 6;
-						   $fileName= 'Loan demo';//$resfor=$dataname['name'];
+						   $fileName= 'Flow-demo-Output';//$resfor=$dataname['name'];
 						//foreach loop to write data to file
 						   foreach($fileContent as $r => $dataRow) {
 									if (!is_array($dataRow)) {
@@ -128,7 +128,7 @@ class App extends CI_Controller {
 										exit;
 									} else {
 								   $row = $baseRow + $r;
-								   $objPHPExcel->getActiveSheet()->insertNewRowBefore($row,1);
+								  // $objPHPExcel->getActiveSheet()->insertNewRowBefore($row,1);
 								   $objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $dataRow['crop'])
 														 ->setCellValue('B'.$row, $dataRow['acer'])
 														 ->setCellValue('C'.$row, $dataRow['cropping'])
@@ -141,13 +141,13 @@ class App extends CI_Controller {
 								   }  // end of foreachloop
 						   }
                        //Saving the file
-                       $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+                       $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 					   //echo 'I got here';
 					   //$objWriter->save('./docs/fin.xls');
 					   //exit;
-                       $objWriter->save(str_replace(__FILE__,'./docs/'.$fileName . $today . '.xls',__FILE__));
+                       $objWriter->save(str_replace(__FILE__,'./docs/'.$fileName . '.xlsx',__FILE__));
                        //$objWriter->save(str_replace('.php', '.xls', __FILE__));
-                       echo date('H:i:s') , " File written to " , str_replace('.php', '.xls', pathinfo(__FILE__, PATHINFO_BASENAME));
+                       echo date('H:i:s') , " File written to " , str_replace('.php', '.xlsx', pathinfo(__FILE__, PATHINFO_BASENAME));
                         echo 'Done';
                        echo date('H:i:s') , " Done writing file";
                 //}
@@ -165,7 +165,6 @@ class App extends CI_Controller {
 		 $inputFile = './docs/flow-demo.xlsx';
 		 //load the excel library
 		 $this->load->library('excel');
-
 		 /**  Identify the type of $inputFileName  **/
 		 $inputFileType = PHPExcel_IOFactory::identify($inputFile);
 		 /**  Create a new Reader of the type defined in $inputFileType  **/
@@ -203,19 +202,65 @@ class App extends CI_Controller {
 				 // Set cell A2 with a numeric value
 				// $objPHPExcel->getActiveSheet()->setCellValue('A2', 12345.6789);
 
-
 										//Saving the file
-										$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+										$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 					//echo 'I got here';
 					//$objWriter->save('./docs/fin.xls');
 					//exit;
 					$objWriter->setPreCalculateFormulas(false);
-										$objWriter->save(str_replace(__FILE__,'./docs/'.$fileName . $today . $time . '.xls',__FILE__));
+										$objWriter->save(str_replace(__FILE__,'./docs/'.$fileName . '.xlsx',__FILE__));
 										//$objWriter->save(str_replace('.php', '.xls', __FILE__));
-										echo date('H:i:s') , " File written to " , str_replace('.php', '.xls', pathinfo(__FILE__, PATHINFO_BASENAME));
+										echo date('H:i:s') , " File written to " , str_replace('.php', '.xlsx', pathinfo(__FILE__, PATHINFO_BASENAME));
 										 echo 'Done';
 										echo date('H:i:s') , " Done writing file";
 						 //}
 
 }
+public function read_save()
+{
+/*
+ Introduce the PHPExcel Writer
+*/
+	 date_default_timezone_set('Europe/London');
+	 $today = date('Y-m-d');
+	 $time = date('H:i:s');
+	 $fname = 'Cash-flow-Output-';
+// $inputFileType = 'Excel5';
+	 $inputFile = './docs/cash-flow-model.xlsx';
+	 //name the final file
+	 $fileName = $fname;
+	 //load the excel library
+	 $this->load->library('excel');
+	 /**  Identify the type of $inputFileName  **/
+	 $inputFileType = PHPExcel_IOFactory::identify($inputFile);
+	 /**  Create a new Reader of the type defined in $inputFileType  **/
+	 $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+
+	 /**  Advise the Reader to load all Worksheets  **/
+	 $objReader->setLoadAllSheets();
+	// $sheetList = $objReader->listWorksheetNames($inputFileName);
+	 /**  Load $inputFileName to a PHPExcel Object  **/
+	 $objPHPExcel = $objReader->load($inputFile);
+
+	 // Write data to the file
+	 $objPHPExcel->getActiveSheet()->setCellValue('F3','NO')
+	 																->setCellValue('B6', 10)
+																	->setCellValue('A9', 'Cabbages')
+																	->setCellValue('A25', 'Cows (dairy)');
+									//Saving the file
+									$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+										//echo 'I got here';
+										//$objWriter->save('./docs/fin.xls');
+										//exit;
+									//	$objWriter->setPreCalculateFormulas(false);
+															$objWriter->save(str_replace(__FILE__,'./docs/'. $fileName.  '.xlsx',__FILE__));
+															//$objWriter->save(str_replace('.php', '.xls', __FILE__));
+															echo date('H:i:s') , " File written to " , str_replace('.php', '.xlsx', pathinfo(__FILE__, PATHINFO_BASENAME));
+															echo "<br>";
+															 echo 'Done';
+															echo date('H:i:s') , " Done writing file";
+											 //}
+
+}
+
 }
