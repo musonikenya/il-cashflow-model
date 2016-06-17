@@ -2,19 +2,26 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Cash_flow extends CI_Controller {
-
-	/*
-
-	public function index()
+public function index()
 	{
-		$this->load->view('welcome_message');
+	    //$this->reader_write(); //call the function that writes and saves the file. subtitute this with the one that receives data from webhook
+			$this->retrieve_file_info();
 	}
-    */
-    public function index()
-    {
-        $this->reader_write(); //call the function that writes and saves the file
-    }
-     public function reader_write()
+public function receive_data()
+{
+	/*
+			This function is for reciving data from Musoni web hook and saving the request to db
+			use twitter API to structure how the notification will be received.
+	*/
+	$jsonArray = json_decode(file_get_contents('php://input'),true);
+}
+public function retrieve_file_info()
+	{
+			$this->load->helper('file');
+		$content = get_filenames(APPPATH.'controllers/', true);
+			print_r($content);
+	}
+public function reader_write()
 	{
 		/*
 			Introduce the PHPExcel Writer
