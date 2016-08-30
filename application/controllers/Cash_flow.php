@@ -9,12 +9,13 @@ class Cash_flow extends CI_Controller {
         }
 public function index()
 	{
+	//	$this->computeCashFlowModel();
 			//	$CashFlowLoan =	$this->receiveCashFlowLoanData(); //calling the function processing loan data
-				$cashflowLoanHistory =	$this->receiveCashFlowLoanHistoryData(); //calling the function processing loan data
+			//	$cashflowLoanHistory =	$this->receiveCashFlowLoanHistoryData(); //calling the function processing loan data
 			//	$CashFlowStatements =	$this->receiveCashFlowStatementsData(); //get data for animals cashflow
 		//	$CashFlowOtherInformation =	$this->receiveCashFlowOtherInformationData(); //get data for animals cashflow
 			//	$cashflowAssetsAndLiabilities =	$this->receiveAssetsAndLiabilityData(); //get data for animals cashflow
-					//	$cashflowAnimals =	$this->receiveCashFlowAnimalsData(); //get data for animals cashflow
+						$cashflowAnimals =	$this->receiveCashFlowAnimalsData(); //get data for animals cashflow
 						//		$cashflowCrops =	$this->receiveCashFlowCropsData(); //get data for crops cashflow
 										//dropdowns
 							//	$cashflowYesNo =	$this->receiveCashFlowYesNoDropdownData(); //get data for crops cashflow
@@ -294,10 +295,16 @@ public function receiveCashFlowAnimalsData()
 		//	echo $cashflowAnimals['0']['Cashflow_Percentage_cd_Animal_meat_do_you_consume_at_home'];echo "<br>"; //dropdown percentage
 							$percentage2 =		$this->receiveCashFlowPercentageDropdownData($cashflowAnimals['0']['Cashflow_Percentage_cd_Animal_meat_do_you_consume_at_home']); //dropdown month
 						echo $percentage2['name'];echo "<br>";
+
+						$row1animal = array(
+							'' => ,
+						);
 /*
 		From this point create a condition that checks whether the values below have been entered. if not terminate the script
 		make use of yesno value requesting entry of data
 */
+/*
+Activate the block below after writing the condition function
 			//row 2
 		//	echo $cashflowAnimals['0']['Cashflow_Animals_cd_Animal_Type_2__Animal_Type'];echo "<br>";
 							$animal2 =		$this->receiveCashFlowAnimalDropdownData($cashflowAnimals['0']['Cashflow_Animals_cd_Animal_Type_2__Animal_Type']); //dropdown animal
@@ -373,32 +380,47 @@ public function receiveCashFlowCropsData()
 										//row 1
 						//	echo $cashflowCrops['0']['Cashflow_Crops_cd_Crop_1'];echo "<br>"; //dropdown crops
 									$crop =		$this->receiveCashFlowCropDropdownData($cashflowCrops['0']['Cashflow_Crops_cd_Crop_1']); //dropdown animal
-								echo $crop['name'];echo "<br>";
+	//activateToCheckForErrors							echo $crop['name'];echo "<br>";
 							//	if(isset($crop['name'])){ echo $crop['name'];};;echo "<br>";
-							echo $cashflowCrops['0']['Acres_under_production_last_year_crop_1'];echo "<br>";
-							echo $cashflowCrops['0']['Acres_expansion_this_year_crop_1'];echo "<br>";
+	//activateToCheckForErrors						echo $cashflowCrops['0']['Acres_under_production_last_year_crop_1'];echo "<br>";
+//activateToCheckForErrors							echo $cashflowCrops['0']['Acres_expansion_this_year_crop_1'];echo "<br>";
 						//	echo $cashflowCrops['0']['YesNo_cd_Use_improved_high_yi'];echo "<br>"; //dropdown yesno
 									$improved =		$this->receiveCashFlowYesNoDropdownData($cashflowCrops['0']['YesNo_cd_Use_improved_high_yi']); //dropdown yesno
-								echo $improved['name'];echo "<br>";
+	//activateToCheckForErrors							echo $improved['name'];echo "<br>";
 							//	if(isset($improved['name'])){ echo $improved['name'];};;echo "<br>";
 							//echo $cashflowCrops['0']['Cashflow_FertizersYesNo_cd_Use_fertilizers_crop_1'];echo "<br>"; //dropdown fertilizer
 										$fertilizer =		$this->receiveCashFlowFertilizersYesNoDropdownData($cashflowCrops['0']['Cashflow_FertizersYesNo_cd_Use_fertilizers_crop_1']); //dropdown fertilizer
-									echo $fertilizer['name'];echo "<br>";
-							echo $cashflowCrops['0']['Number_50_Kg_bags_fe'];echo "<br>";
+	//activateToCheckForErrors								echo $fertilizer['name'];echo "<br>";
+//activateToCheckForErrors							echo $cashflowCrops['0']['Number_50_Kg_bags_fe'];echo "<br>";
 						//	echo $cashflowCrops['0']['YesNo_cd_Use_pesticides_crop_1'];echo "<br>"; //dropdown yesno
-										$improved =		$this->receiveCashFlowYesNoDropdownData($cashflowCrops['0']['YesNo_cd_Use_pesticides_crop_1']); //dropdown yesno
-									echo $improved['name'];echo "<br>";
-							echo $cashflowCrops['0']['Cashflow_IrrigationYesNo_cd_Irrigation_crop_1'];echo "<br>"; //dropdown irrigationyesno
+										$pesticides =		$this->receiveCashFlowYesNoDropdownData($cashflowCrops['0']['YesNo_cd_Use_pesticides_crop_1']); //dropdown yesno
+//activateToCheckForErrors									echo $pesticides['name'];echo "<br>";
+						//	echo $cashflowCrops['0']['Cashflow_IrrigationYesNo_cd_Irrigation_crop_1'];echo "<br>"; //dropdown irrigationyesno
 										$irrigation =		$this->receiveCashFlowIrrigationYesNoDropdownData($cashflowCrops['0']['Cashflow_IrrigationYesNo_cd_Irrigation_crop_1']); //dropdown irrigationyesno
-									echo $irrigation['name'];echo "<br>";
+	//activateToCheckForErrors								echo $irrigation['name'];echo "<br>";
 						//	echo $cashflowCrops['0']['Cashflow_Month_cd_Month_planting_crop_1'];echo "<br>"; //dropdown month
 											$month =		$this->receiveCashFlowMonthDropdownData($cashflowCrops['0']['Cashflow_Month_cd_Month_planting_crop_1']); //dropdown month
-										echo $month['name'];echo "<br>";
+	//activateToCheckForErrors									echo $month['name'];echo "<br>";
 						//	echo $cashflowCrops['0']['Cashflow_Percentage_cd_Home_consumption_crop_1'];echo "<br>"; //dropdown percentage
 									$percentage =		$this->receiveCashFlowPercentageDropdownData($cashflowCrops['0']['Cashflow_Percentage_cd_Home_consumption_crop_1']); //dropdown month
-								echo $percentage['name'];echo "<br>";
+	//activateToCheckForErrors							echo $percentage['name'];echo "<br>";
 							//	if(isset($percentage['name'])){ echo $percentage['name'];};;echo "<br>";
-							echo $cashflowCrops['0']['Months_storage_crop_1'];echo "<br>";
+	//activateToCheckForErrors						echo $cashflowCrops['0']['Months_storage_crop_1'];echo "<br>";
+
+										$row1Crops = array(
+															'cropName' => $crop['name'] ,
+															'acersUnderProduction' => $cashflowCrops['0']['Acres_under_production_last_year_crop_1'],
+															'acersExpansion' => $cashflowCrops['0']['Acres_expansion_this_year_crop_1'],
+															'useImprovedYeilds' => $improved['name'],
+															'useFertilizer' => $fertilizer['name'],
+															'bagsHarvested' => $cashflowCrops['0']['Number_50_Kg_bags_fe'],
+															'usePesticides' => $pesticides['name'],
+															'useIrrigation' => $irrigation['name'],
+															'plantingMonth' => $month['name'] ,
+															'homeConsumption' => $percentage['name'],
+															'storageDuration' => $cashflowCrops['0']['Months_storage_crop_1'],
+										);
+										return $row1Crops;
 /*
 Build condition that checks whether data has been set for the rows below if not ignore
 Activate the fields after building the condition
@@ -462,12 +484,74 @@ Activate the fields after building the condition
 							echo $cashflowCrops['0']['Price_Kg_other_crops'];echo "<br>";
    */
 }
-private function saveToDb($data)
-{
+
+private function computeCashFlowModel()
+	{
 		/*
-				This function will be used to save data to database depending on their
+			Using PHPExcel library
 		*/
-}
+
+		   ini_set('date.timezone', 'UTC'); //setting the default timezone
+			$time = date('H:i:s');  //set the time  for document
+			// Including the timestamp during the
+		 $fileName= 'Flow-demo-Output - ' . date('m-d-Y_his') ; //$resfor=$dataname['name']; generate a random string for the file.
+		// $inputFileType = 'Excel5';
+        $inputFile = './docs/cash_flow_model_20160830.xlsx';
+        /**  Identify the type of $inputFileName  **/
+        $inputFileType = PHPExcel_IOFactory::identify($inputFile);
+        /**  Create a new Reader of the type defined in $inputFileType  **/
+        $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+        /**  Advise the Reader to load all Worksheets  **/
+        $objReader->setLoadAllSheets();
+
+        /**  Load $inputFileName to a PHPExcel Object  **/
+        $objPHPExcel = $objReader->load($inputFile);
+		/*
+		Process Json data
+		*/
+		$processCrops = $this->receiveCashFlowCropsData(); //get cashflow crop data
+		//	echo "<pre>";
+		//		print_r($processCrops);
+		//	echo "</pre>";
+		//	echo "funny";
+		//	exit;
+							/*
+								writing crop data to the model
+							*/
+						$baseRow = 7; //row to start writing crop data
+						$col = 'A';
+						foreach ($processCrops as  $value) {
+					//	echo $col . ' ' . $value; echo "<br>";
+							$objPHPExcel->getActiveSheet()->setCellValue($col.$baseRow, $value);
+							$col++;
+						}
+ // end of foreachloop
+
+                       //Saving the file
+                       $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+					   //echo 'I got here';
+					   //$objWriter->save('./docs/fin.xls');
+					   //exit;
+					   /*
+						Calling the function to create folder based on date. if it does not run successfully, the script terminates.
+					   */
+					  $createdFolder = $this->_create_storage() . '/';  //adding the slash to point to inside the dir
+					  $savedPath = $createdFolder . $fileName; //joining the created folder and the file name for the path
+
+                  //  $objWriter->save(str_replace(__FILE__,'./docs/'. $createdFolder . $fileName . '.xlsx',__FILE__));
+				  $objWriter->save(str_replace(__FILE__,'./docs/'. $savedPath . '.xlsx',__FILE__));
+						//Getting the file name to be saved in database
+					$savedFilePath = base_url() . 'docs/'.$savedPath. '.xlsx';
+								$this->CashFlow->save_file($savedFilePath);
+				   echo $savedFilePath; //remove this line later on
+				   echo '<br>';
+                       //$objWriter->save(str_replace('.php', '.xls', __FILE__));
+                       //Set message to be written on the browser to confirm that the file has been written
+                       echo date('H:i:s') , " File written to " , str_replace('.php', '.xlsx', pathinfo(__FILE__, PATHINFO_BASENAME));
+                        echo 'Done';
+                       echo date('H:i:s') , " Done writing file";
+                //}
+	}
 private function reader_write()
 	{
 		/*
@@ -477,7 +561,7 @@ private function reader_write()
 		   ini_set('date.timezone', 'UTC'); //setting the default timezone
 			$time = date('H:i:s');  //set the time
 		// $inputFileType = 'Excel5';
-        $inputFile = './docs/flow-demo.xlsx';
+        $inputFile = './docs/cash_flow_model_20160830.xlsx';
         /**  Identify the type of $inputFileName  **/
         $inputFileType = PHPExcel_IOFactory::identify($inputFile);
         /**  Create a new Reader of the type defined in $inputFileType  **/
