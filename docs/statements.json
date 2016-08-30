@@ -1,0 +1,29 @@
+[
+    {
+        "loan_id": 25280,
+        "Cashflow_Month_cd_Month_1": "14420",
+        "Cash_inflows_month_1": 40000,
+        "Cash_outflows_month_1": 4000,
+        "Cashflow_Month_cd_Month_2": "14421",
+        "Cash_inflows_month_2": 8000,
+        "Cash_outflows_month_2": 4600,
+        "Cashflow_Month_cd_Month_3": "14422",
+        "Cash_inflows_month_3": 8070,
+        "Cash_outflows_month_3": 5670,
+        "Cashflow_Month_cd_Month_4": "14423",
+        "Cash_inflows_month_4": 87705,
+        "Cash_outflows_month_4": 8770,
+        "Cashflow_Month_cd_Month_5": "14425",
+        "Cash_inflows_month_5": 877098,
+        "Cash_outflows_month_5": 7098,
+        "Cashflow_Month_cd_Month_6": "14426",
+        "Cash_inflows_month_6": 34567,
+        "Cash_outflows_month_6": 567,
+        "submittedon_date": [
+            2016,
+            8,
+            15
+        ],
+        "submittedon_userid": 19
+    }
+]

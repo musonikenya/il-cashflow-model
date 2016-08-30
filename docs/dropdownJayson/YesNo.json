@@ -1,0 +1,16 @@
+[
+    {
+        "id": 244,
+        "name": "No",
+        "position": 1,
+        "isMandatory": false,
+        "deleted": false
+    },
+    {
+        "id": 243,
+        "name": "Yes",
+        "position": 2,
+        "isMandatory": false,
+        "deleted": false
+    }
+]

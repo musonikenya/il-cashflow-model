@@ -1,0 +1,98 @@
+[
+    {
+        "id": 14420,
+        "name": "January",
+        "position": 0,
+        "isMandatory": false,
+        "description": "",
+        "deleted": false
+    },
+    {
+        "id": 14421,
+        "name": "February",
+        "position": 0,
+        "isMandatory": false,
+        "description": "",
+        "deleted": false
+    },
+    {
+        "id": 14422,
+        "name": "March",
+        "position": 0,
+        "isMandatory": false,
+        "description": "",
+        "deleted": false
+    },
+    {
+        "id": 14423,
+        "name": "April",
+        "position": 0,
+        "isMandatory": false,
+        "description": "",
+        "deleted": false
+    },
+    {
+        "id": 14424,
+        "name": "May",
+        "position": 0,
+        "isMandatory": false,
+        "description": "",
+        "deleted": false
+    },
+    {
+        "id": 14425,
+        "name": "June",
+        "position": 0,
+        "isMandatory": false,
+        "description": "",
+        "deleted": false
+    },
+    {
+        "id": 14426,
+        "name": "July",
+        "position": 0,
+        "isMandatory": false,
+        "description": "",
+        "deleted": false
+    },
+    {
+        "id": 14427,
+        "name": "August",
+        "position": 0,
+        "isMandatory": false,
+        "description": "",
+        "deleted": false
+    },
+    {
+        "id": 14428,
+        "name": "September",
+        "position": 0,
+        "isMandatory": false,
+        "description": "",
+        "deleted": false
+    },
+    {
+        "id": 14429,
+        "name": "October",
+        "position": 0,
+        "isMandatory": false,
+        "description": "",
+        "deleted": false
+    },
+    {
+        "id": 14430,
+        "name": "November",
+        "position": 0,
+        "isMandatory": false,
+        "description": "",
+        "deleted": false
+    },
+    {
+        "id": 14431,
+        "name": "December",
+        "position": 0,
+        "isMandatory": false,
+        "description": "",
+        "deleted": false
+    }
+]

@@ -3,14 +3,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Cash_flow_model extends CI_Model {
 
-        public $table = 'loan_details';
+        public $loanDetailsTable = 'loan_details';
+        public $accessTable = 'systemAccess';
 
         public function __construct()
         {
                 // Call the CI_Model constructor
                 parent::__construct();
         }
-		
+
 		function save_file($savedFilePath)
 		{
 			/*
@@ -22,7 +23,36 @@ class Cash_flow_model extends CI_Model {
 				'loan_id' => $loanId ,
 				'time_created' => date('Y-m-d H:i:s')
 			);
-			$this->db->insert( $this->table, $data);
+			$this->db->insert( $this->loanDetailsTable, $data);
 		}
-		
+    function accessKey($data = NULL, $update = NULL)
+    {
+      /*
+          This function stores the authorization key and headers to the db, and fetches the same data for use
+      */
+          if(isset($data) && !isset($update))
+          {
+            $this->db->insert ($this->accessTable, $data);
+              if ($this->db->affected_rows() == 1) {
+                        $this->db->from($this->accessTable);
+                        $query = $this->db->get();
+                          return $query->result_array();
+                      //    return $query->result();
+              }
+          }elseif (isset($data) && isset($update)) {
+            $this->db->replace($this->accessTable, $data);
+                $this->db->from($this->accessTable);
+                  $query = $this->db->get();
+                      return $query->result_array();
+          }
+          else {
+              $this->db->from($this->accessTable);
+              $query = $this->db->get();
+                return $query->result_array();
+              //  return $query->result();
+          }
+
+
+    }
+
 }

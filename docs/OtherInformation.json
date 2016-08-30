@@ -1,0 +1,23 @@
+[
+    {
+        "loan_id": 25280,
+        "Cashflow_Percentage_cd_Labor_carried_out_pe": "14444",
+        "Non_farming_activities_description": "None",
+        "Monthly_income_other_activities": 7000,
+        "Monthly_expenditures_other_activities": 2000,
+        "YesNo_cd_Add_an_investment": "243",
+        "Type_of_investment": "kuku",
+        "Investment_amount": 4999,
+        "Cashflow_Month_cd_Month_of_investment": "14420",
+        "YesNo_cd_Add_a_second_investment": "244",
+        "investment_2_Type_of_Investment": null,
+        "Investment_2_amount": null,
+        "Cashflow_Month_cd_Month_of_investment_2": null,
+        "submittedon_date": [
+            2016,
+            8,
+            15
+        ],
+        "submittedon_userid": 19
+    }
+]

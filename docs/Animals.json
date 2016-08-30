@@ -1,0 +1,39 @@
+[
+    {
+        "loan_id": 25280,
+        "YesNo_cd_Please_select_the_ma": "243",
+        "submittedon_date": [
+            2016,
+            8,
+            15
+        ],
+        "submittedon_userid": 19,
+        "Cashflow_Animals_cd_Animal_Type": "14402",
+        "Total_number_of_animals": 23,
+        "Number_of_animals_in": 23,
+        "YesNo_cd_Pure_or_improved_breeds_animal": "243",
+        "Cashflow_YesNoAlternative_cd_Purchased_feeds_animal": "14409",
+        "YesNo_cd_Add_Animal_Type_2": "244",
+        "Cashflow_Animals_cd_Animal_Type_2__Animal_Type": null,
+        "Animal_Type_2__Total_number_of_animals": null,
+        "Animal_Type_2__Numbe": null,
+        "YesNo_cd_Animal_Type_2__Pure": null,
+        "Cashflow_YesNoAlternative_cd_Animal_Type_2Purchased_feeds_animal": null,
+        "YesNo_cd_Add_Animal_Type_3": null,
+        "Cashflow_Animals_cd_Animal_Type_3__Animal_Type": null,
+        "Animal_Type_3__Total_number_of_animals": null,
+        "Animal_Type_3__Numbe": null,
+        "YesNo_cd_Animal_Type_3__Pure": null,
+        "Cashflow_YesNoAlternative_cd_Animal_Type_3Purchased_feeds_animal": null,
+        "Please_provide_the_f": null,
+        "Number_animals_to_be_sold_other_animals": null,
+        "Price_animal_sold_other_animals": null,
+        "Yearly_expenditure_f": null,
+        "Cashflow_Percentage_cd_Eggs_milk_do_you_consume_at_home": "14442",
+        "Cashflow_Percentage_cd_Animal_meat_do_you_consume_at_home": "14442",
+        "Cashflow_Percentage_cd_Animal_Type_2__Eggs": null,
+        "Cashflow_Percentage_cd_Animal_Type_2__Anima": null,
+        "Cashflow_Percentage_cd_Animal_Type_3__Eggsm": null,
+        "Cashflow_Percentage_cd_Animal_Type_3__Anima": null
+    }
+]
