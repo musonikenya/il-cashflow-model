@@ -14,10 +14,95 @@ public function index()
 		//	$CashFlowOtherInformation =	$this->receiveCashFlowOtherInformationData(); //get data for animals cashflow
 			//	$cashflowAssetsAndLiabilities =	$this->receiveAssetsAndLiabilityData(); //get data for animals cashflow
 					//	$cashflowAnimals =	$this->receiveCashFlowAnimalsData(); //get data for animals cashflow
-								$cashflowCrops =	$this->receiveCashFlowCropsData(); //get data for crops cashflow
-		exit;
+						//		$cashflowCrops =	$this->receiveCashFlowCropsData(); //get data for crops cashflow
+						//dropdowns
+							//	$cashflowYesNo =	$this->receiveCashFlowYesNoDropdownData(); //get data for crops cashflow
+							//	$cashflowAnimal =	$this->receiveCashFlowAnimalDropdownData(); //get data for crops cashflow
+							//	$cashflowCrops =	$this->receiveCashFlowCropDropdownData(); //get data for crops cashflow
+							//	$cashflowFertilizersYesNo =	$this->receiveCashFlowFertilizersYesNoDropdownData(); //get data for crops cashflow
+							//	$cashflowIrrigationYesNo =	$this->receiveCashFlowIrrigationYesNoDropdownData(); //get data for crops cashflow
+							//	$cashflowLandLocation =	$this->receiveCashFlowLandLocationDropdownData(); //get data for crops cashflow
+							//	$cashflowMonth =	$this->receiveCashFlowMonthDropdownData(); //get data for crops cashflow
+							//	$cashflowPercentage =	$this->receiveCashFlowPercentageDropdownData(); //get data for crops cashflow
+								$cashflowYesNoAlternate =	$this->receiveCashFlowYesNoAlternateDropdownData(); //get data for crops cashflow
 
 	}
+public function receiveCashFlowYesNoAlternateDropdownData()
+	{
+		$urlExtention = "/codes/146/codevalues"; //get the loan ID from the webhook post
+			$cashflowYesNoAlternate =	$this->cashflowlibrary->curlOption($urlExtention);
+			echo "<pre>";
+				print_r($cashflowYesNoAlternate);
+			echo "</pre>";
+	}
+public function receiveCashFlowPercentageDropdownData()
+	{
+		$urlExtention = "/codes/147/codevalues"; //get the loan ID from the webhook post
+			$cashflowPercentage =	$this->cashflowlibrary->curlOption($urlExtention);
+			echo "<pre>";
+				print_r($cashflowPercentage);
+			echo "</pre>";
+	}
+public function receiveCashFlowMonthDropdownData()
+	{
+		$urlExtention = "/codes/149/codevalues"; //get the loan ID from the webhook post
+			$cashflowMonth =	$this->cashflowlibrary->curlOption($urlExtention);
+			echo "<pre>";
+				print_r($cashflowMonth);
+			echo "</pre>";
+	}
+public function receiveCashFlowLandLocationDropdownData()
+	{
+		$urlExtention = "/codes/152/codevalues"; //get the loan ID from the webhook post
+			$cashflowLandLocation =	$this->cashflowlibrary->curlOption($urlExtention);
+			echo "<pre>";
+				print_r($cashflowLandLocation);
+			echo "</pre>";
+	}
+public function receiveCashFlowYesNoDropdownData()
+	{
+		$urlExtention = "/codes/5/codevalues"; //get the loan ID from the webhook post
+			$cashflowYesNo =	$this->cashflowlibrary->curlOption($urlExtention);
+
+			echo "<pre>";
+				print_r($cashflowYesNo);
+			echo "</pre>";
+	}
+public function receiveCashFlowFertilizersYesNoDropdownData()
+	{
+		$urlExtention = "/codes/150/codevalues"; //get the loan ID from the webhook post
+			$cashflowFertilizersYesNo =	$this->cashflowlibrary->curlOption($urlExtention);
+			echo "<pre>";
+				print_r($cashflowFertilizersYesNo);
+			echo "</pre>";
+	}
+public function receiveCashFlowIrrigationYesNoDropdownData()
+	{
+		$urlExtention = "/codes/151/codevalues"; //get the loan ID from the webhook post
+			$cashflowIrrigationYesNo =	$this->cashflowlibrary->curlOption($urlExtention);
+
+			echo "<pre>";
+				print_r($cashflowIrrigationYesNo);
+			echo "</pre>";
+	}
+public function receiveCashFlowAnimalDropdownData()
+		{
+			$urlExtention = "/codes/145/codevalues"; //get the loan ID from the webhook post
+				$cashflowAnimal =	$this->cashflowlibrary->curlOption($urlExtention);
+
+				echo "<pre>";
+					print_r($cashflowAnimal);
+				echo "</pre>";
+		}
+public function receiveCashFlowCropDropdownData()
+		{
+			$urlExtention = "/codes/144/codevalues"; //get the loan ID from the webhook post
+				$cashflowCrops =	$this->cashflowlibrary->curlOption($urlExtention);
+
+				echo "<pre>";
+					print_r($cashflowCrops);
+				echo "</pre>";
+		}
 	public function receiveCashFlowLoanData()
 	{
 		/*
@@ -353,33 +438,5 @@ private function reader_write()
 				//echo 'folder already exists';
 			}
 	}
-	public function YesNoDropdownData($headers)
-	{
-					$curl = curl_init();
 
-					curl_setopt_array($curl, array(
-					  CURLOPT_PORT => "8443",
-					  CURLOPT_URL => "https://demo.musonisystem.com:8443/api/v1/codes/5/codevalues", //if to change only the int variable for looping call
-					  CURLOPT_RETURNTRANSFER => true,
-					  CURLOPT_ENCODING => "",
-					  CURLOPT_MAXREDIRS => 10,
-					  CURLOPT_TIMEOUT => 30,
-					  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-					  CURLOPT_CUSTOMREQUEST => "GET",
-						CURLOPT_SSL_VERIFYPEER => false, //turn this off when going live
-						CURLOPT_HTTPHEADER => $headers,
-					));
-
-					$response = curl_exec($curl);
-					$err = curl_error($curl);
-
-					curl_close($curl);
-
-					if ($err) {
-					  echo "cURL Error #:" . $err;
-					} else {
-								$obj = json_decode($response, true);
-						  		return $obj;
-					}
-	}
 }
