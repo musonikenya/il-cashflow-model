@@ -30,7 +30,7 @@ public function curlOption($urlOption)
     $err = curl_error($curl);
     curl_close($curl);
         if ($err) {
-          echo "cURL Error #:" . $err;
+          echo "cURL Error #:" . $err; //build a function that notifies the admin of the failure
         } else {
           $obj = json_decode($response, true);
           return $obj;
