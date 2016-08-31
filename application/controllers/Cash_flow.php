@@ -9,13 +9,13 @@ class Cash_flow extends CI_Controller {
         }
 public function index()
 	{
-	//	$this->computeCashFlowModel();
+		$this->computeCashFlowModel();
 			//	$CashFlowLoan =	$this->receiveCashFlowLoanData(); //calling the function processing loan data
 			//	$cashflowLoanHistory =	$this->receiveCashFlowLoanHistoryData(); //calling the function processing loan data
 			//	$CashFlowStatements =	$this->receiveCashFlowStatementsData(); //get data for animals cashflow
 		//	$CashFlowOtherInformation =	$this->receiveCashFlowOtherInformationData(); //get data for animals cashflow
-			//	$cashflowAssetsAndLiabilities =	$this->receiveAssetsAndLiabilityData(); //get data for animals cashflow
-						$cashflowAnimals =	$this->receiveCashFlowAnimalsData(); //get data for animals cashflow
+		//		$cashflowAssetsAndLiabilities =	$this->receiveAssetsAndLiabilityData(); //get data for animals cashflow
+			//			$cashflowAnimals =	$this->receiveCashFlowAnimalsData(); //get data for animals cashflow
 						//		$cashflowCrops =	$this->receiveCashFlowCropsData(); //get data for crops cashflow
 										//dropdowns
 							//	$cashflowYesNo =	$this->receiveCashFlowYesNoDropdownData(); //get data for crops cashflow
@@ -87,17 +87,33 @@ public function receiveCashFlowCropDropdownData($option = NULL)
 				$urlExtention = "/loans/25280"; //get the loan ID from the webhook post
 				$CashFlowLoan =	$this->cashflowlibrary->curlOption($urlExtention);
 
-							 echo $CashFlowLoan['clientId'];echo "<br>";
-							 echo $CashFlowLoan['accountNo'];echo "<br>";
-							 echo $CashFlowLoan['principal'];echo "<br>";
-							 echo $CashFlowLoan['termFrequency'];echo "<br>";
-							 echo $CashFlowLoan['interestRatePerPeriod'];echo "<br>";
-							 echo $CashFlowLoan['graceOnPrincipalPayment'];echo "<br>";
-							 echo $CashFlowLoan['graceOnInterestPayment'];echo "<br>";
-							 echo $CashFlowLoan['timeline']['expectedDisbursementDate']['0'] . $CashFlowLoan['timeline']['expectedDisbursementDate']['1'] . $CashFlowLoan['timeline']['expectedDisbursementDate']['2'] ;echo "<br>";
-							 echo $CashFlowLoan['timeline']['submittedOnDate']['0'] . $CashFlowLoan['timeline']['submittedOnDate']['1'] . $CashFlowLoan['timeline']['submittedOnDate']['2'] ;echo "<br>";
-							 echo $CashFlowLoan['expectedFirstRepaymentOnDate']['0'] . $CashFlowLoan['expectedFirstRepaymentOnDate']['1'] . $CashFlowLoan['expectedFirstRepaymentOnDate']['2'] ;echo "<br>";
-							 echo $CashFlowLoan['termPeriodFrequencyType']['value'];
+							// echo $CashFlowLoan['clientId'];echo "<br>";
+						//	 echo $CashFlowLoan['accountNo'];echo "<br>";
+						//	 echo $CashFlowLoan['principal'];echo "<br>";
+							// echo $CashFlowLoan['interestRatePerPeriod'];echo "<br>";
+						//	 echo $CashFlowLoan['graceOnPrincipalPayment'];echo "<br>";
+						//	 echo $CashFlowLoan['graceOnInterestPayment'];echo "<br>";
+						//	 echo $CashFlowLoan['timeline']['expectedDisbursementDate']['0'] . $CashFlowLoan['timeline']['expectedDisbursementDate']['1'] . $CashFlowLoan['timeline']['expectedDisbursementDate']['2'] ;echo "<br>";
+						//	 echo $CashFlowLoan['timeline']['submittedOnDate']['0'] . $CashFlowLoan['timeline']['submittedOnDate']['1'] . $CashFlowLoan['timeline']['submittedOnDate']['2'] ;echo "<br>";
+						//	 echo $CashFlowLoan['expectedFirstRepaymentOnDate']['0'] . $CashFlowLoan['expectedFirstRepaymentOnDate']['1'] . $CashFlowLoan['expectedFirstRepaymentOnDate']['2'] ;echo "<br>";
+						//	 echo $CashFlowLoan['termPeriodFrequencyType']['value'];
+
+							 $loan = array(
+							//	 'branch' => $branch, //fetch this from the webhook
+								 'submissionDate' => $CashFlowLoan['timeline']['submittedOnDate']['0'] .'/' . $CashFlowLoan['timeline']['submittedOnDate']['1'] .'/' . $CashFlowLoan['timeline']['submittedOnDate']['2'],
+								 'disbursementDate' => $CashFlowLoan['timeline']['expectedDisbursementDate']['0'] .'/' . $CashFlowLoan['timeline']['expectedDisbursementDate']['1'] .'/' . $CashFlowLoan['timeline']['expectedDisbursementDate']['2'],
+								 'repaymentDate' => $CashFlowLoan['expectedFirstRepaymentOnDate']['0'] .'/' . $CashFlowLoan['expectedFirstRepaymentOnDate']['1'] .'/' . $CashFlowLoan['expectedFirstRepaymentOnDate']['2'],
+								 'principalApplied' => $CashFlowLoan['principal'],
+								 'interestRate' => $CashFlowLoan['interestRatePerPeriod'],
+								 'repaymentFrequency' => $CashFlowLoan['termPeriodFrequencyType']['value'],
+								 'installmentsNumber' => $CashFlowLoan['numberOfRepayments'],
+								 'gracePrincipal' => $CashFlowLoan['graceOnPrincipalPayment'],
+								 'graceInterest' => $CashFlowLoan['graceOnInterestPayment']
+							 );
+							 return (object)$loan;
+					//		 echo "<pre>";
+					//		 print_r($loan);
+					//		 echo "</pre>";
 	}
 public function receiveCashFlowStatementsData()
 	{
@@ -109,39 +125,77 @@ public function receiveCashFlowStatementsData()
 				//row 1
 			//	echo 'month 1 ' . $CashFlowStatements['0']['Cashflow_Month_cd_Month_1'];echo "<br>";
 						$month1 =		$this->receiveCashFlowMonthDropdownData($CashFlowStatements['0']['Cashflow_Month_cd_Month_1']); //dropdown month
-					echo $month1['name'];echo "<br>";
-				echo $CashFlowStatements['0']['Cash_inflows_month_1'];echo "<br>";
-				echo $CashFlowStatements['0']['Cash_outflows_month_1'];echo "<br>";
+				//	echo $month1['name'];echo "<br>";
+			//	echo $CashFlowStatements['0']['Cash_inflows_month_1'];echo "<br>";
+		//		echo $CashFlowStatements['0']['Cash_outflows_month_1'];echo "<br>";
+						$row1Statements = array(
+										'month'=> $month1['name'],
+										'inflow'=> $CashFlowStatements['0']['Cash_inflows_month_1'],
+										'outflow'=> $CashFlowStatements['0']['Cash_outflows_month_1'],
+									);
 				//row 2
 						$month2 =		$this->receiveCashFlowMonthDropdownData($CashFlowStatements['0']['Cashflow_Month_cd_Month_2']); //dropdown month
-					echo $month2['name'];echo "<br>";
+			//		echo $month2['name'];echo "<br>";
 			//	echo 'month 2 ' .  $CashFlowStatements['0']['Cashflow_Month_cd_Month_2'];echo "<br>";
-				echo $CashFlowStatements['0']['Cash_inflows_month_2'];echo "<br>";
-				echo $CashFlowStatements['0']['Cash_outflows_month_2'];echo "<br>";
+		//		echo $CashFlowStatements['0']['Cash_inflows_month_2'];echo "<br>";
+		//		echo $CashFlowStatements['0']['Cash_outflows_month_2'];echo "<br>";
+						$row2Statements = array(
+										'month'=> $month2['name'],
+										'inflow'=> $CashFlowStatements['0']['Cash_inflows_month_2'],
+										'outflow'=> $CashFlowStatements['0']['Cash_outflows_month_2'],
+									);
 				//row 3
 								$month3 =		$this->receiveCashFlowMonthDropdownData($CashFlowStatements['0']['Cashflow_Month_cd_Month_3']); //dropdown month
-							echo $month3['name'];echo "<br>";
+			//				echo $month3['name'];echo "<br>";
 			//	echo 'month 3 ' .  $CashFlowStatements['0']['Cashflow_Month_cd_Month_3'];echo "<br>";
-				echo $CashFlowStatements['0']['Cash_inflows_month_3'];echo "<br>";
-				echo $CashFlowStatements['0']['Cash_outflows_month_3'];echo "<br>";
+			//	echo $CashFlowStatements['0']['Cash_inflows_month_3'];echo "<br>";
+			//	echo $CashFlowStatements['0']['Cash_outflows_month_3'];echo "<br>";
+
+					$row3Statements = array(
+									'month'=> $month3['name'],
+									'inflow'=> $CashFlowStatements['0']['Cash_inflows_month_3'],
+									'outflow'=> $CashFlowStatements['0']['Cash_outflows_month_3'],
+								);
 				//row 4
 									$month4 =		$this->receiveCashFlowMonthDropdownData($CashFlowStatements['0']['Cashflow_Month_cd_Month_4']); //dropdown month
-								echo $month4['name'];echo "<br>";
+			//					echo $month4['name'];echo "<br>";
 			//	echo 'month 4 ' .  $CashFlowStatements['0']['Cashflow_Month_cd_Month_4'];echo "<br>";
-				echo $CashFlowStatements['0']['Cash_inflows_month_4'];echo "<br>";
-				echo $CashFlowStatements['0']['Cash_outflows_month_4'];echo "<br>";
+		//		echo $CashFlowStatements['0']['Cash_inflows_month_4'];echo "<br>";
+		//		echo $CashFlowStatements['0']['Cash_outflows_month_4'];echo "<br>";
+
+						$row4Statements = array(
+										'month'=> $month4['name'],
+										'inflow'=> $CashFlowStatements['0']['Cash_inflows_month_4'],
+										'outflow'=> $CashFlowStatements['0']['Cash_outflows_month_4'],
+									);
 				//row 5
 							$month5 =		$this->receiveCashFlowMonthDropdownData($CashFlowStatements['0']['Cashflow_Month_cd_Month_5']); //dropdown month
-						echo $month5['name'];echo "<br>";
+			//			echo $month5['name'];echo "<br>";
 			//	echo 'month 5 ' .  $CashFlowStatements['0']['Cashflow_Month_cd_Month_5'];echo "<br>";
-				echo $CashFlowStatements['0']['Cash_inflows_month_5'];echo "<br>";
-				echo $CashFlowStatements['0']['Cash_outflows_month_5'];echo "<br>";
+		//		echo $CashFlowStatements['0']['Cash_inflows_month_5'];echo "<br>";
+		//		echo $CashFlowStatements['0']['Cash_outflows_month_5'];echo "<br>";
+
+						$row5Statements = array(
+										'month'=> $month5['name'],
+										'inflow'=> $CashFlowStatements['0']['Cash_inflows_month_5'],
+										'outflow'=> $CashFlowStatements['0']['Cash_outflows_month_5'],
+									);
 				//row 6
 								$month6 =		$this->receiveCashFlowMonthDropdownData($CashFlowStatements['0']['Cashflow_Month_cd_Month_6']); //dropdown month
-							echo $month6['name'];echo "<br>";
+				//			echo $month6['name'];echo "<br>";
 			//	echo 'month 6 ' .  $CashFlowStatements['0']['Cashflow_Month_cd_Month_6'];echo "<br>";
-				echo $CashFlowStatements['0']['Cash_inflows_month_6'];echo "<br>";
-				echo $CashFlowStatements['0']['Cash_outflows_month_6'];echo "<br>";
+		//		echo $CashFlowStatements['0']['Cash_inflows_month_6'];echo "<br>";
+		//		echo $CashFlowStatements['0']['Cash_outflows_month_6'];echo "<br>";
+					$row6Statements = array(
+									'month'=> $month6['name'],
+									'inflow'=> $CashFlowStatements['0']['Cash_inflows_month_6'],
+									'outflow'=> $CashFlowStatements['0']['Cash_outflows_month_6'],
+								);
+								$statements = array($row1Statements,$row2Statements,$row3Statements,$row4Statements,$row5Statements,$row6Statements);
+									return $statements;
+						//		echo "<pre>";
+						//		print_r($statements);
+						//		echo "</pre>";
 	}
 	public function receiveCashFlowLoanHistoryData()
 		{
@@ -154,15 +208,29 @@ public function receiveCashFlowStatementsData()
 			//	print_r($cashflowLoanHistory);
 				echo "</pre>";
 
-				echo $cashflowLoanHistory['0']['YesNo_cd_Add_a_loan'];echo "<br>"; //use this to build a function to process the rest of the data
-				echo $cashflowLoanHistory['0']['Loan_amount_loan_1'];echo "<br>";
-				echo $cashflowLoanHistory['0']['Current_balance_loan_1'];echo "<br>";
-				echo $cashflowLoanHistory['0']['Date_disbursed_loan_1']['0'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_1']['1'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_1']['2'] ;echo "<br>";
-				echo $cashflowLoanHistory['0']['Institution_loan_1'];echo "<br>";
-				echo $cashflowLoanHistory['0']['YesNo_cd_All_installments_paid_in_time_loan_1'];echo "<br>";
+	//Activate this field for loan data			echo $cashflowLoanHistory['0']['YesNo_cd_Add_a_loan'];echo "<br>"; //use this to build a function to process the rest of the data
+		//		echo $cashflowLoanHistory['0']['Loan_amount_loan_1'];echo "<br>";
+		//		echo $cashflowLoanHistory['0']['Current_balance_loan_1'];echo "<br>";
+		//		echo $cashflowLoanHistory['0']['Date_disbursed_loan_1']['0'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_1']['1'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_1']['2'] ;echo "<br>";
+		//		echo $cashflowLoanHistory['0']['Institution_loan_1'];echo "<br>";
+			//	echo $cashflowLoanHistory['0']['YesNo_cd_All_installments_paid_in_time_loan_1'];echo "<br>";
 							$time1 =		$this->receiveCashFlowYesNoDropdownData($cashflowLoanHistory['0']['YesNo_cd_All_installments_paid_in_time_loan_1']); //dropdown yesno
-						echo $time1['name'];echo "<br>";
-				echo $cashflowLoanHistory['0']['Comments_loan_1'];echo "<br>";
+			//			echo $time1['name'];echo "<br>";
+		//		echo $cashflowLoanHistory['0']['Comments_loan_1'];echo "<br>";
+
+						$loanHistory = array(
+							'loanTaken' => $cashflowLoanHistory['0']['Loan_amount_loan_1'],
+							'loanBalance' => $cashflowLoanHistory['0']['Current_balance_loan_1'],
+							'dateDisbursed' => $cashflowLoanHistory['0']['Date_disbursed_loan_1']['0'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_1']['1'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_1']['2'],
+							'loanInstitution' => $cashflowLoanHistory['0']['Institution_loan_1'],
+							'timelyPayments' => $time1['name'],
+							'loanComment' => $cashflowLoanHistory['0']['Comments_loan_1'],
+						);
+					//	echo "<pre>";
+				//		print_r($loanHistory);
+					//	echo "</pre>";
+
+						return $loanHistory;
 				//row 2
 /*
 	build a function that uses 'YesNo_cd_Add' to check whether data has been captured for the value, if it is process
@@ -220,23 +288,39 @@ public function receiveCashFlowStatementsData()
 
 						//	echo $cashflowAssetsAndLiabilities['0']['YesNo_cd_Is_the_land_yours'];echo "<br>"; //dropdown yesno
 									$landYours =		$this->receiveCashFlowYesNoDropdownData($cashflowAssetsAndLiabilities['0']['YesNo_cd_Is_the_land_yours']); //dropdown yesno
-								echo $landYours['name'];echo "<br>";
+						//		echo $landYours['name'];echo "<br>";
 							//	exit;
 
 						//	echo $cashflowAssetsAndLiabilities['0']['Cashflow_LandLocation_cd_Land_location'];echo "<br>"; //dropdown landlocation
 							$landlocation =		$this->receiveCashFlowYesNoDropdownData($cashflowAssetsAndLiabilities['0']['Cashflow_LandLocation_cd_Land_location']); //dropdown landlocation
-						echo $landlocation['name'];echo "<br>";
+				//		echo $landlocation['name'];echo "<br>";
 						//	exit;
 						//	echo $cashflowAssetsAndLiabilities['0']['YesNo_cd_Is_the_house_yours'];echo "<br>"; // yesno
 							$houseYours =		$this->receiveCashFlowYesNoDropdownData($cashflowAssetsAndLiabilities['0']['YesNo_cd_Is_the_house_yours']); //dropdown yesno
-						echo $houseYours['name'];echo "<br>";
+					//	echo $houseYours['name'];echo "<br>";
 							//	exit;
-							echo $cashflowAssetsAndLiabilities['0']['Value_of_house_and_furniture'];echo "<br>";
-							echo $cashflowAssetsAndLiabilities['0']['Value_other_assets_s'];echo "<br>";
-							echo $cashflowAssetsAndLiabilities['0']['Value_stock_and_inventory'];echo "<br>";
-							echo $cashflowAssetsAndLiabilities['0']['With_this_loan_are_y'];echo "<br>";
-							echo $cashflowAssetsAndLiabilities['0']['Cash_available_from'];echo "<br>";
-							echo $cashflowAssetsAndLiabilities['0']['Debts_with_friends_other_people'];echo "<br>";
+					//		echo $cashflowAssetsAndLiabilities['0']['Value_of_house_and_furniture'];echo "<br>";
+					//		echo $cashflowAssetsAndLiabilities['0']['Value_other_assets_s'];echo "<br>";
+					//		echo $cashflowAssetsAndLiabilities['0']['Value_stock_and_inventory'];echo "<br>";
+					//		echo $cashflowAssetsAndLiabilities['0']['With_this_loan_are_y'];echo "<br>";
+					//		echo $cashflowAssetsAndLiabilities['0']['Cash_available_from'];echo "<br>";
+					//		echo $cashflowAssetsAndLiabilities['0']['Debts_with_friends_other_people'];echo "<br>";
+
+							$AssetsAndLiabilities = array(
+								'landOwnership'=> $landYours['name'],
+								'landLocation'=> $landlocation['name'],
+								'houseOwnership'=> $houseYours['name'],
+								'valueHouseFurniture'=> $cashflowAssetsAndLiabilities['0']['Value_of_house_and_furniture'],
+								'valueOtherAssets'=> $cashflowAssetsAndLiabilities['0']['Value_other_assets_s'],
+								'valueStock'=> $cashflowAssetsAndLiabilities['0']['Value_stock_and_inventory'],
+								'loanInvestment'=> $cashflowAssetsAndLiabilities['0']['With_this_loan_are_y'],
+								'cashResource'=> $cashflowAssetsAndLiabilities['0']['Cash_available_from'],
+								'totalDebt'=> $cashflowAssetsAndLiabilities['0']['Debts_with_friends_other_people'],
+							);
+					return (object)$AssetsAndLiabilities;
+					//		echo "<pre>";
+						//		print_r($AssetsAndLiabilities);
+						//	echo "</pre>";
 	}
 	public function receiveCashFlowOtherInformationData()
 	{
@@ -248,11 +332,24 @@ public function receiveCashFlowStatementsData()
 
 				//	echo $CashFlowOtherInformation['0']['Cashflow_Percentage_cd_Labor_carried_out_pe'];echo "<br>"; //dropdown percentage
 								$percentage =		$this->receiveCashFlowPercentageDropdownData($CashFlowOtherInformation['0']['Cashflow_Percentage_cd_Labor_carried_out_pe']); //dropdown month
-							echo $percentage['name'];echo "<br>";
-					echo $CashFlowOtherInformation['0']['Non_farming_activities_description'];echo "<br>";
-					echo $CashFlowOtherInformation['0']['Monthly_income_other_activities'];echo "<br>";
-					echo $CashFlowOtherInformation['0']['Monthly_expenditures_other_activities'];echo "<br>";
+			//				echo $percentage['name'];echo "<br>";
+			//		echo $CashFlowOtherInformation['0']['Non_farming_activities_description'];echo "<br>";
+			//		echo $CashFlowOtherInformation['0']['Monthly_income_other_activities'];echo "<br>";
+			//		echo $CashFlowOtherInformation['0']['Monthly_expenditures_other_activities'];echo "<br>";
+
+					$mandatoryOtherInfo = array(
+													'howMuchLabour' => $percentage['name'],
+													'activityDescription' => $CashFlowOtherInformation['0']['Non_farming_activities_description'],
+													'monthlyIncome' => $CashFlowOtherInformation['0']['Monthly_income_other_activities'],
+													'monthlyExpense' => $CashFlowOtherInformation['0']['Monthly_expenditures_other_activities'],
+												);
+							return  (object)$mandatoryOtherInfo;
 					//optional
+/*
+Create a function that checks if the optional information is set. If not do not process
+*/
+/*
+Activate this block after building the function
 					//row 1
 					echo $CashFlowOtherInformation['0']['Type_of_investment'];echo "<br>";
 					echo $CashFlowOtherInformation['0']['Investment_amount'];echo "<br>";
@@ -266,7 +363,7 @@ public function receiveCashFlowStatementsData()
 						$month2 =		$this->receiveCashFlowMonthDropdownData($CashFlowOtherInformation['0']['Cashflow_Month_cd_Month_of_investment_2']); //dropdown month
 						if(isset($month2['name'])){ echo $month2['name'];};echo "<br>"; //check whether the value has been retrieved and not all of it
 									//modify this to ensure that call is made only if the data is available
-
+*/
 	}
 
 public function receiveCashFlowAnimalsData()
@@ -279,26 +376,36 @@ public function receiveCashFlowAnimalsData()
 			//row 1
 		//	echo $cashflowAnimals['0']['Cashflow_Animals_cd_Animal_Type'];echo "<br>"; //dropdown animal
 						$animal =		$this->receiveCashFlowAnimalDropdownData($cashflowAnimals['0']['Cashflow_Animals_cd_Animal_Type']); //dropdown animal
-					echo $animal['name'];echo "<br>";
-			echo $cashflowAnimals['0']['Total_number_of_animals'];echo "<br>";
-			echo $cashflowAnimals['0']['Number_of_animals_in'];echo "<br>";
+			//activateToCheckForErrors				echo $animal['name'];echo "<br>";
+		//activateToCheckForErrors			echo $cashflowAnimals['0']['Total_number_of_animals'];echo "<br>";
+			//activateToCheckForErrors		echo $cashflowAnimals['0']['Number_of_animals_in'];echo "<br>";
 			//echo $cashflowAnimals['0']['YesNo_cd_Pure_or_improved_breeds_animal'];echo "<br>"; //dropdown yesno
 						$breed =		$this->receiveCashFlowYesNoDropdownData($cashflowAnimals['0']['YesNo_cd_Pure_or_improved_breeds_animal']); //dropdown yesno
-					echo $breed['name'];echo "<br>";
+		//activateToCheckForErrors					echo $breed['name'];echo "<br>";
 			//echo $cashflowAnimals['0']['Cashflow_YesNoAlternative_cd_Purchased_feeds_animal'];echo "<br>"; //dropdown yesnoalternative
 							$purchase =		$this->receiveCashFlowYesNoAlternateDropdownData($cashflowAnimals['0']['Cashflow_YesNoAlternative_cd_Purchased_feeds_animal']); //dropdown yesnoalternative
-						echo $purchase['name'];echo "<br>";
+		//activateToCheckForErrors						echo $purchase['name'];echo "<br>";
 
 		//	echo $cashflowAnimals['0']['Cashflow_Percentage_cd_Eggs_milk_do_you_consume_at_home'];echo "<br>"; //dropdwon percentage
 								$percentage1 =		$this->receiveCashFlowPercentageDropdownData($cashflowAnimals['0']['Cashflow_Percentage_cd_Eggs_milk_do_you_consume_at_home']); //dropdown month
-							echo $percentage1['name'];echo "<br>";
+		//activateToCheckForErrors							echo $percentage1['name'];echo "<br>";
 		//	echo $cashflowAnimals['0']['Cashflow_Percentage_cd_Animal_meat_do_you_consume_at_home'];echo "<br>"; //dropdown percentage
 							$percentage2 =		$this->receiveCashFlowPercentageDropdownData($cashflowAnimals['0']['Cashflow_Percentage_cd_Animal_meat_do_you_consume_at_home']); //dropdown month
-						echo $percentage2['name'];echo "<br>";
+				//activateToCheckForErrors				echo $percentage2['name'];echo "<br>";
 
 						$row1animal = array(
-							'' => ,
+							'animalName' => $animal['name'],
+							'totalAnimal' => $cashflowAnimals['0']['Total_number_of_animals'],
+							'animalProductingEggsMilk' => $cashflowAnimals['0']['Number_of_animals_in'],
+							'useBreeding' => $breed['name'],
+							'feedPurchaseFood' => $purchase['name'],
+							'milkEggProduced' => $percentage1['name'],
+							'animalEatSlaughter' => $percentage2['name'],
 						);
+						return $row1animal;
+					//	echo "<pre>";
+					//		print_r($row1animal);
+					//	echo "</pre>";
 /*
 		From this point create a condition that checks whether the values below have been entered. if not terminate the script
 		make use of yesno value requesting entry of data
@@ -496,7 +603,7 @@ private function computeCashFlowModel()
 			// Including the timestamp during the
 		 $fileName= 'Flow-demo-Output - ' . date('m-d-Y_his') ; //$resfor=$dataname['name']; generate a random string for the file.
 		// $inputFileType = 'Excel5';
-        $inputFile = './docs/cash_flow_model_20160830.xlsx';
+        $inputFile = './docs/cash_flow_model_20160831.xlsx';
         /**  Identify the type of $inputFileName  **/
         $inputFileType = PHPExcel_IOFactory::identify($inputFile);
         /**  Create a new Reader of the type defined in $inputFileType  **/
@@ -509,23 +616,100 @@ private function computeCashFlowModel()
 		/*
 		Process Json data
 		*/
+		$processLoan = $this->receiveCashFlowLoanData(); //get cashflow crop data
+		$processStatements = $this->receiveCashFlowStatementsData(); //get cashflow crop data
+		$processLoanHistory = $this->receiveCashFlowLoanHistoryData(); //get cashflow crop data
+		$processAssetsAndLiability = $this->receiveAssetsAndLiabilityData(); //get cashflow crop data
+		$processOtherInformation = $this->receiveCashFlowOtherInformationData(); //get cashflow crop data
 		$processCrops = $this->receiveCashFlowCropsData(); //get cashflow crop data
-		//	echo "<pre>";
-		//		print_r($processCrops);
-		//	echo "</pre>";
+		$processAnimals = $this->receiveCashFlowAnimalsData(); //get cashflow crop data
+	//		echo "<pre>";
+	//			print_r($processLoan);
+	//			echo "</pre>";
 		//	echo "funny";
-		//	exit;
+	//		exit;
+							/*
+								writing assets and liability data
+							*/
+							$objPHPExcel->getActiveSheet()->setCellValue('B53', $processAssetsAndLiability->landOwnership)
+												->setCellValue('B54', $processAssetsAndLiability->landLocation)
+												->setCellValue('B55', $processAssetsAndLiability->houseOwnership)
+												->setCellValue('B56', $processAssetsAndLiability->valueHouseFurniture)
+												->setCellValue('B57', $processAssetsAndLiability->valueOtherAssets)
+												->setCellValue('B58', $processAssetsAndLiability->valueStock)
+												->setCellValue('B59', $processAssetsAndLiability->loanInvestment)
+												->setCellValue('B60', $processAssetsAndLiability->cashResource)
+												->setCellValue('B62', $processAssetsAndLiability->totalDebt);
+							/*
+							/*
+								writing other information data
+							*/
+							$objPHPExcel->getActiveSheet()->setCellValue('B38', $processOtherInformation->howMuchLabour)
+												->setCellValue('B42', $processOtherInformation->activityDescription)
+												->setCellValue('B43', $processOtherInformation->monthlyIncome)
+												->setCellValue('B44', $processOtherInformation->monthlyExpense);
 							/*
 								writing crop data to the model
 							*/
 						$baseRow = 7; //row to start writing crop data
 						$col = 'A';
 						foreach ($processCrops as  $value) {
-					//	echo $col . ' ' . $value; echo "<br>";
+						//	echo $col . ' ' . $value; echo "<br>";
 							$objPHPExcel->getActiveSheet()->setCellValue($col.$baseRow, $value);
 							$col++;
 						}
- // end of foreachloop
+						// end of foreachloop
+							/*
+								writing Animal data to the model
+							*/
+											$baseRow = 25; //row to start writing crop data
+											$col = 'A';
+											foreach ($processAnimals as  $value) {
+										//	echo $col . ' ' . $value; echo "<br>";
+												$objPHPExcel->getActiveSheet()->setCellValue($col.$baseRow, $value);
+												$col++;
+											}
+							/*
+								writing loan history data to file
+							*/
+											$baseRow = 67; //row to start writing crop data
+											$col = 'A';
+											foreach ($processLoanHistory as  $value) {
+										//	echo $col . ' ' . $value; echo "<br>";
+												$objPHPExcel->getActiveSheet()->setCellValue($col.$baseRow, $value);
+												$col++;
+											}
+
+							/*
+								writing loan history data to file
+							*/
+												//	$rowNumber = 2; //row number
+													$baseRow = 77; //row number
+											//	$colNumber = 2; //col value start from 2 since one is the header
+											//  foreach ($tableData->result_array() as $key => $value) {
+												foreach ($processStatements as $arrayKey => $arrayValue) {
+															$row = $baseRow + $arrayKey;
+														//	$objPHPExcel->getActiveSheet()->insertNewRowBefore($row,1);
+																					$col = 'A'; //setting row name here
+																			foreach ($arrayValue as $key => $value) {
+																					$objPHPExcel->getActiveSheet()->setCellValue($col.$baseRow, $value);
+																					$col++ ;
+																			}
+																		$baseRow++ ;
+												}
+												/*
+													writing loan data
+															//add a row for branch
+												*/
+												$objPHPExcel->getActiveSheet()->setCellValue('B87', $processLoan->submissionDate)
+																	->setCellValue('B90', $processLoan->disbursementDate)
+																	->setCellValue('B91', $processLoan->repaymentDate)
+																	->setCellValue('B92', $processLoan->principalApplied)
+																	->setCellValue('B93', $processLoan->interestRate)
+																	->setCellValue('B94', $processLoan->repaymentFrequency)
+																	->setCellValue('B95', $processLoan->installmentsNumber)
+																	->setCellValue('B96', $processLoan->gracePrincipal)
+																	->setCellValue('B97', $processLoan->graceInterest);
 
                        //Saving the file
                        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
