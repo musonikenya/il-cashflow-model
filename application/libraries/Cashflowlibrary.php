@@ -36,5 +36,82 @@ public function curlOption($urlOption)
           return $obj;
         }
   }
+  public function curlPostData($data)
+  {
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+              CURLOPT_PORT => "8443",
+              CURLOPT_URL => "https://demo.musonisystem.com:8443/api/v1" . $data['urlExtention'],
+              CURLOPT_RETURNTRANSFER => true,
+              CURLOPT_ENCODING => "",
+              CURLOPT_MAXREDIRS => 10,
+              CURLOPT_TIMEOUT => 30,
+              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+              CURLOPT_CUSTOMREQUEST => "PUT",
+            //  CURLOPT_CUSTOMREQUEST => "POST",
+              CURLOPT_SSL_VERIFYPEER => false, //turn this off when going live
+              CURLOPT_POSTFIELDS => $data['postData'],
+              CURLOPT_HTTPHEADER => array(
+                "authorization: Basic QVBJQ29uc3VtZXI6RkI3cHZxVzdQTFlncnpxdQ==",
+                "cache-control: no-cache",
+                "content-type: application/json",
+                "x-mifos-platform-tenantid: kenya"
+              ),
+            ));
+
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+
+            curl_close($curl);
+
+            if ($err) {
+              echo "cURL Error #:" . $err;
+              $response = "cURL Error #:" . $err;
+              return $response;
+            } else {
+              return $response;
+            }
+  }
+  public function curlUploadFile($data)
+  {
+      //  echo "<pre>";
+    //    print_r($data['postData']);
+    //    echo "</pre>";
+    //    exit;
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+              CURLOPT_PORT => "8443",
+              CURLOPT_URL => "https://demo.musonisystem.com:8443/api/v1" . $data['urlExtention'],
+              CURLOPT_RETURNTRANSFER => true,
+              CURLOPT_ENCODING => "",
+              CURLOPT_MAXREDIRS => 10,
+              CURLOPT_TIMEOUT => 30,
+              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+              CURLOPT_CUSTOMREQUEST => "PUT",
+            //  CURLOPT_CUSTOMREQUEST => "POST",
+              CURLOPT_SSL_VERIFYPEER => false, //turn this off when going live
+              CURLOPT_POST => true,
+              CURLOPT_POSTFIELDS => $data['postData'],
+              CURLOPT_HTTPHEADER => array(
+                "authorization: Basic QVBJQ29uc3VtZXI6RkI3cHZxVzdQTFlncnpxdQ==",
+                "cache-control: no-cache",
+                "content-type: multipart/form-data; boundary=---011000010111000001101001",
+                "x-mifos-platform-tenantid: kenya"
+              ),
+            ));
+
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+
+            curl_close($curl);
+
+            if ($err) {
+              echo "cURL Error #:" . $err;
+              $response = "cURL Error #:" . $err;
+              return $response;
+            } else {
+              return $response;
+            }
+  }
 
 }

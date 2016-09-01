@@ -9,7 +9,22 @@ class Cash_flow extends CI_Controller {
         }
 public function index()
 	{
-		$this->computeCashFlowModel();
+
+$this->postFinancialSummary();
+/*	$webhookPost = file_get_contents("php://input");
+				if(isset($webhookPost))
+						{
+							$notification = json_decode($webhookPost);
+							http_response_code(200); //ok
+						}else {
+							http_response_code(204); //no content
+						}
+*/
+//$file = './docs/2016-09-01/Flow-demo-Output - 09-01-2016_120714.xlsx';
+	//		echo set_realpath('./docs/2016-09-01/Flow-demo-Output - 09-01-2016_120714.xlsx');
+		//	echo set_realpath($file);
+	//	$this->computeCashFlowModel(); //call function to process workflow data
+
 			//	$CashFlowLoan =	$this->receiveCashFlowLoanData(); //calling the function processing loan data
 			//	$cashflowLoanHistory =	$this->receiveCashFlowLoanHistoryData(); //calling the function processing loan data
 			//	$CashFlowStatements =	$this->receiveCashFlowStatementsData(); //get data for animals cashflow
@@ -28,6 +43,57 @@ public function index()
 							//	$cashflowPercentage =	$this->receiveCashFlowPercentageDropdownData(); //get data for crops cashflow
 							//	$cashflowYesNoAlternate =	$this->receiveCashFlowYesNoAlternateDropdownData(); //get data for crops cashflow
 	}
+function postFinancialSummary()
+{
+
+	//$file = './docs/2016-09-01/Flow-demo-Output - 09-01-2016_120714.xlsx';
+	//			echo realpath($file);
+//exit;
+						//	$data = array();
+							$data['urlExtention'] = "/datatables/cct_CashFlowFinancialSummary/25280";
+
+							$filePath = realpath('./docs/2016-09-01/Flow-demo-Output - 09-01-2016_061747.xlsx');
+									$cfile = new CurlFile($filePath, 'application/vnd.ms-excel', 'cashflow.xlsx');
+								//	$data['postData'] =				 array(
+									//													'image_CashflowModel' => new CurlFile($filePath, 'application/vnd.ms-excel') ,
+									//												);
+									$data['postData'] =			json_encode(	 array(
+																						'image_CashflowModel' => $cfile,
+																					));
+	/*						$data['postData'] = //json_encode(
+																					array(
+														//			'locale' => 'en_GB', //mandatory
+														//			'dateFormat' => 'YYYY-mm-dd', //mandatory
+															//		'Crops_planted' => 30,
+														//			'Animals_farmed' => 3033,
+															//		'Other_income' => 4000,
+															//		'Average_loan_borrowed_in_the_past' => 5000,
+														//			'Max_loan_borrowed_in_the_past' => 10000,
+															//		'YesNo_cd_Has_always_repaid_in_time' => 244,
+															//		'Loan_size_ratio' => 6,
+														//			'Month_by_when_installment_size_ratio_60' => 15,
+															//		'Indebtness_ratio' => 2,
+															//		'Total_yearly_cash_flow' => 60010,
+														//			'Minimum_monthly_cash_flow' => 5001,
+														//			'Month_of_minimum_cashflow' => 'May',
+														//			'Maximum_monthly_cash_flow' => 8001,
+														//			'Month_of_maximum_cashflow' => 'June',
+																//	'image_CashflowModel' => '@' . set_realpath('./docs/2016-09-01/Flow-demo-Output - 09-01-2016_120714.xlsx'),
+																//	'image_CashflowModel' => set_realpath('./docs/2016-09-01/Flow-demo-Output - 09-01-2016_120714.xlsx'),
+																'image_CashflowModel' => '@' . realpath('./docs/2016-09-01/Flow-demo-Output - 09-01-2016_120714.xlsx'),
+																//	'image_CashflowModel' => '@' . './docs/2016-09-01/Flow-demo-Output - 09-01-2016_120714.xlsx',
+															);
+														//	);
+			*/
+//	$feedback =	$this->cashflowlibrary->curlPostData($data); //uploading data
+	$feedback =	$this->cashflowlibrary->curlUploadFile($data); //sending the file
+	echo "<pre>";
+	print_r($feedback);
+	echo "<br>";
+	var_dump($feedback);
+	echo "</pre>";
+
+}
 public function receiveCashFlowYesNoAlternateDropdownData($option = NULL)
 	{
 		$urlExtention = "/codes/146/codevalues/" . $option; //get the loan ID from the webhook post
@@ -603,7 +669,7 @@ private function computeCashFlowModel()
 			// Including the timestamp during the
 		 $fileName= 'Flow-demo-Output - ' . date('m-d-Y_his') ; //$resfor=$dataname['name']; generate a random string for the file.
 		// $inputFileType = 'Excel5';
-        $inputFile = './docs/cash_flow_model_20160831.xlsx';
+        $inputFile = './docs/cash_flow_model_20160901.xlsx';
         /**  Identify the type of $inputFileName  **/
         $inputFileType = PHPExcel_IOFactory::identify($inputFile);
         /**  Create a new Reader of the type defined in $inputFileType  **/
