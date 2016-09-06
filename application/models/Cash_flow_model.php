@@ -5,13 +5,17 @@ class Cash_flow_model extends CI_Model {
 
         public $loanDetailsTable = 'loan_details';
         public $accessTable = 'systemAccess';
-
+        public $webhookTable = 'post_notification';
         public function __construct()
         {
                 // Call the CI_Model constructor
                 parent::__construct();
         }
-
+  function webHookRecord($data)
+        {
+        	$this->db->insert( $this->webhookTable, $data);
+        	return true;
+        }
 		function save_file($savedFilePath)
 		{
 			/*

@@ -9,17 +9,41 @@ class Cash_flow extends CI_Controller {
         }
 public function index()
 	{
-
-$this->postFinancialSummary();
-/*	$webhookPost = file_get_contents("php://input");
-				if(isset($webhookPost))
-						{
-							$notification = json_decode($webhookPost);
-							http_response_code(200); //ok
-						}else {
-							http_response_code(204); //no content
-						}
+//$this->postFinancialSummary();
+//$this->tester();
+/*
+{"officeId":10,"clientId":1309,"loanId":152847,"resourceId":152847} ->Webhook post notification
+CREATE TABLE `cash-flow`.`post_notification`
+( `id` INT NULL AUTO_INCREMENT , `officeId` INT NULL , `clientId` INT NULL , `loanId` INT NULL ,
+ `resourceId` INT NULL , `timestamp` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ,
+ `processed` BOOLEAN NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 */
+				$webhookPost = file_get_contents("php://input");
+							if(isset($webhookPost))
+									{
+										$notification = json_decode($webhookPost);
+										http_response_code(200); //ok
+
+										$this->load->helper('file');
+
+												if ( !write_file('./docs/hookPosts-true.txt', $webhookPost . '\r\n', 'w+')){
+																	// echo 'Unable to write the file';
+						 										 $data['msg'] = 'Failed. Unable to write data to file';
+						 										write_file('./docs/write-fail.txt', $data . "\r\n", 'w+');
+															}
+															$data = array(
+																'officeId' => $notification->officeId,
+																'clientId' => $notification->clientId,
+																'loanId' => $notification->loanId,
+																'resourceId' => $notification->resourceId,
+																'processed' => 0,
+																'timestamp' => date('Y-m-d H:i:s')
+															);
+															$accessArray =	$this->CashFlow->webHookRecord($data); //saving the data to db
+															write_file('./docs/hookPosts-Processed-2.txt', $data . "\r\n", 'w+');
+									}else {
+										http_response_code(204); //no content
+									}
 //$file = './docs/2016-09-01/Flow-demo-Output - 09-01-2016_120714.xlsx';
 	//		echo set_realpath('./docs/2016-09-01/Flow-demo-Output - 09-01-2016_120714.xlsx');
 		//	echo set_realpath($file);
@@ -43,6 +67,7 @@ $this->postFinancialSummary();
 							//	$cashflowPercentage =	$this->receiveCashFlowPercentageDropdownData(); //get data for crops cashflow
 							//	$cashflowYesNoAlternate =	$this->receiveCashFlowYesNoAlternateDropdownData(); //get data for crops cashflow
 	}
+
 function postFinancialSummary()
 {
 
@@ -50,16 +75,28 @@ function postFinancialSummary()
 	//			echo realpath($file);
 //exit;
 						//	$data = array();
-							$data['urlExtention'] = "/datatables/cct_CashFlowFinancialSummary/25280";
+						//	$data['urlExtention'] = "/datatables/cct_CashFlowFinancialSummary/25280/documents/?tenantIdentifier=kenya";
+							$data['urlExtention'] = "/datatables/cct_CashFlowFinancialSummary/25280/documents/?tenantIdentifier=kenya";
 
 							$filePath = realpath('./docs/2016-09-01/Flow-demo-Output - 09-01-2016_061747.xlsx');
-									$cfile = new CurlFile($filePath, 'application/vnd.ms-excel', 'cashflow.xlsx');
+						//	$filePath = './docs/2016-09-01/Flow-demo-Output - 09-01-2016_061747.xlsx';
+								//	$cfile = new CurlFile($filePath);
 								//	$data['postData'] =				 array(
 									//													'image_CashflowModel' => new CurlFile($filePath, 'application/vnd.ms-excel') ,
 									//												);
-									$data['postData'] =			json_encode(	 array(
-																						'image_CashflowModel' => $cfile,
-																					));
+									$data['postData'] =			json_encode(
+																					array(
+																						'name' => 'image_CashflowModel',
+																						'appTableId' => '25280',
+																						'locale' => 'en',
+																						'file' =>  new CurlFile($filePath) ,
+
+																					)
+																				);
+
+								//	print_r($data['postData']);
+							//		exit;
+
 	/*						$data['postData'] = //json_encode(
 																					array(
 														//			'locale' => 'en_GB', //mandatory
@@ -90,7 +127,7 @@ function postFinancialSummary()
 	echo "<pre>";
 	print_r($feedback);
 	echo "<br>";
-	var_dump($feedback);
+//	var_dump($feedback);
 	echo "</pre>";
 
 }

@@ -87,19 +87,19 @@ public function curlOption($urlOption)
               CURLOPT_MAXREDIRS => 10,
               CURLOPT_TIMEOUT => 30,
               CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-              CURLOPT_CUSTOMREQUEST => "PUT",
-            //  CURLOPT_CUSTOMREQUEST => "POST",
+            //  CURLOPT_CUSTOMREQUEST => "PUT",
+              CURLOPT_CUSTOMREQUEST => "POST",
               CURLOPT_SSL_VERIFYPEER => false, //turn this off when going live
-              CURLOPT_POST => true,
+            //  CURLOPT_POST => true,
               CURLOPT_POSTFIELDS => $data['postData'],
               CURLOPT_HTTPHEADER => array(
                 "authorization: Basic QVBJQ29uc3VtZXI6RkI3cHZxVzdQTFlncnpxdQ==",
                 "cache-control: no-cache",
-                "content-type: multipart/form-data; boundary=---011000010111000001101001",
                 "x-mifos-platform-tenantid: kenya"
               ),
             ));
-
+          //  print_r($curl);
+          //  exit;
             $response = curl_exec($curl);
             $err = curl_error($curl);
 
