@@ -9,14 +9,6 @@ class Cashflowlibrary {
 
   public function apiHeaders()
   {
-
-  #  Sandbox account
-    joe.zombimann-facilitator@gmail.com
-    #Client ID
-    AZSJlY5KennACrFW-XCc9sPoDWkROsSklfSKGOxIcsGb8Y-3ftfDBCDgaNmGB18CEfrAp9qOFcV-Go2w
-  #  Secret
-    EJqsg4KdBl7SZhG7aUE5TmqB4lE9LwajJ3NI-rnItxhJ0hL5t1lr8273iL-l9GXnu8pj-qHs5tZwJqdq
-
     /*
       This function provides the api headers
     */
