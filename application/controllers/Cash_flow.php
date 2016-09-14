@@ -46,34 +46,19 @@ CREATE TABLE `cash-flow`.`post_notification`
 										http_response_code(204); //no content
 									}
 									*/
-//$file = './docs/2016-09-01/Flow-demo-Output - 09-01-2016_120714.xlsx';
-	//		echo set_realpath('./docs/2016-09-01/Flow-demo-Output - 09-01-2016_120714.xlsx');
-		//	echo set_realpath($file);
-	//	$this->computeCashFlowModel(); //call function to process workflow data
-
-			//	$CashFlowLoan =	$this->receiveCashFlowLoanData(); //calling the function processing loan data
-			//	$cashflowLoanHistory =	$this->receiveCashFlowLoanHistoryData(); //calling the function processing loan data
-			//	$CashFlowStatements =	$this->receiveCashFlowStatementsData(); //get data for animals cashflow
-		//	$CashFlowOtherInformation =	$this->receiveCashFlowOtherInformationData(); //get data for animals cashflow
-		//		$cashflowAssetsAndLiabilities =	$this->receiveAssetsAndLiabilityData(); //get data for animals cashflow
-			//			$cashflowAnimals =	$this->receiveCashFlowAnimalsData(); //get data for animals cashflow
-						//		$cashflowCrops =	$this->receiveCashFlowCropsData(); //get data for crops cashflow
-										//dropdowns
-							//	$cashflowYesNo =	$this->receiveCashFlowYesNoDropdownData(); //get data for crops cashflow
-							//	$cashflowAnimal =	$this->receiveCashFlowAnimalDropdownData(); //get data for crops cashflow
-							//	$cashflowCrops =	$this->receiveCashFlowCropDropdownData(); //get data for crops cashflow
-							//	$cashflowFertilizersYesNo =	$this->receiveCashFlowFertilizersYesNoDropdownData(); //get data for crops cashflow
-							//	$cashflowIrrigationYesNo =	$this->receiveCashFlowIrrigationYesNoDropdownData(); //get data for crops cashflow
-							//	$cashflowLandLocation =	$this->receiveCashFlowLandLocationDropdownData(); //get data for crops cashflow
-							//	$cashflowMonth =	$this->receiveCashFlowMonthDropdownData(); //get data for crops cashflow
-							//	$cashflowPercentage =	$this->receiveCashFlowPercentageDropdownData(); //get data for crops cashflow
-							//	$cashflowYesNoAlternate =	$this->receiveCashFlowYesNoAlternateDropdownData(); //get data for crops cashflow
 							$webHookData = array(
 									'loanId' => 152878,
 									'officeId' => 10,
 								);
 							//	$status =	$this->computeCashFlowModel($webHookData);
-								$status =	$this->receiveCashFlowLoanHistoryData($webHookData['loanId']);
+							//	$status =	$this->receiveCashFlowLoanHistoryData($webHookData['loanId']);
+							//	$status =	$this->receiveAssetsAndLiabilityData($webHookData['loanId']);
+							//	$status =	$this->receiveCashFlowLoanData($webHookData['loanId']);
+							//	$status =	$this->receiveCashFlowStatementsData($webHookData['loanId']);
+							//	$status =	$this->receiveAssetsAndLiabilityData($webHookData['loanId']);
+							//	$status =	$this->receiveCashFlowOtherInformationData($webHookData['loanId']);
+							//	$status =	$this->receiveCashFlowAnimalsData($webHookData['loanId']);
+								$status =	$this->receiveCashFlowCropsData($webHookData['loanId']);
 								echo "<pre>";
 								print_r($status);
 								echo "</pre>";
@@ -147,15 +132,16 @@ function postFinancialSummary()
 public function receiveCashFlowYesNoAlternateDropdownData($option = NULL)
 	{
 		$urlExtention = "/codes/146/codevalues/" . $option; //get the loan ID from the webhook post
-		//	$cashflowYesNoAlternate =	$this->cashflowlibrary->curlOption($urlExtention);
 			return	$this->cashflowlibrary->curlOption($urlExtention);
-		//	echo "<pre>";
-		//		print_r($cashflowYesNoAlternate);
-	//	echo "</pre>";
 	}
 public function receiveCashFlowPercentageDropdownData($option = NULL)
 	{
 		$urlExtention = "/codes/147/codevalues/" . $option; //get the loan ID from the webhook post
+			return $this->cashflowlibrary->curlOption($urlExtention);
+	}
+public function receiveCashFlowSourceSeedsDropdownData($option = NULL)
+	{
+		$urlExtention = "/codes/154/codevalues/" . $option; //get the loan ID from the webhook post
 			return $this->cashflowlibrary->curlOption($urlExtention);
 	}
 public function receiveCashFlowMonthDropdownData($option = NULL)
@@ -430,27 +416,44 @@ public function receiveCashFlowStatementsData($loanId = NULL)
 													'monthlyIncome' => $CashFlowOtherInformation['0']['Monthly_income_other_activities'],
 													'monthlyExpense' => $CashFlowOtherInformation['0']['Monthly_expenditures_other_activities'],
 												);
-							return  (object)$mandatoryOtherInfo;
+											//checking if other investment option is set
+							if ($CashFlowOtherInformation['0']['YesNo_cd_Add_an_investment'] == 243) {
+													//row 1
+												//	"YesNo_cd_Add_an_investment": "243",
+												$month1 =		$this->receiveCashFlowMonthDropdownData($CashFlowOtherInformation['0']['Cashflow_Month_cd_Month_of_investment']); //dropdown month
+												$investment1 = array(
+																			'investmentType' => $CashFlowOtherInformation['0']['Type_of_investment'],
+																			'investmentAmount' => $CashFlowOtherInformation['0']['Investment_amount'],
+																			'investmentMonth' => $month1['name'],
+																		);
+											//checking if a second investment is selected
 
-					//row 1
-	//	"YesNo_cd_Add_an_investment": "243",
-							$month1 =		$this->receiveCashFlowMonthDropdownData($CashFlowOtherInformation['0']['Cashflow_Month_cd_Month_of_investment']); //dropdown month
-							$investment1 = array(
-														'investmentType' => $CashFlowOtherInformation['0']['Type_of_investment'],
-														'investmentAmount' => $CashFlowOtherInformation['0']['Investment_amount'],
-														'investmentMonth' => $month1['name'],
-													);
+														if ($CashFlowOtherInformation['0']['YesNo_cd_Add_an_investment'] == 243) {
+																				//row 2
+																				//		"YesNo_cd_Add_a_second_investment": "243",
+																			$month2 =		$this->receiveCashFlowMonthDropdownData($CashFlowOtherInformation['0']['Cashflow_Month_cd_Month_of_investment_2']); //dropdown month
+																			$investment2 = array(
+																										'investmentType' => $CashFlowOtherInformation['0']['investment_2_Type_of_Investment'],
+																										'investmentAmount' => $CashFlowOtherInformation['0']['Investment_2_amount'],
+																										'investmentMonth' => $month2['name'],
+																									);
 
-					//row 2
-	//		"YesNo_cd_Add_a_second_investment": "243",
-									$month2 =		$this->receiveCashFlowMonthDropdownData($CashFlowOtherInformation['0']['Cashflow_Month_cd_Month_of_investment_2']); //dropdown month
-									$investment2 = array(
-																'investmentType' => $CashFlowOtherInformation['0']['investment_2_Type_of_Investment'],
-																'investmentAmount' => $CashFlowOtherInformation['0']['Investment_2_amount'],
-																'investmentMonth' => $month2['name'],
-															);
-
-	}
+																									//if the second investment is set
+																									//return both the mandatory field and both investments
+																									$otherInformationData = array((object)$mandatoryOtherInfo, $investment1, $investment2);
+																									return  $otherInformationData;
+														} else {
+															//if optional investment is set
+															//return both the mandatory field and the first option
+																	$otherInformationData = array((object)$mandatoryOtherInfo, $investment1);
+																	return  $otherInformationData;
+														}
+							} else {
+								//if optional investment is not set just return the mandatory fields
+									$otherInformationData = (object)$mandatoryOtherInfo;
+									return  $otherInformationData;
+							}
+}
 
 public function receiveCashFlowAnimalsData($loanId = NULL)
 {
@@ -459,71 +462,99 @@ public function receiveCashFlowAnimalsData($loanId = NULL)
 		*/
 		$urlExtention = "/datatables/cct_CashFlowAnimals/" . $loanId; //get the loan ID from the webhook post
 			$cashflowAnimals =	$this->cashflowlibrary->curlOption($urlExtention);
-			//row 1
-		//	"YesNo_cd_Please_select_the_ma": "243",
-						$animal =		$this->receiveCashFlowAnimalDropdownData($cashflowAnimals['0']['Cashflow_Animals_cd_Animal_Type']); //dropdown animal
-						$breed =		$this->receiveCashFlowYesNoDropdownData($cashflowAnimals['0']['YesNo_cd_Pure_or_improved_breeds_animal']); //dropdown yesno
-						$purchase =		$this->receiveCashFlowYesNoAlternateDropdownData($cashflowAnimals['0']['Cashflow_YesNoAlternative_cd_Purchased_feeds_animal']); //dropdown yesnoalternative
-						$percentage1 =		$this->receiveCashFlowPercentageDropdownData($cashflowAnimals['0']['Cashflow_Percentage_cd_Eggs_milk_do_you_consume_at_home']); //dropdown month
-						$percentage2 =		$this->receiveCashFlowPercentageDropdownData($cashflowAnimals['0']['Cashflow_Percentage_cd_Animal_meat_do_you_consume_at_home']); //dropdown month
-								$row1animal = array(
-									'animalName' => $animal['name'],
-									'animalType' => $cashflowAnimals['0']['Specify_animal'],
-									'totalAnimal' => $cashflowAnimals['0']['Total_number_of_animals'],
-									'animalProductingEggsMilk' => $cashflowAnimals['0']['Number_of_animals_in'],
-									'animalSoldYear' => $cashflowAnimals['0']['Animals_sold_year_animal'],
-									'useBreeding' => $breed['name'],
-									'priceAnimalSold' => $cashflowAnimals['0']['Price_animal_sold_animal'],
-									'otherCostsPerMonth' => $cashflowAnimals['0']['Feeds__labour__veterinary_costs_month'],
-									'feedPurchaseFood' => $purchase['name'],
-									'milkEggProduced' => $percentage1['name'],
-									'animalEatSlaughter' => $percentage2['name'],
-									'animalAge' => $cashflowAnimals['0']['Age_of_animals_animal_1'],
-								);
-						return $row1animal;
-			//row 2
-//			"YesNo_cd_Add_Animal_Type_2": "243",
-						$animal =		$this->receiveCashFlowAnimalDropdownData($cashflowAnimals['0']['Cashflow_Animals_cd_Animal_Type_2__Animal_Type']); //dropdown animal
-						$breed =		$this->receiveCashFlowYesNoDropdownData($cashflowAnimals['0']['YesNo_cd_Animal_Type_2__Pure']); //dropdown yesno
-						$purchase =		$this->receiveCashFlowYesNoAlternateDropdownData($cashflowAnimals['0']['Cashflow_YesNoAlternative_cd_Animal_Type_2Purchased_feeds_animal']); //dropdown yesnoalternative
-						$percentage1 =		$this->receiveCashFlowPercentageDropdownData($cashflowAnimals['0']['Cashflow_Percentage_cd_Animal_Type_2__Eggs']); //dropdown month
-						$percentage2 =		$this->receiveCashFlowPercentageDropdownData($cashflowAnimals['0']['Cashflow_Percentage_cd_Animal_Type_2__Anima']); //dropdown month
-								$row1animal2 = array(
-									'animalName' => $animal['name'],
-									'animalType' => $cashflowAnimals['0']['Specify_animal_2'],
-									'totalAnimal' => $cashflowAnimals['0']['Animal_Type_2__Total_number_of_animals'],
-									'animalProductingEggsMilk' => $cashflowAnimals['0']['Animal_Type_2__Numbe'],
-									'animalSoldYear' => $cashflowAnimals['0']['Animals_sold_year_animal_2'],
-									'useBreeding' => $breed['name'],
-									'priceAnimalSold' => $cashflowAnimals['0']['Price_animal_sold_animal_2'],
-									'otherCostsPerMonth' => $cashflowAnimals['0']['Feedslabourveterinary_costs_month'],
-									'feedPurchaseFood' => $purchase['name'],
-									'milkEggProduced' => $percentage1['name'],
-									'animalEatSlaughter' => $percentage2['name'],
-									'animalAge' => $cashflowAnimals['0']['Age_of_animals_animal_2'],
-								);
-			//row 2
-		//	"YesNo_cd_Add_Animal_Type_3": "243",
-						$animal =		$this->receiveCashFlowAnimalDropdownData($cashflowAnimals['0']['Cashflow_Animals_cd_Animal_Type_3__Animal_Type']); //dropdown animal
-						$breed =		$this->receiveCashFlowYesNoDropdownData($cashflowAnimals['0']['YesNo_cd_Animal_Type_3__Pure']); //dropdown yesno
-						$purchase =		$this->receiveCashFlowYesNoAlternateDropdownData($cashflowAnimals['0']['Cashflow_YesNoAlternative_cd_Animal_Type_3Purchased_feeds_animal']); //dropdown yesnoalternative
-						$percentage1 =		$this->receiveCashFlowPercentageDropdownData($cashflowAnimals['0']['Cashflow_Percentage_cd_Animal_Type_3__Eggsm']); //dropdown month
-						$percentage2 =		$this->receiveCashFlowPercentageDropdownData($cashflowAnimals['0']['Cashflow_Percentage_cd_Animal_Type_3__Anima']); //dropdown month
-								$row1animal2 = array(
-									'animalName' => $animal['name'],
-									'animalType' => $cashflowAnimals['0']['Specify_animal_3'],
-									'totalAnimal' => $cashflowAnimals['0']['Animal_Type_3__Total_number_of_animals'],
-									'animalProductingEggsMilk' => $cashflowAnimals['0']['Animal_Type_3__Numbe'],
-									'animalSoldYear' => $cashflowAnimals['0']['Animals_sold_year_animal_3'],
-									'useBreeding' => $breed['name'],
-									'priceAnimalSold' => $cashflowAnimals['0']['Price_animal_sold_animal_3'],
-									'otherCostsPerMonth' => $cashflowAnimals['0']['Feedslabourveterinar'],
-									'feedPurchaseFood' => $purchase['name'],
-									'milkEggProduced' => $percentage1['name'],
-									'animalEatSlaughter' => $percentage2['name'],
-									'animalAge' => $cashflowAnimals['0']['Age_of_animals_animal_3'],
-								);
 
+			//checking if option to add an animal is selected
+			if ($cashflowAnimals['0']['YesNo_cd_Please_select_the_ma'] == 243) {
+				# code...
+				//row 1
+			//	"YesNo_cd_Please_select_the_ma": "243",
+							$animal =		$this->receiveCashFlowAnimalDropdownData($cashflowAnimals['0']['Cashflow_Animals_cd_Animal_Type']); //dropdown animal
+							$breed =		$this->receiveCashFlowYesNoDropdownData($cashflowAnimals['0']['YesNo_cd_Pure_or_improved_breeds_animal']); //dropdown yesno
+							$purchase =		$this->receiveCashFlowYesNoAlternateDropdownData($cashflowAnimals['0']['Cashflow_YesNoAlternative_cd_Purchased_feeds_animal']); //dropdown yesnoalternative
+							$percentage1 =		$this->receiveCashFlowPercentageDropdownData($cashflowAnimals['0']['Cashflow_Percentage_cd_Eggs_milk_do_you_consume_at_home']); //dropdown month
+							$percentage2 =		$this->receiveCashFlowPercentageDropdownData($cashflowAnimals['0']['Cashflow_Percentage_cd_Animal_meat_do_you_consume_at_home']); //dropdown month
+									$row1animal = array(
+										'animalName' => $animal['name'],
+										'animalType' => $cashflowAnimals['0']['Specify_animal'],
+										'totalAnimal' => $cashflowAnimals['0']['Total_number_of_animals'],
+										'animalProductingEggsMilk' => $cashflowAnimals['0']['Number_of_animals_in'],
+										'animalSoldYear' => $cashflowAnimals['0']['Animals_sold_year_animal'],
+										'useBreeding' => $breed['name'],
+										'priceAnimalSold' => $cashflowAnimals['0']['Price_animal_sold_animal'],
+										'otherCostsPerMonth' => $cashflowAnimals['0']['Feeds__labour__veterinary_costs_month'],
+										'feedPurchaseFood' => $purchase['name'],
+										'milkEggProduced' => $percentage1['name'],
+										'animalEatSlaughter' => $percentage2['name'],
+										'animalAge' => $cashflowAnimals['0']['Age_of_animals_animal_1'],
+									);
+
+							//checking if the second animal is selected
+								if ($cashflowAnimals['0']['YesNo_cd_Add_Animal_Type_2'] == 243) {
+													//row 2
+														//			"YesNo_cd_Add_Animal_Type_2": "243",
+																$animal =		$this->receiveCashFlowAnimalDropdownData($cashflowAnimals['0']['Cashflow_Animals_cd_Animal_Type_2__Animal_Type']); //dropdown animal
+																$breed =		$this->receiveCashFlowYesNoDropdownData($cashflowAnimals['0']['YesNo_cd_Animal_Type_2__Pure']); //dropdown yesno
+																$purchase =		$this->receiveCashFlowYesNoAlternateDropdownData($cashflowAnimals['0']['Cashflow_YesNoAlternative_cd_Animal_Type_2Purchased_feeds_animal']); //dropdown yesnoalternative
+																$percentage1 =		$this->receiveCashFlowPercentageDropdownData($cashflowAnimals['0']['Cashflow_Percentage_cd_Animal_Type_2__Eggs']); //dropdown month
+																$percentage2 =		$this->receiveCashFlowPercentageDropdownData($cashflowAnimals['0']['Cashflow_Percentage_cd_Animal_Type_2__Anima']); //dropdown month
+																		$row1animal2 = array(
+																			'animalName' => $animal['name'],
+																			'animalType' => $cashflowAnimals['0']['Specify_animal_2'],
+																			'totalAnimal' => $cashflowAnimals['0']['Animal_Type_2__Total_number_of_animals'],
+																			'animalProductingEggsMilk' => $cashflowAnimals['0']['Animal_Type_2__Numbe'],
+																			'animalSoldYear' => $cashflowAnimals['0']['Animals_sold_year_animal_2'],
+																			'useBreeding' => $breed['name'],
+																			'priceAnimalSold' => $cashflowAnimals['0']['Price_animal_sold_animal_2'],
+																			'otherCostsPerMonth' => $cashflowAnimals['0']['Feedslabourveterinary_costs_month'],
+																			'feedPurchaseFood' => $purchase['name'],
+																			'milkEggProduced' => $percentage1['name'],
+																			'animalEatSlaughter' => $percentage2['name'],
+																			'animalAge' => $cashflowAnimals['0']['Age_of_animals_animal_2'],
+																		);
+													//Checking if a third animal is selected
+													if ($cashflowAnimals['0']['YesNo_cd_Add_Animal_Type_3'] == 243) {
+														//row 3
+													//	"YesNo_cd_Add_Animal_Type_3": "243",
+																	$animal =		$this->receiveCashFlowAnimalDropdownData($cashflowAnimals['0']['Cashflow_Animals_cd_Animal_Type_3__Animal_Type']); //dropdown animal
+																	$breed =		$this->receiveCashFlowYesNoDropdownData($cashflowAnimals['0']['YesNo_cd_Animal_Type_3__Pure']); //dropdown yesno
+																	$purchase =		$this->receiveCashFlowYesNoAlternateDropdownData($cashflowAnimals['0']['Cashflow_YesNoAlternative_cd_Animal_Type_3Purchased_feeds_animal']); //dropdown yesnoalternative
+																	$percentage1 =		$this->receiveCashFlowPercentageDropdownData($cashflowAnimals['0']['Cashflow_Percentage_cd_Animal_Type_3__Eggsm']); //dropdown month
+																	$percentage2 =		$this->receiveCashFlowPercentageDropdownData($cashflowAnimals['0']['Cashflow_Percentage_cd_Animal_Type_3__Anima']); //dropdown month
+																			$row1animal3 = array(
+																				'animalName' => $animal['name'],
+																				'animalType' => $cashflowAnimals['0']['Specify_animal_3'],
+																				'totalAnimal' => $cashflowAnimals['0']['Animal_Type_3__Total_number_of_animals'],
+																				'animalProductingEggsMilk' => $cashflowAnimals['0']['Animal_Type_3__Numbe'],
+																				'animalSoldYear' => $cashflowAnimals['0']['Animals_sold_year_animal_3'],
+																				'useBreeding' => $breed['name'],
+																				'priceAnimalSold' => $cashflowAnimals['0']['Price_animal_sold_animal_3'],
+																				'otherCostsPerMonth' => $cashflowAnimals['0']['Feedslabourveterinar'],
+																				'feedPurchaseFood' => $purchase['name'],
+																				'milkEggProduced' => $percentage1['name'],
+																				'animalEatSlaughter' => $percentage2['name'],
+																				'animalAge' => $cashflowAnimals['0']['Age_of_animals_animal_3'],
+																			);
+
+																			//if all the animals have been captured
+																			//return all the 3 animals
+																			$animals = array($row1animal, $row1animal2, $row1animal3);
+																			return $animals;
+													} else {
+														//if only the first 2 animals are captured
+														$animals = array($row1animal, $row1animal2);
+														return $animals;
+													}
+
+								} else {
+									//if only the first animal is captured
+									$animals = array($row1animal);
+									return $animals;
+								}
+			} else {
+				//returning an empty arry if no animal is captured
+					$animals = array();
+					return $animals;
+			}
 }
 public function receiveCashFlowCropsData($loanId = NULL)
 {
@@ -532,135 +563,185 @@ public function receiveCashFlowCropsData($loanId = NULL)
 	*/
 	$urlExtention = "/datatables/cct_CashFlowCrops/" . $loanId; //get the loan ID from the webhook post
 		$cashflowCrops =	$this->cashflowlibrary->curlOption($urlExtention);
-		//row 1
-	//	"YesNo_cd_Add_a_crop": "243",
-							$crop =		$this->receiveCashFlowCropDropdownData($cashflowCrops['0']['Cashflow_Crops_cd_Crop_1']); //dropdown animal
-							$improved =		$this->receiveCashFlowYesNoDropdownData($cashflowCrops['0']['YesNo_cd_Use_improved_high_yi']); //dropdown yesno
-							$fertilizer =		$this->receiveCashFlowFertilizersYesNoDropdownData($cashflowCrops['0']['Cashflow_FertizersYesNo_cd_Use_fertilizers_crop_1']); //dropdown fertilizer
-							$pesticides =		$this->receiveCashFlowYesNoDropdownData($cashflowCrops['0']['YesNo_cd_Use_pesticides_crop_1']); //dropdown yesno
-							$irrigation =		$this->receiveCashFlowIrrigationYesNoDropdownData($cashflowCrops['0']['Cashflow_IrrigationYesNo_cd_Irrigation_crop_1']); //dropdown irrigationyesno
-							$month =		$this->receiveCashFlowMonthDropdownData($cashflowCrops['0']['Cashflow_Month_cd_Month_planting_crop_1']); //dropdown month
-							$percentage =		$this->receiveCashFlowPercentageDropdownData($cashflowCrops['0']['Cashflow_Percentage_cd_Home_consumption_crop_1']); //dropdown month
-										$row1Crops = array(
-															'cropName' => $crop['name'] ,
-															'cropType' => $cashflowCrops['0']['Specify_crop_1'],
-															'acersUnderProduction' => $cashflowCrops['0']['Acres_under_production_last_year_crop_1'],
-															'expectedHarvestAmount' => $cashflowCrops['0']['Expected_harvest_amo'],
-															'seedSource' => $cashflowCrops['0']['Cashflow_SourceSeeds_cd_Main_source_of_seeds_cuttings_crop_1'], //dropdwon
-															'useFertilizer' => $fertilizer['name'],
-															'fertilizerAmountUsed' => $cashflowCrops['0']['Number_50_Kg_bags_fe'],
-															'usePesticides' => $pesticides['name'],
-															'useIrrigation' => $irrigation['name'],
-															'plantingMonth' => $month['name'] ,
-															'harvestMonth' => $cashflowCrops['0']['Cashflow_Month_cd_Month_of_harvest_crop_1'], //dropdown month
-															'priceCropSold' => $cashflowCrops['0']['Sale_price_unit_crop_1'], //dropdown month
-															'homeConsumption' => $percentage['name'],
-															'storageDuration' => $cashflowCrops['0']['Months_storage_crop_1'],
-										);
-										return $row1Crops;
-		//row 2
-	//	"YesNo_cd_Add_a_second_crop": "243",
-							$crop =		$this->receiveCashFlowCropDropdownData($cashflowCrops['0']['Cashflow_Crops_cd_Crop_2']); //dropdown animal
-							$improved =		$this->receiveCashFlowYesNoDropdownData($cashflowCrops['0']['YesNo_cd_Crop_2Use_improved_h']); //dropdown yesno
-							$fertilizer =		$this->receiveCashFlowFertilizersYesNoDropdownData($cashflowCrops['0']['Cashflow_FertizersYesNo_cd_Crop_2Use_fertilizers_crop_2']); //dropdown fertilizer
-							$pesticides =		$this->receiveCashFlowYesNoDropdownData($cashflowCrops['0']['YesNo_cd_Crop_2Use_pesticides_crop_2']); //dropdown yesno
-							$irrigation =		$this->receiveCashFlowIrrigationYesNoDropdownData($cashflowCrops['0']['Cashflow_IrrigationYesNo_cd_Crop_2Irrigation']); //dropdown irrigationyesno
-							$month =		$this->receiveCashFlowMonthDropdownData($cashflowCrops['0']['Cashflow_Month_cd_Crop_2Month_planting']); //dropdown month
-							$percentage =		$this->receiveCashFlowPercentageDropdownData($cashflowCrops['0']['Cashflow_Percentage_cd_Crop_2Home_consumption']); //dropdown month
-										$row2Crops = array(
-															'cropName' => $crop['name'] ,
-															'cropType' => $cashflowCrops['0']['Specify_crop_2'],
-															'acersUnderProduction' => $cashflowCrops['0']['Crop_2Acres_under_pr'],
-															'expectedHarvestAmount' => $cashflowCrops['0']['Expected_harvest_amount_cycle_crop_2'],
-															'seedSource' => $cashflowCrops['0']['Cashflow_SourceSeeds_cd_Main_source_of_seeds_cuttings_crop_2'], //dropdwon
-															'useFertilizer' => $fertilizer['name'],
-															'fertilizerAmountUsed' => $cashflowCrops['0']['Crop_2Number_50_Kg_b'],
-															'usePesticides' => $pesticides['name'],
-															'useIrrigation' => $irrigation['name'],
-															'plantingMonth' => $month['name'] ,
-															'harvestMonth' => $cashflowCrops['0']['Cashflow_Month_cd_Month_of_harvest_crop_21'], //dropdown month
-															'priceCropSold' => $cashflowCrops['0']['Sale_price_unit_crop_2'], //dropdown month
-															'homeConsumption' => $percentage['name'],
-															'storageDuration' => $cashflowCrops['0']['Crop_2Months_storage'],
-										);
-										return $row1Crops;
-		//row 3
-	//	"YesNo_cd_Add_a_third_crop": "243",
-							$crop =		$this->receiveCashFlowCropDropdownData($cashflowCrops['0']['Cashflow_Crops_cd_Crop_3']); //dropdown animal
-							$improved =		$this->receiveCashFlowYesNoDropdownData($cashflowCrops['0']['YesNo_cd_Crop_3Use_improved_h']); //dropdown yesno
-							$fertilizer =		$this->receiveCashFlowFertilizersYesNoDropdownData($cashflowCrops['0']['Cashflow_FertizersYesNo_cd_Crop_3Use_fertilizers_crop_3']); //dropdown fertilizer
-							$pesticides =		$this->receiveCashFlowYesNoDropdownData($cashflowCrops['0']['YesNo_cd_Crop_3Use_pesticides_crop_3']); //dropdown yesno
-							$irrigation =		$this->receiveCashFlowIrrigationYesNoDropdownData($cashflowCrops['0']['Cashflow_IrrigationYesNo_cd_Crop_3Irrigation_crop_3']); //dropdown irrigationyesno
-							$month =		$this->receiveCashFlowMonthDropdownData($cashflowCrops['0']['Cashflow_Month_cd_Crop_2Month_planting']); //dropdown month
-							$percentage =		$this->receiveCashFlowPercentageDropdownData($cashflowCrops['0']['Cashflow_Percentage_cd_Crop_3Home_consumption_crop_3']); //dropdown month
-										$row3Crops = array(
-															'cropName' => $crop['name'] ,
-															'cropType' => $cashflowCrops['0']['Specify_crop_3'],
-															'acersUnderProduction' => $cashflowCrops['0']['Crop_3Acres_under_pr'],
-															'expectedHarvestAmount' => $cashflowCrops['0']['Expected_harvest_amount_cycle_crop_3'],
-															'seedSource' => $cashflowCrops['0']['Cashflow_SourceSeeds_cd_Main_source_of_seeds_cuttings_crop_3'], //dropdwon
-															'useFertilizer' => $fertilizer['name'],
-															'fertilizerAmountUsed' => $cashflowCrops['0']['Crop_3Number_50_Kg_b'],
-															'usePesticides' => $pesticides['name'],
-															'useIrrigation' => $irrigation['name'],
-															'plantingMonth' => $month['name'] ,
-															'harvestMonth' => $cashflowCrops['0']['Cashflow_Month_cd_Month_of_harvest_crop_3'], //dropdown month
-															'priceCropSold' => $cashflowCrops['0']['Sale_price_unit_crop_3'], //dropdown month
-															'homeConsumption' => $percentage['name'],
-															'storageDuration' => $cashflowCrops['0']['Crop_3Months_storage_crop_3'],
-										);
-										return $row1Crops;
-		//row 4
-	//	"YesNo_cd_Add_a_fourth_crop": "243",
-							$crop =		$this->receiveCashFlowCropDropdownData($cashflowCrops['0']['Cashflow_Crops_cd_Crop_4']); //dropdown animal
-							$improved =		$this->receiveCashFlowYesNoDropdownData($cashflowCrops['0']['YesNo_cd_Crop_4Use_improved_h']); //dropdown yesno
-							$fertilizer =		$this->receiveCashFlowFertilizersYesNoDropdownData($cashflowCrops['0']['Cashflow_FertizersYesNo_cd_Crop_4Use_fertilizers_crop_4']); //dropdown fertilizer
-							$pesticides =		$this->receiveCashFlowYesNoDropdownData($cashflowCrops['0']['YesNo_cd_Crop_4Use_pesticides_crop_4']); //dropdown yesno
-							$irrigation =		$this->receiveCashFlowIrrigationYesNoDropdownData($cashflowCrops['0']['Cashflow_IrrigationYesNo_cd_Crop_4Irrigation_crop_4']); //dropdown irrigationyesno
-							$month =		$this->receiveCashFlowMonthDropdownData($cashflowCrops['0']['Cashflow_Month_cd_Crop_4Month_planting_crop_4']); //dropdown month
-							$percentage =		$this->receiveCashFlowPercentageDropdownData($cashflowCrops['0']['Cashflow_Percentage_cd_Crop_4Home_consumption_crop_4']); //dropdown month
-										$row4Crops = array(
-															'cropName' => $crop['name'] ,
-															'cropType' => $cashflowCrops['0']['Specify_crop_4'],
-															'acersUnderProduction' => $cashflowCrops['0']['Crop_4Acres_under_pr'],
-															'expectedHarvestAmount' => $cashflowCrops['0']['Expected_harvest_amount_cycle_crop_4'],
-															'seedSource' => $cashflowCrops['0']['Cashflow_SourceSeeds_cd_Main_source_of_seeds_cuttings_crop_4'], //dropdwon
-															'useFertilizer' => $fertilizer['name'],
-															'fertilizerAmountUsed' => $cashflowCrops['0']['Crop_4Number_50_Kg_b'],
-															'usePesticides' => $pesticides['name'],
-															'useIrrigation' => $irrigation['name'],
-															'plantingMonth' => $month['name'] ,
-															'harvestMonth' => $cashflowCrops['0']['Cashflow_Month_cd_Month_of_harvest_crop_4'], //dropdown month
-															'priceCropSold' => $cashflowCrops['0']['Sale_price_unit_crop_4'], //dropdown month
-															'homeConsumption' => $percentage['name'],
-															'storageDuration' => $cashflowCrops['0']['Crop_4Months_storage_crop_4'],
-										);
-										return $row1Crops;
-		//row 5
-	//	"YesNo_cd_Add_a_fifth_crop": "243",
-							$crop =		$this->receiveCashFlowCropDropdownData($cashflowCrops['0']['YesNo_cd_Crop_5']); //dropdown animal
-							$improved =		$this->receiveCashFlowYesNoDropdownData($cashflowCrops['0']['YesNo_cd_Crop_5Use_improved_h']); //dropdown yesno
-							$fertilizer =		$this->receiveCashFlowFertilizersYesNoDropdownData($cashflowCrops['0']['Cashflow_FertizersYesNo_cd_Crop_5Use_fertilizers_crop_5']); //dropdown fertilizer
-							$pesticides =		$this->receiveCashFlowYesNoDropdownData($cashflowCrops['0']['YesNo_cd_Crop_5Use_pesticides_crop_5']); //dropdown yesno
-							$irrigation =		$this->receiveCashFlowIrrigationYesNoDropdownData($cashflowCrops['0']['Cashflow_IrrigationYesNo_cd_Crop_5Irrigation_crop_5']); //dropdown irrigationyesno
-							$month =		$this->receiveCashFlowMonthDropdownData($cashflowCrops['0']['Cashflow_Month_cd_Crop_5Month_planting_crop_5']); //dropdown month
-							$percentage =		$this->receiveCashFlowPercentageDropdownData($cashflowCrops['0']['Cashflow_Percentage_cd_Crop_5Home_consumption_crop_5']); //dropdown month
-										$row5Crops = array(
-															'cropName' => $crop['name'] ,
-															'cropType' => $cashflowCrops['0']['Specify_crop_5'],
-															'acersUnderProduction' => $cashflowCrops['0']['Crop_5Acres_under_pr'],
-															'expectedHarvestAmount' => $cashflowCrops['0']['Expected_harvest_amount_cycle_crop_5'],
-															'seedSource' => $cashflowCrops['0']['Cashflow_SourceSeeds_cd_Main_source_of_seeds_cuttings_crop_5'], //dropdwon
-															'useFertilizer' => $fertilizer['name'],
-															'fertilizerAmountUsed' => $cashflowCrops['0']['Number_50_Kg_bags_fe'],
-															'usePesticides' => $pesticides['name'],
-															'useIrrigation' => $irrigation['name'],
-															'plantingMonth' => $month['name'] ,
-															'harvestMonth' => $cashflowCrops['0']['Cashflow_Month_cd_Month_of_harvest_crop_5'], //dropdown month
-															'priceCropSold' => $cashflowCrops['0']['Sale_price_unit_crop_5'], //dropdown month
-															'homeConsumption' => $percentage['name'],
-															'storageDuration' => $cashflowCrops['0']['Crop_5Months_storage_crop_5'],
-										);
+
+		//checking if add crop one is selected
+
+		if ($cashflowCrops['0']['YesNo_cd_Add_a_crop'] == 243) {
+			//row 1
+		//	"YesNo_cd_Add_a_crop": "243",
+								$crop =		$this->receiveCashFlowCropDropdownData($cashflowCrops['0']['Cashflow_Crops_cd_Crop_1']); //dropdown animal
+								$seedSource =		$this->receiveCashFlowSourceSeedsDropdownData($cashflowCrops['0']['Cashflow_SourceSeeds_cd_Main_source_of_seeds_cuttings_crop_1']); //dropdown seed source
+								$harvestMonth =		$this->receiveCashFlowMonthDropdownData($cashflowCrops['0']['Cashflow_Month_cd_Month_of_harvest_crop_1']); //month
+								$fertilizer =		$this->receiveCashFlowFertilizersYesNoDropdownData($cashflowCrops['0']['Cashflow_FertizersYesNo_cd_Use_fertilizers_crop_1']); //dropdown fertilizer
+								$pesticides =		$this->receiveCashFlowYesNoDropdownData($cashflowCrops['0']['YesNo_cd_Use_pesticides_crop_1']); //dropdown yesno
+								$irrigation =		$this->receiveCashFlowIrrigationYesNoDropdownData($cashflowCrops['0']['Cashflow_IrrigationYesNo_cd_Irrigation_crop_1']); //dropdown irrigationyesno
+								$month =		$this->receiveCashFlowMonthDropdownData($cashflowCrops['0']['Cashflow_Month_cd_Month_planting_crop_1']); //dropdown month
+								$percentage =		$this->receiveCashFlowPercentageDropdownData($cashflowCrops['0']['Cashflow_Percentage_cd_Home_consumption_crop_1']); //dropdown month
+											$row1Crops = array(
+																'cropName' => $crop['name'] ,
+																'cropType' => $cashflowCrops['0']['Specify_crop_1'],
+																'acersUnderProduction' => $cashflowCrops['0']['Acres_under_production_last_year_crop_1'],
+																'expectedHarvestAmount' => $cashflowCrops['0']['Expected_harvest_amo'],
+																'seedSource' => $seedSource['name'], //dropdwon seed source
+																'useFertilizer' => $fertilizer['name'],
+																'fertilizerAmountUsed' => $cashflowCrops['0']['Number_50_Kg_bags_fe'],
+																'usePesticides' => $pesticides['name'],
+																'useIrrigation' => $irrigation['name'],
+																'plantingMonth' => $month['name'] ,
+																'harvestMonth' => $harvestMonth['name'], //dropdown month
+																'priceCropSold' => $cashflowCrops['0']['Sale_price_unit_crop_1'],
+																'homeConsumption' => $percentage['name'],
+																'storageDuration' => $cashflowCrops['0']['Months_storage_crop_1'],
+											);
+
+							//checking if the second crop is selected
+
+									if ($cashflowCrops['0']['YesNo_cd_Add_a_second_crop'] == 243) {
+										//row 2
+									//	"YesNo_cd_Add_a_second_crop": "243",
+															$crop =		$this->receiveCashFlowCropDropdownData($cashflowCrops['0']['Cashflow_Crops_cd_Crop_2']); //dropdown animal
+															$seedSource =		$this->receiveCashFlowSourceSeedsDropdownData($cashflowCrops['0']['Cashflow_SourceSeeds_cd_Main_source_of_seeds_cuttings_crop_2']); //dropdown seed source
+															$harvestMonth =		$this->receiveCashFlowMonthDropdownData($cashflowCrops['0']['Cashflow_Month_cd_Month_of_harvest_crop_21']); //month
+															$fertilizer =		$this->receiveCashFlowFertilizersYesNoDropdownData($cashflowCrops['0']['Cashflow_FertizersYesNo_cd_Crop_2Use_fertilizers_crop_2']); //dropdown fertilizer
+															$pesticides =		$this->receiveCashFlowYesNoDropdownData($cashflowCrops['0']['YesNo_cd_Crop_2Use_pesticides_crop_2']); //dropdown yesno
+															$irrigation =		$this->receiveCashFlowIrrigationYesNoDropdownData($cashflowCrops['0']['Cashflow_IrrigationYesNo_cd_Crop_2Irrigation']); //dropdown irrigationyesno
+															$month =		$this->receiveCashFlowMonthDropdownData($cashflowCrops['0']['Cashflow_Month_cd_Crop_2Month_planting']); //dropdown month
+															$percentage =		$this->receiveCashFlowPercentageDropdownData($cashflowCrops['0']['Cashflow_Percentage_cd_Crop_2Home_consumption']); //dropdown month
+																		$row2Crops = array(
+																							'cropName' => $crop['name'] ,
+																							'cropType' => $cashflowCrops['0']['Specify_crop_2'],
+																							'acersUnderProduction' => $cashflowCrops['0']['Crop_2Acres_under_pr'],
+																							'expectedHarvestAmount' => $cashflowCrops['0']['Expected_harvest_amount_cycle_crop_2'],
+																							'seedSource' => $seedSource['name'], //dropdwon
+																							'useFertilizer' => $fertilizer['name'],
+																							'fertilizerAmountUsed' => $cashflowCrops['0']['Crop_2Number_50_Kg_b'],
+																							'usePesticides' => $pesticides['name'],
+																							'useIrrigation' => $irrigation['name'],
+																							'plantingMonth' => $month['name'] ,
+																							'harvestMonth' => $harvestMonth['name'], //dropdown month
+																							'priceCropSold' => $cashflowCrops['0']['Sale_price_unit_crop_2'],
+																							'homeConsumption' => $percentage['name'],
+																							'storageDuration' => $cashflowCrops['0']['Crop_2Months_storage'],
+																		);
+
+													//Checking if the 3rd crop is selected
+															if ($cashflowCrops['0']['YesNo_cd_Add_a_third_crop'] == 243) {
+																//row 3
+															//	"YesNo_cd_Add_a_third_crop": "243",
+																					$crop =		$this->receiveCashFlowCropDropdownData($cashflowCrops['0']['Cashflow_Crops_cd_Crop_3']); //dropdown animal
+																					$seedSource =		$this->receiveCashFlowSourceSeedsDropdownData($cashflowCrops['0']['Cashflow_SourceSeeds_cd_Main_source_of_seeds_cuttings_crop_3']); //dropdown seed source
+																					$harvestMonth =		$this->receiveCashFlowMonthDropdownData($cashflowCrops['0']['Cashflow_Month_cd_Month_of_harvest_crop_3']); //month
+																					$fertilizer =		$this->receiveCashFlowFertilizersYesNoDropdownData($cashflowCrops['0']['Cashflow_FertizersYesNo_cd_Crop_3Use_fertilizers_crop_3']); //dropdown fertilizer
+																					$pesticides =		$this->receiveCashFlowYesNoDropdownData($cashflowCrops['0']['YesNo_cd_Crop_3Use_pesticides_crop_3']); //dropdown yesno
+																					$irrigation =		$this->receiveCashFlowIrrigationYesNoDropdownData($cashflowCrops['0']['Cashflow_IrrigationYesNo_cd_Crop_3Irrigation_crop_3']); //dropdown irrigationyesno
+																					$month =		$this->receiveCashFlowMonthDropdownData($cashflowCrops['0']['Cashflow_Month_cd_Crop_2Month_planting']); //dropdown month
+																					$percentage =		$this->receiveCashFlowPercentageDropdownData($cashflowCrops['0']['Cashflow_Percentage_cd_Crop_3Home_consumption_crop_3']); //dropdown month
+																								$row3Crops = array(
+																													'cropName' => $crop['name'] ,
+																													'cropType' => $cashflowCrops['0']['Specify_crop_3'],
+																													'acersUnderProduction' => $cashflowCrops['0']['Crop_3Acres_under_pr'],
+																													'expectedHarvestAmount' => $cashflowCrops['0']['Expected_harvest_amount_cycle_crop_3'],
+																													'seedSource' => $seedSource['name'], //dropdwon
+																													'useFertilizer' => $fertilizer['name'],
+																													'fertilizerAmountUsed' => $cashflowCrops['0']['Crop_3Number_50_Kg_b'],
+																													'usePesticides' => $pesticides['name'],
+																													'useIrrigation' => $irrigation['name'],
+																													'plantingMonth' => $month['name'] ,
+																													'harvestMonth' => $harvestMonth['name'], //dropdown month
+																													'priceCropSold' => $cashflowCrops['0']['Sale_price_unit_crop_3'],
+																													'homeConsumption' => $percentage['name'],
+																													'storageDuration' => $cashflowCrops['0']['Crop_3Months_storage_crop_3'],
+																								);
+
+																				//Checking if 4th crop has been added
+																					if ($cashflowCrops['0']['YesNo_cd_Add_a_fourth_crop'] == 243) {
+																								//row 4
+																							//	"YesNo_cd_Add_a_fourth_crop": "243",
+																											$crop =		$this->receiveCashFlowCropDropdownData($cashflowCrops['0']['Cashflow_Crops_cd_Crop_4']); //dropdown animal
+																											$seedSource =		$this->receiveCashFlowSourceSeedsDropdownData($cashflowCrops['0']['Cashflow_SourceSeeds_cd_Main_source_of_seeds_cuttings_crop_4']); //dropdown seed source
+																											$harvestMonth =		$this->receiveCashFlowMonthDropdownData($cashflowCrops['0']['Cashflow_Month_cd_Month_of_harvest_crop_4']); //month
+																											$fertilizer =		$this->receiveCashFlowFertilizersYesNoDropdownData($cashflowCrops['0']['Cashflow_FertizersYesNo_cd_Crop_4Use_fertilizers_crop_4']); //dropdown fertilizer
+																											$pesticides =		$this->receiveCashFlowYesNoDropdownData($cashflowCrops['0']['YesNo_cd_Crop_4Use_pesticides_crop_4']); //dropdown yesno
+																											$irrigation =		$this->receiveCashFlowIrrigationYesNoDropdownData($cashflowCrops['0']['Cashflow_IrrigationYesNo_cd_Crop_4Irrigation_crop_4']); //dropdown irrigationyesno
+																											$month =		$this->receiveCashFlowMonthDropdownData($cashflowCrops['0']['Cashflow_Month_cd_Crop_4Month_planting_crop_4']); //dropdown month
+																											$percentage =		$this->receiveCashFlowPercentageDropdownData($cashflowCrops['0']['Cashflow_Percentage_cd_Crop_4Home_consumption_crop_4']); //dropdown month
+																														$row4Crops = array(
+																																			'cropName' => $crop['name'] ,
+																																			'cropType' => $cashflowCrops['0']['Specify_crop_4'],
+																																			'acersUnderProduction' => $cashflowCrops['0']['Crop_4Acres_under_pr'],
+																																			'expectedHarvestAmount' => $cashflowCrops['0']['Expected_harvest_amount_cycle_crop_4'],
+																																			'seedSource' => $seedSource['name'], //dropdwon
+																																			'useFertilizer' => $fertilizer['name'],
+																																			'fertilizerAmountUsed' => $cashflowCrops['0']['Crop_4Number_50_Kg_b'],
+																																			'usePesticides' => $pesticides['name'],
+																																			'useIrrigation' => $irrigation['name'],
+																																			'plantingMonth' => $month['name'] ,
+																																			'harvestMonth' => $harvestMonth['name'], //dropdown month
+																																			'priceCropSold' => $cashflowCrops['0']['Sale_price_unit_crop_4'],
+																																			'homeConsumption' => $percentage['name'],
+																																			'storageDuration' => $cashflowCrops['0']['Crop_4Months_storage_crop_4'],
+																														);
+
+																									//checking if the 5th crop is added
+																										if ($cashflowCrops['0']['YesNo_cd_Add_a_fifth_crop'] == 243) {
+																												//row 5
+																											//	"YesNo_cd_Add_a_fifth_crop": "243",
+																																$crop =		$this->receiveCashFlowCropDropdownData($cashflowCrops['0']['Cashflow_Crops_cd_Crop_51']); //dropdown animal
+																																$seedSource =		$this->receiveCashFlowSourceSeedsDropdownData($cashflowCrops['0']['Cashflow_SourceSeeds_cd_Main_source_of_seeds_cuttings_crop_5']); //dropdown seed source
+																																$harvestMonth =		$this->receiveCashFlowMonthDropdownData($cashflowCrops['0']['Cashflow_Month_cd_Month_of_harvest_crop_5']); //month
+																																$fertilizer =		$this->receiveCashFlowFertilizersYesNoDropdownData($cashflowCrops['0']['Cashflow_FertizersYesNo_cd_Crop_5Use_fertilizers_crop_5']); //dropdown fertilizer
+																																$pesticides =		$this->receiveCashFlowYesNoDropdownData($cashflowCrops['0']['YesNo_cd_Crop_5Use_pesticides_crop_5']); //dropdown yesno
+																																$irrigation =		$this->receiveCashFlowIrrigationYesNoDropdownData($cashflowCrops['0']['Cashflow_IrrigationYesNo_cd_Crop_5Irrigation_crop_5']); //dropdown irrigationyesno
+																																$month =		$this->receiveCashFlowMonthDropdownData($cashflowCrops['0']['Cashflow_Month_cd_Crop_5Month_planting_crop_5']); //dropdown month
+																																$percentage =		$this->receiveCashFlowPercentageDropdownData($cashflowCrops['0']['Cashflow_Percentage_cd_Crop_5Home_consumption_crop_5']); //dropdown month
+																																			$row5Crops = array(
+																																								'cropName' => $crop['name'] ,
+																																								'cropType' => $cashflowCrops['0']['Specify_crop_5'],
+																																								'acersUnderProduction' => $cashflowCrops['0']['Crop_5Acres_under_pr'],
+																																								'expectedHarvestAmount' => $cashflowCrops['0']['Expected_harvest_amount_cycle_crop_5'],
+																																								'seedSource' => $seedSource['name'], //dropdwon
+																																								'useFertilizer' => $fertilizer['name'],
+																																								'fertilizerAmountUsed' => $cashflowCrops['0']['Number_50_Kg_bags_fe'],
+																																								'usePesticides' => $pesticides['name'],
+																																								'useIrrigation' => $irrigation['name'],
+																																								'plantingMonth' => $month['name'] ,
+																																								'harvestMonth' => $harvestMonth['name'] , //dropdown month
+																																								'priceCropSold' => $cashflowCrops['0']['Sale_price_unit_crop_5'],
+																																								'homeConsumption' => $percentage['name'],
+																																								'storageDuration' => $cashflowCrops['0']['Crop_5Months_storage_crop_5'],
+																																			);
+
+																														//if all the 5 crops selected, return all of them.
+																														$crops = array($row1Crops, $row2Crops, $row3Crops, $row4Crops, $row5Crops);
+																														return $crops;
+																										} else {
+																											//if only 4 crops selected, return them.
+																											$crops = array($row1Crops, $row2Crops, $row3Crops, $row4Crops);
+																											return $crops;
+																										}
+																					} else {
+																						//if only 1st, 2nd and 3rd crops selected. return the 3 of them.
+																						$crops = array($row1Crops, $row2Crops, $row3Crops);
+																						return $crops;
+
+																					}
+															} else {
+																//if only 1st and 2nd crop selected
+																//return the 2 of them.
+																$crops = array($row1Crops, $row2Crops);
+																return $crops;
+															}
+									} else {
+										//if only the 1st crop is selected
+										//return it
+										$crops = array($row1Crops);
+										return $crops;
+									}
+		} else {
+			//if there is no crop selected return an empy accessArray
+			$crops = array();
+			return $crops;
+		}
 }
 
 private function computeCashFlowModel($webHookData = NULL)
