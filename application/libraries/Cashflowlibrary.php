@@ -4,7 +4,6 @@ class Cashflowlibrary {
     protected $modelOne = 'Login_database';
   public function __construct() {
         $this->CI =& get_instance();
-      //  $CI->load->helper('myhelper');
       }
 public function curlOption($urlOption)
   {
@@ -74,10 +73,6 @@ public function curlOption($urlOption)
   }
   public function curlUploadFile($data)
   {
-      //  echo "<pre>";
-    //    print_r($data['postData']);
-    //    echo "</pre>";
-    //    exit;
             $curl = curl_init();
             curl_setopt_array($curl, array(
               CURLOPT_PORT => "8443",

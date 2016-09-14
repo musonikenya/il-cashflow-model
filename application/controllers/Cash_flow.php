@@ -50,19 +50,19 @@ CREATE TABLE `cash-flow`.`post_notification`
 									'loanId' => 152878,
 									'officeId' => 10,
 								);
-							//	$status =	$this->computeCashFlowModel($webHookData);
+								$status =	$this->computeCashFlowModel($webHookData);
 							//	$status =	$this->receiveCashFlowLoanHistoryData($webHookData['loanId']);
 							//	$status =	$this->receiveAssetsAndLiabilityData($webHookData['loanId']);
 							//	$status =	$this->receiveCashFlowLoanData($webHookData['loanId']);
 							//	$status =	$this->receiveCashFlowStatementsData($webHookData['loanId']);
 							//	$status =	$this->receiveAssetsAndLiabilityData($webHookData['loanId']);
-							//	$status =	$this->receiveCashFlowOtherInformationData($webHookData['loanId']);
+							//		$status =	$this->receiveCashFlowOtherInformationData($webHookData['loanId']);
 							//	$status =	$this->receiveCashFlowAnimalsData($webHookData['loanId']);
-								$status =	$this->receiveCashFlowCropsData($webHookData['loanId']);
+							//	$status =	$this->receiveCashFlowCropsData($webHookData['loanId']);
 								echo "<pre>";
 								print_r($status);
 								echo "</pre>";
-								exit;
+							//	exit;
 							//	$summarystatus =	$this->postFinancialSummary($status);
 	}
 
@@ -749,7 +749,6 @@ private function computeCashFlowModel($webHookData = NULL)
 		/*
 			Using PHPExcel library
 		*/
-
 		   ini_set('date.timezone', 'UTC'); //setting the default timezone
 			$time = date('H:i:s');  //set the time  for document
 			// Including the timestamp during the
@@ -775,60 +774,105 @@ private function computeCashFlowModel($webHookData = NULL)
 		$processOtherInformation = $this->receiveCashFlowOtherInformationData($webHookData['loanId']); //get cashflow crop data
 		$processCrops = $this->receiveCashFlowCropsData($webHookData['loanId']); //get cashflow crop data
 		$processAnimals = $this->receiveCashFlowAnimalsData($webHookData['loanId']); //get cashflow crop data
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 							/*
 								writing assets and liability data
 							*/
 							$objPHPExcel->getActiveSheet()->setCellValue('B40', $processAssetsAndLiability->landOwnership)
-												->setCellValue('B54', $processAssetsAndLiability->landLocation)
-												->setCellValue('B55', $processAssetsAndLiability->houseOwnership)
-												->setCellValue('B56', $processAssetsAndLiability->valueHouseFurniture)
-												->setCellValue('B57', $processAssetsAndLiability->valueOtherAssets)
-												->setCellValue('B58', $processAssetsAndLiability->valueStock)
-												->setCellValue('B59', $processAssetsAndLiability->loanInvestment)
-												->setCellValue('B60', $processAssetsAndLiability->cashResource)
-												->setCellValue('B62', $processAssetsAndLiability->totalDebt);
+												->setCellValue('B41', $processAssetsAndLiability->landRent)
+												->setCellValue('B42', $processAssetsAndLiability->landRentPaidMonth)
+												->setCellValue('B43', $processAssetsAndLiability->landLocation)
+												->setCellValue('B44', $processAssetsAndLiability->houseOwnership)
+												->setCellValue('B45', $processAssetsAndLiability->valueHouseFurniture)
+												->setCellValue('B46', $processAssetsAndLiability->valueOtherAssets)
+												->setCellValue('B47', $processAssetsAndLiability->valueStock)
+												->setCellValue('B48', $processAssetsAndLiability->loanInvestment)
+												->setCellValue('B49', $processAssetsAndLiability->cashResource)
+												->setCellValue('B51', $processAssetsAndLiability->totalDebt);
+
 							/*
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 							/*
 								writing other information data
+								rewrite this function to take into consideration the object
 							*/
-							$objPHPExcel->getActiveSheet()->setCellValue('B38', $processOtherInformation->howMuchLabour)
-												->setCellValue('B42', $processOtherInformation->activityDescription)
-												->setCellValue('B43', $processOtherInformation->monthlyIncome)
-												->setCellValue('B44', $processOtherInformation->monthlyExpense);
+							//rewrite
+									$baseRow = 34; //row number
+												foreach ($processOtherInformation as $arrayKey => $arrayValue) {
+															$row = $baseRow + $arrayKey;
+														//	$objPHPExcel->getActiveSheet()->insertNewRowBefore($row,1);
+																					$col = 'A'; //setting row name here
+																					//checking if its an object
+																					if (is_object($arrayValue)) {
+																						$objPHPExcel->getActiveSheet()->setCellValue('B25', $arrayValue->howMuchLabour)
+																											->setCellValue('B29', $arrayValue->activityDescription)
+																											->setCellValue('B30', $arrayValue->monthlyIncome)
+																											->setCellValue('B31', $arrayValue->monthlyExpense);
+																					} else {
+																							foreach ($arrayValue as $key => $value) {
+																									$objPHPExcel->getActiveSheet()->setCellValue($col.$baseRow, $value);
+																									$col++ ;
+																							}
+																					}
+
+																		$baseRow++ ;
+												}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 							/*
 								writing crop data to the model
+								re-wrote this
 							*/
-						$baseRow = 7; //row to start writing crop data
-						$col = 'A';
-						foreach ($processCrops as  $value) {
-						//	echo $col . ' ' . $value; echo "<br>";
-							$objPHPExcel->getActiveSheet()->setCellValue($col.$baseRow, $value);
-							$col++;
-						}
+						//rewrite
+						$baseRow = 7; //row number
+									foreach ($processCrops as $arrayKey => $arrayValue) {
+												$row = $baseRow + $arrayKey;
+											//	$objPHPExcel->getActiveSheet()->insertNewRowBefore($row,1);
+																		$col = 'A'; //setting row name here
+																		//checking if its an object
+																				foreach ($arrayValue as $key => $value) {
+																						$objPHPExcel->getActiveSheet()->setCellValue($col.$baseRow, $value);
+																						$col++ ;
+																				}
+															$baseRow++ ;
+									}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 						// end of foreachloop
 							/*
 								writing Animal data to the model
+								rewrote this function
 							*/
-											$baseRow = 25; //row to start writing crop data
-											$col = 'A';
-											foreach ($processAnimals as  $value) {
-										//	echo $col . ' ' . $value; echo "<br>";
-												$objPHPExcel->getActiveSheet()->setCellValue($col.$baseRow, $value);
-												$col++;
-											}
-							/*
-								writing loan history data to file
+							//rewrite
+							$baseRow = 19; //row number
+										foreach ($processAnimals as $arrayKey => $arrayValue) {
+													$row = $baseRow + $arrayKey;
+												//	$objPHPExcel->getActiveSheet()->insertNewRowBefore($row,1);
+																			$col = 'A'; //setting row name here
+																			//checking if its an object
+																					foreach ($arrayValue as $key => $value) {
+																							$objPHPExcel->getActiveSheet()->setCellValue($col.$baseRow, $value);
+																							$col++ ;
+																					}
+																$baseRow++ ;
+										}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+							/*	writing loan history data to file
 								History of the lates 5 loans taken
 							*/
-											$baseRow = 67; //row to start writing loan
-											$col = 'A';
-											foreach ($processLoanHistory as  $value) {
-										//	echo $col . ' ' . $value; echo "<br>";
-												$objPHPExcel->getActiveSheet()->setCellValue($col.$baseRow, $value);
-												$col++;
-											}
-
+											//rewrite
+											$baseRow = 56; //row number
+														foreach ($processLoanHistory as $arrayKey => $arrayValue) {
+																	$row = $baseRow + $arrayKey;
+																//	$objPHPExcel->getActiveSheet()->insertNewRowBefore($row,1);
+																							$col = 'A'; //setting row name here
+																							//checking if its an object
+																									foreach ($arrayValue as $key => $value) {
+																											$objPHPExcel->getActiveSheet()->setCellValue($col.$baseRow, $value);
+																											$col++ ;
+																									}
+																				$baseRow++ ;
+														}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 							/*
 								writing loan statements data to file
 								Mpesa & bank cash flows (from past statements)
@@ -847,7 +891,7 @@ private function computeCashFlowModel($webHookData = NULL)
 																			}
 																		$baseRow++ ;
 												}
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 												/*
 													writing loan data
 												*/
@@ -861,7 +905,7 @@ private function computeCashFlowModel($webHookData = NULL)
 																	->setCellValue('B84', $processLoan->installmentsNumber)
 																	->setCellValue('B85', $processLoan->gracePrincipal)
 																	->setCellValue('B86', $processLoan->graceInterest);
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                        //Saving the file
                        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 					   //echo 'I got here';
