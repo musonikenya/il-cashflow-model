@@ -752,7 +752,7 @@ private function computeCashFlowModel($webHookData = NULL)
 		   ini_set('date.timezone', 'UTC'); //setting the default timezone
 			$time = date('H:i:s');  //set the time  for document
 			// Including the timestamp during the
-		 $fileName= 'Flow-demo-Output - ' . date('m-d-Y_his') ; //$resfor=$dataname['name']; generate a random string for the file.
+		$fileName= 'Cashflow_loanid_'. $webHookData['loanId'] .'_pluginId_' . $this->generateRandomId() . '_' . date('m.d.Y.his') ;
 		// $inputFileType = 'Excel5';
         $inputFile = './docs/cash_flow_model_20160914.xlsx';
         /**  Identify the type of $inputFileName  **/
@@ -914,6 +914,7 @@ private function computeCashFlowModel($webHookData = NULL)
 					   /*
 						Calling the function to create folder based on date. if it does not run successfully, the script terminates.
 					   */
+
 					  $createdFolder = $this->_create_storage() . '/';  //adding the slash to point to inside the dir
 					  $savedPath = $createdFolder . $fileName; //joining the created folder and the file name for the path
 
@@ -931,6 +932,21 @@ private function computeCashFlowModel($webHookData = NULL)
                        echo date('H:i:s') , " Done writing file";
                 //}
 	}
+	private function generateRandomId()
+			{
+				$time = time();
+				$currentTime = $time;
+				$random1= rand(0,9999999999);
+				$random2 = mt_rand();
+				$random = $random1 * $random2;
+				$a= ($currentTime + $random);
+				$un=  uniqid();
+				$conct = $a . $un  . md5($a);
+				$cashflowRandomId = sha1($conct.$un);
+
+				//echo "Unique Random number " . $cashflowRandomId;
+				return $cashflowRandomId;
+			}
 
 	private function _create_storage()
 	{
