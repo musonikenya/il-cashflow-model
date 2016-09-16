@@ -9,6 +9,15 @@ class Cash_flow extends CI_Controller {
         }
 public function index()
 	{
+	//		$this->load->library('cashflowcachelibrary');
+			//			$urlExtention = "/codes/146/codevalues/" ;
+	//	$feeds = 		$this->cashflowcachelibrary->cacheCashflowRequests($urlExtention);
+
+	//	echo "<pre>";
+	//		print_r($feeds);
+	//	echo "</pre>";
+
+	//	exit;
 //$this->postFinancialSummary();
 //$this->tester();
 /*
@@ -46,7 +55,7 @@ CREATE TABLE `cash-flow`.`post_notification`
 										http_response_code(204); //no content
 									}
 									*/
-							$webHookData = array(
+					$webHookData = array(
 									'loanId' => 152878,
 									'officeId' => 10,
 								);
@@ -189,7 +198,6 @@ public function receiveCashFlowCropDropdownData($option = NULL)
 				$urlExtention = "/loans/" . $loanId; //get the loan ID from the webhook post
 				$CashFlowLoan =	$this->cashflowlibrary->curlOption($urlExtention);
 
-
 							 $loan = array(
 								 'submissionDate' => $CashFlowLoan['timeline']['submittedOnDate']['0'] .'/' . $CashFlowLoan['timeline']['submittedOnDate']['1'] .'/' . $CashFlowLoan['timeline']['submittedOnDate']['2'],
 								 'disbursementDate' => $CashFlowLoan['timeline']['expectedDisbursementDate']['0'] .'/' . $CashFlowLoan['timeline']['expectedDisbursementDate']['1'] .'/' . $CashFlowLoan['timeline']['expectedDisbursementDate']['2'],
@@ -197,7 +205,8 @@ public function receiveCashFlowCropDropdownData($option = NULL)
 								 'principalApplied' => $CashFlowLoan['principal'],
 								 'interestRate' => $CashFlowLoan['interestRatePerPeriod'],
 								 'repaymentFrequency' => $CashFlowLoan['termPeriodFrequencyType']['value'],
-								 'installmentsNumber' => $CashFlowLoan['numberOfRepayments'],
+								 'repaymentEvery'	=> $CashFlowLoan['repaymentEvery'],
+								 'installmentsNumber' => $CashFlowLoan['termFrequency'],
 								 'gracePrincipal' => $CashFlowLoan['graceOnPrincipalPayment'],
 								 'graceInterest' => $CashFlowLoan['graceOnInterestPayment']
 							 );
@@ -754,13 +763,18 @@ private function computeCashFlowModel($webHookData = NULL)
 			// Including the timestamp during the
 		$fileName= 'Cashflow_loanid_'. $webHookData['loanId'] .'_pluginId_' . $this->generateRandomId() . '_' . date('m.d.Y.his') ;
 		// $inputFileType = 'Excel5';
-        $inputFile = './docs/cash_flow_model_20160914.xlsx';
+        $inputFile = './docs/cash_flow_model_20160916.xlsx';
         /**  Identify the type of $inputFileName  **/
         $inputFileType = PHPExcel_IOFactory::identify($inputFile);
         /**  Create a new Reader of the type defined in $inputFileType  **/
         $objReader = PHPExcel_IOFactory::createReader($inputFileType);
         /**  Advise the Reader to load all Worksheets  **/
+
+						//if we dont need any formatting on the data
+							//$objReader->setReadDataOnly();
         $objReader->setLoadAllSheets();
+				//	$loadSheets = array('Inputs');
+      //  $objReader->setLoadSheetsOnly($loadSheets);
 
         /**  Load $inputFileName to a PHPExcel Object  **/
         $objPHPExcel = $objReader->load($inputFile);
@@ -902,9 +916,10 @@ private function computeCashFlowModel($webHookData = NULL)
 																	->setCellValue('B81', $processLoan->principalApplied)
 																	->setCellValue('B82', $processLoan->interestRate)
 																	->setCellValue('B83', $processLoan->repaymentFrequency)
-																	->setCellValue('B84', $processLoan->installmentsNumber)
-																	->setCellValue('B85', $processLoan->gracePrincipal)
-																	->setCellValue('B86', $processLoan->graceInterest);
+																	->setCellValue('B84', $processLoan->repaymentEvery)
+																	->setCellValue('B85', $processLoan->installmentsNumber)
+																	->setCellValue('B86', $processLoan->gracePrincipal)
+																	->setCellValue('B87', $processLoan->graceInterest);
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                        //Saving the file
                        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
