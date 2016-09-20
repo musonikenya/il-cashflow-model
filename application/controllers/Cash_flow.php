@@ -9,17 +9,8 @@ class Cash_flow extends CI_Controller {
         }
 public function index()
 	{
-	//		$this->load->library('cashflowcachelibrary');
-			//			$urlExtention = "/codes/146/codevalues/" ;
-	//	$feeds = 		$this->cashflowcachelibrary->cacheCashflowRequests($urlExtention);
-
-	//	echo "<pre>";
-	//		print_r($feeds);
-	//	echo "</pre>";
-
-	//	exit;
-//$this->postFinancialSummary();
-//$this->tester();
+// Report all errors except E_WARNING
+//error_reporting(E_ALL & ~(E_WARNING | E_NOTICE));
 /*
 {"officeId":10,"clientId":1309,"loanId":152847,"resourceId":152847} ->Webhook post notification
 CREATE TABLE `cash-flow`.`post_notification`
@@ -27,8 +18,8 @@ CREATE TABLE `cash-flow`.`post_notification`
  `resourceId` INT NULL , `timestamp` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ,
  `processed` BOOLEAN NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 */
-		/*
-				$webhookPost = file_get_contents("php://input");
+
+			$webhookPost = file_get_contents("php://input");
 							if(isset($webhookPost))
 									{
 										$notification = json_decode($webhookPost);
@@ -41,7 +32,7 @@ CREATE TABLE `cash-flow`.`post_notification`
 						 										 $data['msg'] = 'Failed. Unable to write data to file';
 						 										write_file('./docs/write-fail.txt', $data . "\r\n", 'w+');
 															}
-															$data = array(
+															$webHookData = array(
 																'officeId' => $notification->officeId,
 																'clientId' => $notification->clientId,
 																'loanId' => $notification->loanId,
@@ -51,46 +42,55 @@ CREATE TABLE `cash-flow`.`post_notification`
 															);
 															$accessArray =	$this->CashFlow->webHookRecord($data); //saving the data to db
 															write_file('./docs/hookPosts-Processed-2.txt', $data . "\r\n", 'w+');
+																		//Processing application
+															$cashflowFile =	$this->computeCashFlowModel($webHookData);
+															$cashflowSummaryData = 	$this->generateFinancialSummary($cashflowFile); //getting the summary
+															$summarystatus =	$this->postFinancialSummary($cashflowSummaryData); //posting financial summary
 									}else {
 										http_response_code(204); //no content
 									}
-									*/
+/*
+This block is to be used in testing the flow of data
 					$webHookData = array(
 									'loanId' => 152878,
 									'officeId' => 10,
 								);
-								$status =	$this->computeCashFlowModel($webHookData);
-							//	$status =	$this->receiveCashFlowLoanHistoryData($webHookData['loanId']);
-							//	$status =	$this->receiveAssetsAndLiabilityData($webHookData['loanId']);
-							//	$status =	$this->receiveCashFlowLoanData($webHookData['loanId']);
-							//	$status =	$this->receiveCashFlowStatementsData($webHookData['loanId']);
-							//	$status =	$this->receiveAssetsAndLiabilityData($webHookData['loanId']);
-							//		$status =	$this->receiveCashFlowOtherInformationData($webHookData['loanId']);
-							//	$status =	$this->receiveCashFlowAnimalsData($webHookData['loanId']);
-							//	$status =	$this->receiveCashFlowCropsData($webHookData['loanId']);
+
+								$startTime = microtime(true);
+								$cashflowFile =	$this->computeCashFlowModel($webHookData);
+								$cashflowSummaryData = 	$this->generateFinancialSummary($cashflowFile); //getting the summary
+										$summarystatus =	$this->postFinancialSummary($cashflowSummaryData);
 								echo "<pre>";
-								print_r($status);
+								print_r(json_decode($summarystatus));
 								echo "</pre>";
+								echo "Reached here <br>";
+								echo "Elapsed time is: ". (microtime(true) - $startTime) ." seconds";
 							//	exit;
 							//	$summarystatus =	$this->postFinancialSummary($status);
+	*/
 	}
+	function postFinancialSummary($cashflowSummaryData)
+{
+							$data['urlExtention'] = "/datatables/cct_CashFlowFinancialSummary/" . $cashflowSummaryData['loanId'] ;
+					$data['postData'] = json_encode($cashflowSummaryData['summary']);
+				//	$data['postData'] = $cashflowSummaryData['summary'];
+				//	echo "<br>";
+				//	print_r($data['postData']);
+				//	echo "<br>";
+				//	echo "<pre>";
+				//	print_r($data);
+				//	echo "</pre>";
+				//	exit;
 
-function postFinancialSummary()
+							$result =	$this->cashflowlibrary->curlPostData($data); //uploading data
+						//	return $result;
+}
+function uploadCashflowModel()
 {
 
-	//$file = './docs/2016-09-01/Flow-demo-Output - 09-01-2016_120714.xlsx';
-	//			echo realpath($file);
-//exit;
-						//	$data = array();
-						//	$data['urlExtention'] = "/datatables/cct_CashFlowFinancialSummary/25280/documents/?tenantIdentifier=kenya";
 							$data['urlExtention'] = "/datatables/cct_CashFlowFinancialSummary/25280/documents/?tenantIdentifier=kenya";
 
 							$filePath = realpath('./docs/2016-09-01/Flow-demo-Output - 09-01-2016_061747.xlsx');
-						//	$filePath = './docs/2016-09-01/Flow-demo-Output - 09-01-2016_061747.xlsx';
-								//	$cfile = new CurlFile($filePath);
-								//	$data['postData'] =				 array(
-									//													'image_CashflowModel' => new CurlFile($filePath, 'application/vnd.ms-excel') ,
-									//												);
 									$data['postData'] =			json_encode(
 																					array(
 																						'name' => 'image_CashflowModel',
@@ -100,37 +100,7 @@ function postFinancialSummary()
 
 																					)
 																				);
-
-								//	print_r($data['postData']);
-							//		exit;
-
-	/*						$data['postData'] = //json_encode(
-																					array(
-														//			'locale' => 'en_GB', //mandatory
-														//			'dateFormat' => 'YYYY-mm-dd', //mandatory
-															//		'Crops_planted' => 30,
-														//			'Animals_farmed' => 3033,
-															//		'Other_income' => 4000,
-															//		'Average_loan_borrowed_in_the_past' => 5000,
-														//			'Max_loan_borrowed_in_the_past' => 10000,
-															//		'YesNo_cd_Has_always_repaid_in_time' => 244,
-															//		'Loan_size_ratio' => 6,
-														//			'Month_by_when_installment_size_ratio_60' => 15,
-															//		'Indebtness_ratio' => 2,
-															//		'Total_yearly_cash_flow' => 60010,
-														//			'Minimum_monthly_cash_flow' => 5001,
-														//			'Month_of_minimum_cashflow' => 'May',
-														//			'Maximum_monthly_cash_flow' => 8001,
-														//			'Month_of_maximum_cashflow' => 'June',
-																//	'image_CashflowModel' => '@' . set_realpath('./docs/2016-09-01/Flow-demo-Output - 09-01-2016_120714.xlsx'),
-																//	'image_CashflowModel' => set_realpath('./docs/2016-09-01/Flow-demo-Output - 09-01-2016_120714.xlsx'),
-																'image_CashflowModel' => '@' . realpath('./docs/2016-09-01/Flow-demo-Output - 09-01-2016_120714.xlsx'),
-																//	'image_CashflowModel' => '@' . './docs/2016-09-01/Flow-demo-Output - 09-01-2016_120714.xlsx',
-															);
-														//	);
-			*/
-//	$feedback =	$this->cashflowlibrary->curlPostData($data); //uploading data
-	$feedback =	$this->cashflowlibrary->curlUploadFile($data); //sending the file
+																				$feedback =	$this->cashflowlibrary->curlUploadFile($data); //sending the file
 	echo "<pre>";
 	print_r($feedback);
 	echo "<br>";
@@ -602,9 +572,7 @@ public function receiveCashFlowCropsData($loanId = NULL)
 																'homeConsumption' => $percentage['name'],
 																'storageDuration' => $cashflowCrops['0']['Months_storage_crop_1'],
 											);
-
 							//checking if the second crop is selected
-
 									if ($cashflowCrops['0']['YesNo_cd_Add_a_second_crop'] == 243) {
 										//row 2
 									//	"YesNo_cd_Add_a_second_crop": "243",
@@ -769,13 +737,7 @@ private function computeCashFlowModel($webHookData = NULL)
         /**  Create a new Reader of the type defined in $inputFileType  **/
         $objReader = PHPExcel_IOFactory::createReader($inputFileType);
         /**  Advise the Reader to load all Worksheets  **/
-
-						//if we dont need any formatting on the data
-							//$objReader->setReadDataOnly();
         $objReader->setLoadAllSheets();
-				//	$loadSheets = array('Inputs');
-      //  $objReader->setLoadSheetsOnly($loadSheets);
-
         /**  Load $inputFileName to a PHPExcel Object  **/
         $objPHPExcel = $objReader->load($inputFile);
 		/*
@@ -814,7 +776,6 @@ private function computeCashFlowModel($webHookData = NULL)
 									$baseRow = 34; //row number
 												foreach ($processOtherInformation as $arrayKey => $arrayValue) {
 															$row = $baseRow + $arrayKey;
-														//	$objPHPExcel->getActiveSheet()->insertNewRowBefore($row,1);
 																					$col = 'A'; //setting row name here
 																					//checking if its an object
 																					if (is_object($arrayValue)) {
@@ -841,7 +802,6 @@ private function computeCashFlowModel($webHookData = NULL)
 						$baseRow = 7; //row number
 									foreach ($processCrops as $arrayKey => $arrayValue) {
 												$row = $baseRow + $arrayKey;
-											//	$objPHPExcel->getActiveSheet()->insertNewRowBefore($row,1);
 																		$col = 'A'; //setting row name here
 																		//checking if its an object
 																				foreach ($arrayValue as $key => $value) {
@@ -860,7 +820,6 @@ private function computeCashFlowModel($webHookData = NULL)
 							$baseRow = 19; //row number
 										foreach ($processAnimals as $arrayKey => $arrayValue) {
 													$row = $baseRow + $arrayKey;
-												//	$objPHPExcel->getActiveSheet()->insertNewRowBefore($row,1);
 																			$col = 'A'; //setting row name here
 																			//checking if its an object
 																					foreach ($arrayValue as $key => $value) {
@@ -877,7 +836,6 @@ private function computeCashFlowModel($webHookData = NULL)
 											$baseRow = 56; //row number
 														foreach ($processLoanHistory as $arrayKey => $arrayValue) {
 																	$row = $baseRow + $arrayKey;
-																//	$objPHPExcel->getActiveSheet()->insertNewRowBefore($row,1);
 																							$col = 'A'; //setting row name here
 																							//checking if its an object
 																									foreach ($arrayValue as $key => $value) {
@@ -891,13 +849,9 @@ private function computeCashFlowModel($webHookData = NULL)
 								writing loan statements data to file
 								Mpesa & bank cash flows (from past statements)
 							*/
-												//	$rowNumber = 2; //row number
 													$baseRow = 66; //row number
-											//	$colNumber = 2; //col value start from 2 since one is the header
-											//  foreach ($tableData->result_array() as $key => $value) {
 												foreach ($processStatements as $arrayKey => $arrayValue) {
 															$row = $baseRow + $arrayKey;
-														//	$objPHPExcel->getActiveSheet()->insertNewRowBefore($row,1);
 																					$col = 'A'; //setting row name here
 																			foreach ($arrayValue as $key => $value) {
 																					$objPHPExcel->getActiveSheet()->setCellValue($col.$baseRow, $value);
@@ -923,29 +877,63 @@ private function computeCashFlowModel($webHookData = NULL)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                        //Saving the file
                        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-					   //echo 'I got here';
-					   //$objWriter->save('./docs/fin.xls');
-					   //exit;
-					   /*
-						Calling the function to create folder based on date. if it does not run successfully, the script terminates.
-					   */
-
+											 $objPHPExcel->setActiveSheetIndex(0);
+											 $objWriter->setPreCalculateFormulas(true); //making sure calculation takes place before saving
 					  $createdFolder = $this->_create_storage() . '/';  //adding the slash to point to inside the dir
 					  $savedPath = $createdFolder . $fileName; //joining the created folder and the file name for the path
-
-                  //  $objWriter->save(str_replace(__FILE__,'./docs/'. $createdFolder . $fileName . '.xlsx',__FILE__));
-				  $objWriter->save(str_replace(__FILE__,'./docs/'. $savedPath . '.xlsx',__FILE__));
+						//  $objWriter->save(str_replace(__FILE__,'./docs/'. $createdFolder . $fileName . '.xlsx',__FILE__));
+						$objWriter->save(str_replace(__FILE__,'./docs/'. $savedPath . '.xlsx',__FILE__));
 						//Getting the file name to be saved in database
-					$savedFilePath = base_url() . 'docs/'.$savedPath. '.xlsx';
+					$savedFilePath = base_url() . 'docs/'.$savedPath. '.xlsx'; //send this to db
 								$this->CashFlow->save_file($savedFilePath);
-				   echo $savedFilePath; //remove this line later on
-				   echo '<br>';
-                       //$objWriter->save(str_replace('.php', '.xls', __FILE__));
-                       //Set message to be written on the browser to confirm that the file has been written
-                       echo date('H:i:s') , " File written to " , str_replace('.php', '.xlsx', pathinfo(__FILE__, PATHINFO_BASENAME));
-                        echo 'Done';
-                       echo date('H:i:s') , " Done writing file";
-                //}
+								$cashflowFile['path'] = './docs/'. $savedPath . '.xlsx'; //returning the file
+								$cashflowFile['loanId']= $webHookData['loanId'];
+								return $cashflowFile ;
+	}
+	private function generateFinancialSummary($cashflowFile)
+	{
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+																				//Financial Summary Data
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		ini_set('date.timezone', 'UTC'); //setting the default timezone
+	 $time = date('H:i:s');  //set the time  for document
+		 $inputFile = $cashflowFile['path'];
+		 /**  Identify the type of $inputFileName  **/
+			 $inputFileType = PHPExcel_IOFactory::identify($inputFile);
+		 /**  Create a new Reader of the type defined in $inputFileType  **/
+			 $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+		 /**  Advise the Reader to load all Worksheets  **/
+				 $objReader->setLoadAllSheets();
+
+			 $objPHPExcel = $objReader->load($inputFile);
+						 $sheet = $objPHPExcel->setActiveSheetIndex(0);
+						 $cashflowResultData['loanId']= $cashflowFile['loanId'];
+						 $cashflowResultData['realFilePath']= realpath($cashflowFile);
+
+								$cashflowResultData['summary']=	 array(
+																				"locale" => "en_GB",
+																		    "dateFormat" => "YYYY-mm-dd",
+																		    "loan_id" => $cashflowFile['loanId'],
+																		    "Crops_planted" => $sheet->getCell('C6')->getCalculatedValue(),
+																		    "Animals_farmed" => $sheet->getCell('C7')->getCalculatedValue(),
+																		    "Other_income" => $sheet->getCell('C8')->getCalculatedValue(),
+																		    "Month_by_when_installment_size_ratio_60" => $sheet->getCell('C12')->getCalculatedValue(),
+																		    "Month_of_minimum_cashflow" => $sheet->getCell('C19')->getCalculatedValue(),
+																		    "Month_of_maximum_cashflow" => $sheet->getCell('C21')->getCalculatedValue(),
+																		    "Approval_recommendations" => $sheet->getCell('C2')->getCalculatedValue(),
+																		    "Installment_amount_after_grace_periods" => $sheet->getCell('C16')->getCalculatedValue(),
+																		    "Loan_size_ratio2" => $sheet->getCell('C11')->getCalculatedValue(),
+																		    "Indebtness_ratio_2" => round($sheet->getCell('C13')->getCalculatedValue(), 2 ,PHP_ROUND_HALF_UP ),
+																		    "Total_yearly_cash_flow_2" => round($sheet->getCell('C17')->getCalculatedValue(), 2),
+																		    "Minimum_monthly_cash_flow_2" => round($sheet->getCell('C18')->getCalculatedValue(), 2),
+																		    "Average_loan_borrowed_in_the_past_2" => $sheet->getCell('C24')->getCalculatedValue(),
+																		    "Max_loan_borrowed_in_the_past_2" => $sheet->getCell('C25')->getCalculatedValue(),
+																		    "Has_always_repaid_in_time_2" => $sheet->getCell('C26')->getCalculatedValue(),
+																				//confirm
+																			//	"Maximum_monthly_cash_flow_2" => round($sheet->getCell('C20')->getCalculatedValue(), 2),
+																		  );
+
+												 return $cashflowResultData;
 	}
 	private function generateRandomId()
 			{
@@ -958,9 +946,7 @@ private function computeCashFlowModel($webHookData = NULL)
 				$un=  uniqid();
 				$conct = $a . $un  . md5($a);
 				$cashflowRandomId = sha1($conct.$un);
-
-				//echo "Unique Random number " . $cashflowRandomId;
-				return $cashflowRandomId;
+						return $cashflowRandomId;
 			}
 
 	private function _create_storage()
@@ -977,7 +963,6 @@ private function computeCashFlowModel($webHookData = NULL)
 		if (!is_dir('docs/' . $today))
 			{
 				//creating folder based on day if it does not exist. If it does, it is not created
-				// mkdir('./docs/' . $today, 0777, true);
 				if (!mkdir('./docs/' . $today, 0777, true)) {
 							die('Failed to create folders...'); // Die if the function mkdir cannot run
 					}
@@ -986,7 +971,6 @@ private function computeCashFlowModel($webHookData = NULL)
 				return $today;
 			} else {
 				return $today; 				// Return the folder if its already created in the file system
-				//echo 'folder already exists';
 			}
 	}
 
