@@ -313,3 +313,4 @@ switch (ENVIRONMENT)
  * And away we go...
  */
 require_once BASEPATH.'core/CodeIgniter.php';
+require_once 'application/vendor/autoload.php'; //will make use of guzzler if all do not go well

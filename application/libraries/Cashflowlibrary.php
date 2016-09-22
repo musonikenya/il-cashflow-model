@@ -46,8 +46,8 @@ public function curlOption($urlOption)
               CURLOPT_MAXREDIRS => 10,
               CURLOPT_TIMEOUT => 30,
               CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            //  CURLOPT_CUSTOMREQUEST => "PUT",
-              CURLOPT_CUSTOMREQUEST => "POST",
+              CURLOPT_CUSTOMREQUEST => "PUT",
+            //  CURLOPT_CUSTOMREQUEST => "POST",
               CURLOPT_SSL_VERIFYPEER => false, //turn this off when going live
               CURLOPT_POSTFIELDS => $data['postData'],
               CURLOPT_HTTPHEADER => array(
@@ -66,16 +66,8 @@ public function curlOption($urlOption)
             if ($err) {
               echo "cURL Error #:" . $err;
               $response = "cURL Error #:" . $err;
-            //  var_dump($response);
-            //  echo "<br>";
-            //  print_r($response);
-            //  exit;
               return $response;
             } else {
-            //  var_dump($response);
-            //  echo "<br>";
-            //  print_r($response);
-            //  exit;
               return $response;
             }
   }
@@ -90,14 +82,15 @@ public function curlOption($urlOption)
               CURLOPT_MAXREDIRS => 10,
               CURLOPT_TIMEOUT => 30,
               CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            //  CURLOPT_CUSTOMREQUEST => "PUT",
-              CURLOPT_CUSTOMREQUEST => "POST",
+              CURLOPT_POST => true,
+              //CURLOPT_CUSTOMREQUEST => "PUT",
+            //   CURLOPT_CUSTOMREQUEST => "POST",
               CURLOPT_SSL_VERIFYPEER => false, //turn this off when going live
-            //  CURLOPT_POST => true,
               CURLOPT_POSTFIELDS => $data['postData'],
               CURLOPT_HTTPHEADER => array(
                 "authorization: Basic QVBJQ29uc3VtZXI6RkI3cHZxVzdQTFlncnpxdQ==",
                 "cache-control: no-cache",
+                "content-type: multipart/form-data",
                 "x-mifos-platform-tenantid: kenya"
               ),
             ));

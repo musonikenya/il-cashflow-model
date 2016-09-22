@@ -10,7 +10,7 @@ class Cash_flow extends CI_Controller {
 public function index()
 	{
 // Report all errors except E_WARNING
-//error_reporting(E_ALL & ~(E_WARNING | E_NOTICE));
+// error_reporting(E_ALL & ~(E_WARNING | E_NOTICE));
 /*
 {"officeId":10,"clientId":1309,"loanId":152847,"resourceId":152847} ->Webhook post notification
 CREATE TABLE `cash-flow`.`post_notification`
@@ -18,7 +18,7 @@ CREATE TABLE `cash-flow`.`post_notification`
  `resourceId` INT NULL , `timestamp` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ,
  `processed` BOOLEAN NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 */
-
+/*
 			$webhookPost = file_get_contents("php://input");
 							if(isset($webhookPost))
 									{
@@ -49,63 +49,55 @@ CREATE TABLE `cash-flow`.`post_notification`
 									}else {
 										http_response_code(204); //no content
 									}
-/*
-This block is to be used in testing the flow of data
+*/
+//This block is to be used in testing the flow of data
 					$webHookData = array(
-									'loanId' => 152878,
+									'loanId' => 152886,
 									'officeId' => 10,
 								);
 
 								$startTime = microtime(true);
 								$cashflowFile =	$this->computeCashFlowModel($webHookData);
 								$cashflowSummaryData = 	$this->generateFinancialSummary($cashflowFile); //getting the summary
-										$summarystatus =	$this->postFinancialSummary($cashflowSummaryData);
+									//	$summarystatus =	$this->postFinancialSummary($cashflowSummaryData);
+										$summarystatus =	$this->uploadCashflowModel($cashflowSummaryData);
 								echo "<pre>";
 								print_r(json_decode($summarystatus));
 								echo "</pre>";
 								echo "Reached here <br>";
 								echo "Elapsed time is: ". (microtime(true) - $startTime) ." seconds";
-							//	exit;
-							//	$summarystatus =	$this->postFinancialSummary($status);
-	*/
+
 	}
+
 	function postFinancialSummary($cashflowSummaryData)
 {
 							$data['urlExtention'] = "/datatables/cct_CashFlowFinancialSummary/" . $cashflowSummaryData['loanId'] ;
 					$data['postData'] = json_encode($cashflowSummaryData['summary']);
-				//	$data['postData'] = $cashflowSummaryData['summary'];
-				//	echo "<br>";
-				//	print_r($data['postData']);
-				//	echo "<br>";
-				//	echo "<pre>";
-				//	print_r($data);
-				//	echo "</pre>";
-				//	exit;
-
 							$result =	$this->cashflowlibrary->curlPostData($data); //uploading data
 						//	return $result;
 }
-function uploadCashflowModel()
-{
 
-							$data['urlExtention'] = "/datatables/cct_CashFlowFinancialSummary/25280/documents/?tenantIdentifier=kenya";
+function uploadCashflowModel($cashflowSummaryData)
+{	//change later
+							$data['urlExtention'] = "/datatables/cct_CashFlowFinancialSummary/". $cashflowSummaryData['loanId'] ."/documents/?tenantIdentifier=kenya";
+							$filePath = $cashflowSummaryData['realFilePath'];
+							$file = new CurlFile($filePath, 'image/jpeg','cash.xlsx');
 
-							$filePath = realpath('./docs/2016-09-01/Flow-demo-Output - 09-01-2016_061747.xlsx');
-									$data['postData'] =			json_encode(
+									$data['postData'] =			//json_encode(
 																					array(
-																						'name' => 'image_CashflowModel',
-																						'appTableId' => '25280',
-																						'locale' => 'en',
-																						'file' =>  new CurlFile($filePath) ,
-
-																					)
-																				);
+																						"name" => "image_CashflowModel",
+																						"appTableId" => $cashflowSummaryData['loanId'],
+																						"locale" => "en",
+																						"file" =>  $file ,
+																					);
+																			//	);
 																				$feedback =	$this->cashflowlibrary->curlUploadFile($data); //sending the file
 	echo "<pre>";
 	print_r($feedback);
 	echo "<br>";
-//	var_dump($feedback);
+	var_dump($feedback);
 	echo "</pre>";
+	exit;
 
 }
 public function receiveCashFlowYesNoAlternateDropdownData($option = NULL)
@@ -887,6 +879,7 @@ private function computeCashFlowModel($webHookData = NULL)
 					$savedFilePath = base_url() . 'docs/'.$savedPath. '.xlsx'; //send this to db
 								$this->CashFlow->save_file($savedFilePath);
 								$cashflowFile['path'] = './docs/'. $savedPath . '.xlsx'; //returning the file
+								$cashflowFile['savedFilePath'] = $savedFilePath; ////redundunt
 								$cashflowFile['loanId']= $webHookData['loanId'];
 								return $cashflowFile ;
 	}
@@ -908,7 +901,9 @@ private function computeCashFlowModel($webHookData = NULL)
 			 $objPHPExcel = $objReader->load($inputFile);
 						 $sheet = $objPHPExcel->setActiveSheetIndex(0);
 						 $cashflowResultData['loanId']= $cashflowFile['loanId'];
-						 $cashflowResultData['realFilePath']= realpath($cashflowFile);
+						 $cashflowResultData['realFilePath']= realpath($inputFile);
+						 $cashflowResultData['savedFilePath']= $cashflowFile['savedFilePath']; //redundunt
+						 $cashflowResultData['path']= $cashflowFile['path']; //redundunt
 
 								$cashflowResultData['summary']=	 array(
 																				"locale" => "en_GB",
