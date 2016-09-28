@@ -58,7 +58,11 @@ $autoload['packages'] = array();
 |
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
-$autoload['libraries'] = array('database', 'excel', 'cashflowlibrary', 'upload');
+$autoload['libraries'] = array('database', 'excel', 'cashflowlibrary', 'upload',
+                            'cashflowdropdownslibrary', 'cashflowloanhistorylibrary', 'cashflowstatementslibrary',
+                            'cashflowassetsandliabilitieslibrary', 'cashflowcropslibrary', 'cashflowanimalslibrary' ,
+                            'cashflowotherinformationlibrary', 'cashflowloanlibrary', 'supportfunctionslibrary',
+                            'computecashflowmodel', 'generatefinancialsummary');
 
 /*
 | -------------------------------------------------------------------

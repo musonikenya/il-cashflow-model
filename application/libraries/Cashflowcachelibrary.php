@@ -10,7 +10,6 @@ class Cashflowcachelibrary {
 public function cacheCashflowRequests($urlOption = NULL)
 {
   //this will be the front function for caching and retrieving requests and calling the rest.
-
     $request = "https://demo.musonisystem.com:8443/api/v1" . $urlOption; //setting the url to fetch data from
     $cachedFile = 'cashFlow' . str_replace("/","_",$urlOption) . time() . '.json' ; //setting the cache file name
     $cachedFileFullPath = './docs/cache/' . $cachedFile ; //setting the full file path
