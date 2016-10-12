@@ -12,7 +12,7 @@ class Supportfunctionslibrary {
           {
             $time = time();
             $currentTime = $time;
-            $random1= rand(0,999999);
+            $random1= rand(0,99999);
             $random2 = mt_rand();
             $random = $random1 * $random2;
             $a= ($currentTime + $random);

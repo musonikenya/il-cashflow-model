@@ -33,18 +33,24 @@ class Generatefinancialsummary {
     																				"locale" => "en_GB",
     																		    "dateFormat" => "YYYY-mm-dd",
     																		    "loan_id" => $cashflowFile['loanId'],
-    																		    "Crops_planted" => $sheet->getCell('C6')->getCalculatedValue(),
+                                            //approval
+                                            "Approval_recommendations" => $sheet->getCell('C2')->getCalculatedValue(),
+                                              //client activities
+                                            "Crops_planted" => $sheet->getCell('C6')->getCalculatedValue(),
     																		    "Animals_farmed" => $sheet->getCell('C7')->getCalculatedValue(),
     																		    "Other_income" => $sheet->getCell('C8')->getCalculatedValue(),
-    																		    "Month_by_when_installment_size_ratio_60" => $sheet->getCell('C12')->getCalculatedValue(),
+                                            //financial ratios
+                                              "Loan_size_ratio2" => $sheet->getCell('C11')->getCalculatedValue(),
+                                              "Month_by_when_installment_size_ratio_60" => $sheet->getCell('C12')->getCalculatedValue(),
+                                              "Indebtness_ratio_2" => $sheet->getCell('C13')->getCalculatedValue(),
+                                            //cashflows
+                                            "Installment_amount_after_grace_periods" => $sheet->getCell('C16')->getCalculatedValue(),
+                                            "Total_yearly_cash_flow_2" => $sheet->getCell('C17')->getCalculatedValue(),
+                                            "Minimum_monthly_cash_flow_2" => $sheet->getCell('C18')->getCalculatedValue(),
     																		    "Month_of_minimum_cashflow" => $sheet->getCell('C19')->getCalculatedValue(),
+                                            "Maximum_monthly_cashflow_is_missing" => $sheet->getCell('C20')->getCalculatedValue(),
     																		    "Month_of_maximum_cashflow" => $sheet->getCell('C21')->getCalculatedValue(),
-    																		    "Approval_recommendations" => $sheet->getCell('C2')->getCalculatedValue(),
-    																		    "Installment_amount_after_grace_periods" => $sheet->getCell('C16')->getCalculatedValue(),
-    																		    "Loan_size_ratio2" => $sheet->getCell('C11')->getCalculatedValue(),
-    																		    "Indebtness_ratio_2" => round($sheet->getCell('C13')->getCalculatedValue(), 2 ,PHP_ROUND_HALF_UP ),
-    																		    "Total_yearly_cash_flow_2" => round($sheet->getCell('C17')->getCalculatedValue(), 2),
-    																		    "Minimum_monthly_cash_flow_2" => round($sheet->getCell('C18')->getCalculatedValue(), 2),
+    																	      //credit history
     																		    "Average_loan_borrowed_in_the_past_2" => $sheet->getCell('C24')->getCalculatedValue(),
     																		    "Max_loan_borrowed_in_the_past_2" => $sheet->getCell('C25')->getCalculatedValue(),
     																		    "Has_always_repaid_in_time_2" => $sheet->getCell('C26')->getCalculatedValue(),
@@ -52,6 +58,6 @@ class Generatefinancialsummary {
     																			//	"Maximum_monthly_cash_flow_2" => round($sheet->getCell('C20')->getCalculatedValue(), 2),
     																		  );
 
-    												 return $cashflowResultData;                          
+    												 return $cashflowResultData;
     	}
 }

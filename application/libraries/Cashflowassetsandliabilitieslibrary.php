@@ -17,7 +17,7 @@ class Cashflowassetsandliabilitieslibrary {
     									$landYours =		$this->CI->cashflowdropdownslibrary->receiveCashFlowYesNoDropdownData($cashflowAssetsAndLiabilities['0']['YesNo_cd_Is_the_land_yours']); //dropdown yesno
     							$landlocation =		$this->CI->cashflowdropdownslibrary->receiveCashFlowYesNoDropdownData($cashflowAssetsAndLiabilities['0']['Cashflow_LandLocation_cd_Land_location']); //dropdown landlocation
     							$houseYours =		$this->CI->cashflowdropdownslibrary->receiveCashFlowYesNoDropdownData($cashflowAssetsAndLiabilities['0']['YesNo_cd_Is_the_house_yours']); //dropdown yesno
-
+                  $landRateMonth =		$this->CI->cashflowdropdownslibrary->receiveCashFlowMonthDropdownData($cashflowAssetsAndLiabilities['0']['Cashflow_Month_cd_Month_when_land_rent_is_paid']); //month
 
     							$AssetsAndLiabilities = array(
     								'landOwnership'=> $landYours['name'],
@@ -30,7 +30,7 @@ class Cashflowassetsandliabilitieslibrary {
     								'cashResource'=> $cashflowAssetsAndLiabilities['0']['Cash_available_from'],
     								'totalDebt'=> $cashflowAssetsAndLiabilities['0']['Debts_with_friends_other_people'],
     								'landRent'=> $cashflowAssetsAndLiabilities['0']['Land_rent_amount_per_year'],
-    								'landRentPaidMonth'=> $cashflowAssetsAndLiabilities['0']['Cashflow_Month_cd_Month_when_land_rent_is_paid'], //month dropdown
+    								'landRentPaidMonth'=> $landRateMonth['name'], //month dropdown
     							);
     					return (object)$AssetsAndLiabilities;
     	}

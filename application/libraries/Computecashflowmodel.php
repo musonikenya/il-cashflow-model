@@ -17,7 +17,7 @@ class Computecashflowmodel {
       			// Including the timestamp during the
       		$fileName= 'Cashflow_loanid_'. $webHookData['loanId'] .'_pluginId_' . $this->CI->supportfunctionslibrary->generateRandomId() . '_' . date('m.d.Y.his') ;
       		// $inputFileType = 'Excel5';
-              $inputFile = './docs/cash_flow_model_20160916.xlsx';
+              $inputFile = './docs/cash_flow_model_20161004.xlsx';
               /**  Identify the type of $inputFileName  **/
               $inputFileType = PHPExcel_IOFactory::identify($inputFile);
               /**  Create a new Reader of the type defined in $inputFileType  **/
@@ -37,36 +37,7 @@ class Computecashflowmodel {
       		$processCrops = $this->CI->cashflowcropslibrary->receiveCashFlowCropsData($webHookData['loanId']); //get cashflow crop data
       		$processAnimals = $this->CI->cashflowanimalslibrary->receiveCashFlowAnimalsData($webHookData['loanId']); //get cashflow crop data
       ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      /*						echo "<pre>";
-      						print_r($processLoan);
-      						echo "</pre>";
-      						echo "<br>";
-      						echo "<pre>";
-      						print_r($processStatements);
-      						echo "</pre>";
-      						echo "<br>";
-      						echo "<pre>";
-      						print_r($processLoanHistory);
-      						echo "</pre>";
-      						echo "<br>";
-      						echo "<pre>";
-      						print_r($processAssetsAndLiability);
-      						echo "</pre>";
-      						echo "<br>";
-      						echo "<pre>";
-      						print_r($processOtherInformation);
-      						echo "</pre>";
-      						echo "<br>";
-      						echo "<pre>";
-      						print_r($processCrops);
-      						echo "</pre>";
-      						echo "<br>";
-      						echo "<pre>";
-      						print_r($processAnimals);
-      						echo "</pre>";
-      						echo "<br>";
-      						exit;
-      */
+
       //////////////////////////////////////////////////////////////////////////////////////////////////////
       							/*
       								writing assets and liability data
@@ -108,7 +79,14 @@ class Computecashflowmodel {
 
       																		$baseRow++ ;
       												}
-
+                              //Write condition that checks if the values have been for the bottom rows.
+                          /*
+                                if(($objPHPExcel->getActiveSheet()->getCell('B36')->getCalculatedValue() == NULL) && ($objPHPExcel->getActiveSheet()->getCell('B36')->getCalculatedValue() == NULL) )
+                                  {
+                                    $objPHPExcel->getActiveSheet()->setCellValue('B36', 0)
+                                              ->setCellValue('C36', ' ');
+                                  }
+                          */
       ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       							/*
       								writing crop data to the model
@@ -193,8 +171,14 @@ class Computecashflowmodel {
       /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                              //Saving the file
                              $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-      											 $objPHPExcel->setActiveSheetIndex(0);
-      											 $objWriter->setPreCalculateFormulas(true); //making sure calculation takes place before saving
+                            // $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+      											// $objPHPExcel->setActiveSheetIndex(3);
+      											// $objWriter->setPreCalculateFormulas(true); //making sure calculation takes place before saving
+                            // $objPHPExcel->setActiveSheetIndex(1);
+      											// $objWriter->setPreCalculateFormulas(true); //making sure calculation takes place before saving
+                          //   $objPHPExcel->setActiveSheetIndex(0);
+      											 $objWriter->setPreCalculateFormulas(); //making sure calculation takes place before saving
+
       					//  $createdFolder = $this->_create_storage() . '/';  //adding the slash to point to inside the dir
       					  $createdFolder = $this->CI->supportfunctionslibrary->_create_storage() . '/';  //adding the slash to point to inside the dir
 

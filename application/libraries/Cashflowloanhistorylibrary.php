@@ -23,7 +23,8 @@ class Cashflowloanhistorylibrary {
     									$loan1History = array(
     									'loanTaken' => $cashflowLoanHistory['0']['Loan_amount_loan_1'],
     									'loanBalance' => $cashflowLoanHistory['0']['Current_balance_loan_1'],
-    									'dateDisbursed' => $cashflowLoanHistory['0']['Date_disbursed_loan_1']['0'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_1']['1'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_1']['2'],
+    								//	'dateDisbursed' => $cashflowLoanHistory['0']['Date_disbursed_loan_1']['0'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_1']['1'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_1']['2'],
+    									'dateDisbursed' => $cashflowLoanHistory['0']['Date_disbursed_loan_1']['1'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_1']['2'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_1']['0'],
     									'loanInstitution' => $cashflowLoanHistory['0']['Institution_loan_1'],
     									'timelyPayments' => $timelyRepayment1['name'],
     									'loanComment' => $cashflowLoanHistory['0']['Comments_loan_1'],
@@ -37,7 +38,8 @@ class Cashflowloanhistorylibrary {
     												$loan2History = array(
     																	'loanTaken' => $cashflowLoanHistory['0']['Loan_amount_loan_2'],
     																	'loanBalance' => $cashflowLoanHistory['0']['Current_balance_loan_2'],
-    																	'dateDisbursed' => $cashflowLoanHistory['0']['Date_disbursed_loan_2']['0'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_2']['1'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_2']['2'],
+    																	//'dateDisbursed' => $cashflowLoanHistory['0']['Date_disbursed_loan_2']['0'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_2']['1'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_2']['2'],
+    																	'dateDisbursed' => $cashflowLoanHistory['0']['Date_disbursed_loan_2']['1'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_2']['2'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_2']['0'],
     																	'loanInstitution' => $cashflowLoanHistory['0']['Institution_loan_2'],
     																	'timelyPayments' => $timelyRepayment2['name'],
     																	'loanComment' => $cashflowLoanHistory['0']['Comments_loan_2'],
@@ -51,7 +53,8 @@ class Cashflowloanhistorylibrary {
     																				$loan3History = array(
     																						'loanTaken' => $cashflowLoanHistory['0']['Loan_amount_loan_3'],
     																						'loanBalance' => $cashflowLoanHistory['0']['Current_balance_loan_3'],
-    																						'dateDisbursed' => $cashflowLoanHistory['0']['Date_disbursed_loan_3']['0'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_3']['1'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_3']['2'],
+    																						//'dateDisbursed' => $cashflowLoanHistory['0']['Date_disbursed_loan_3']['0'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_3']['1'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_3']['2'],
+    																						'dateDisbursed' => $cashflowLoanHistory['0']['Date_disbursed_loan_3']['1'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_3']['2'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_3']['0'],
     																						'loanInstitution' => $cashflowLoanHistory['0']['Institution_loan_3'],
     																						'timelyPayments' => $timelyRepayment3['name'],
     																						'loanComment' => $cashflowLoanHistory['0']['Comments_loan_3'],
@@ -65,7 +68,8 @@ class Cashflowloanhistorylibrary {
     																									$loan4History = array(
     																													'loanTaken' => $cashflowLoanHistory['0']['Loan_amount_loan_4'],
     																													'loanBalance' => $cashflowLoanHistory['0']['Current_balance_loan_4'],
-    																													'dateDisbursed' => $cashflowLoanHistory['0']['Date_disbursed_loan_4']['0'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_4']['1'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_4']['2'],
+    																													//'dateDisbursed' => $cashflowLoanHistory['0']['Date_disbursed_loan_4']['0'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_4']['1'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_4']['2'],
+    																													'dateDisbursed' => $cashflowLoanHistory['0']['Date_disbursed_loan_4']['1'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_4']['2'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_4']['0'],
     																													'loanInstitution' => $cashflowLoanHistory['0']['Institution_loan_4'],
     																													'timelyPayments' => $timelyRepayment4['name'],
     																													'loanComment' => $cashflowLoanHistory['0']['Comments_loan_4'],
@@ -79,7 +83,8 @@ class Cashflowloanhistorylibrary {
     																																	$loan5History = array(
     																																					'loanTaken' => $cashflowLoanHistory['0']['Loan_amount_loan_5'],
     																																					'loanBalance' => $cashflowLoanHistory['0']['Current_balance_loan_5'],
-    																																					'dateDisbursed' => $cashflowLoanHistory['0']['Date_disbursed_loan_5']['0'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_5']['1'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_5']['2'],
+    																																					//'dateDisbursed' => $cashflowLoanHistory['0']['Date_disbursed_loan_5']['0'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_5']['1'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_5']['2'],
+    																																					'dateDisbursed' => $cashflowLoanHistory['0']['Date_disbursed_loan_5']['1'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_5']['2'].'/' .$cashflowLoanHistory['0']['Date_disbursed_loan_5']['0'],
     																																					'loanInstitution' => $cashflowLoanHistory['0']['Institution_loan_5'],
     																																					'timelyPayments' => $timelyRepayment5['name'],
     																																					'loanComment' => $cashflowLoanHistory['0']['Comments_loan_5'],

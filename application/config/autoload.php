@@ -62,7 +62,7 @@ $autoload['libraries'] = array('database', 'excel', 'cashflowlibrary', 'upload',
                             'cashflowdropdownslibrary', 'cashflowloanhistorylibrary', 'cashflowstatementslibrary',
                             'cashflowassetsandliabilitieslibrary', 'cashflowcropslibrary', 'cashflowanimalslibrary' ,
                             'cashflowotherinformationlibrary', 'cashflowloanlibrary', 'supportfunctionslibrary',
-                            'computecashflowmodel', 'generatefinancialsummary');
+                            'computecashflowmodel', 'generatefinancialsummary', 'generatefinancialsummarycalculation');
 
 /*
 | -------------------------------------------------------------------
