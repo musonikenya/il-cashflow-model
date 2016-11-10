@@ -1,1 +1,1 @@
-\r\n
+{"officeId":1,"clientId":69432,"loanId":152895,"resourceId":152895}\r\n

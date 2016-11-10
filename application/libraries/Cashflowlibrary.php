@@ -48,7 +48,8 @@ public function curlOption($urlOption)
               CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             //  CURLOPT_CUSTOMREQUEST => "DELETE",
             //  CURLOPT_CUSTOMREQUEST => "PUT",
-              CURLOPT_CUSTOMREQUEST => "POST",
+            //  CURLOPT_CUSTOMREQUEST => "POST",
+              CURLOPT_CUSTOMREQUEST => $data['httpRequestMethod'],
               CURLOPT_SSL_VERIFYPEER => false, //turn this off when going live
               CURLOPT_POSTFIELDS => $data['postData'],
               CURLOPT_HTTPHEADER => array(

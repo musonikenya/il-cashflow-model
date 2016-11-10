@@ -187,7 +187,8 @@ class Computecashflowmodel {
       						$objWriter->save(str_replace(__FILE__,'./docs/'. $savedPath . '.xlsx',__FILE__));
       						//Getting the file name to be saved in database
       					$savedFilePath = base_url() . 'docs/'.$savedPath. '.xlsx'; //send this to db
-      								$this->CI->CashFlow->save_file($savedFilePath);
+      							//	$this->CI->CashFlow->save_file($savedFilePath);
+      								$this->CI->CashFlow->save_file(realpath('./docs/'. $savedPath . '.xlsx'));
       								$cashflowFile['path'] = './docs/'. $savedPath . '.xlsx'; //returning the file
       								$cashflowFile['savedFilePath'] = $savedFilePath; ////redundunt
       								$cashflowFile['loanId']= $webHookData['loanId'];

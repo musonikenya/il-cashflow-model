@@ -14,8 +14,19 @@ class Cash_flow_model extends CI_Model {
   function webHookRecord($data)
         {
         	$this->db->insert( $this->webhookTable, $data);
+          $insert_id = $this->db->insert_id();
+        //	return true;
+        	return $insert_id;
+        }
+  function updateWebHookRecord($data)
+        {
+          $this->db->set('processed', 1);
+          $this->db->where('id', $data);
+        	$this->db->update( $this->webhookTable);
+        //	return true;
         	return true;
         }
+
 		function save_file($savedFilePath)
 		{
 			/*

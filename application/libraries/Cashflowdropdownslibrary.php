@@ -27,6 +27,16 @@ class Cashflowdropdownslibrary {
       		$urlExtention = "/codes/149/codevalues/" . $option; //get the loan ID from the webhook post
       			return	$this->CI->cashflowlibrary->curlOption($urlExtention);
       	}
+      public function receiveCashFlowHarvestMonthDropdownData($option = NULL)
+      	{
+      		$urlExtention = "/codes/161/codevalues/" . $option; //get the loan ID from the webhook post
+      			return	$this->CI->cashflowlibrary->curlOption($urlExtention);
+      	}
+      public function receiveCashFlowPlantingMonthDropdownData($option = NULL)
+      	{
+      		$urlExtention = "/codes/155/codevalues/" . $option; //get the loan ID from the webhook post
+      			return	$this->CI->cashflowlibrary->curlOption($urlExtention);
+      	}
       public function receiveCashFlowLandLocationDropdownData($option = NULL)
       	{
       		$urlExtention = "/codes/152/codevalues/" . $option; //get the loan ID from the webhook post
