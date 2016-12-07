@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-//use Illuminate\Support\Facades\Mail;
-//use App\Mail\newCashflowModel;
+use App\Notifications\CashflowCreated;
 use App\Cashflow;
+use App\User;
 use App\Cashflow\Computecashflowmodel;
 use App\Cashflow\Generatefinancialsummary;
 use App\Cashflow\CashflowUploadData;
@@ -88,12 +88,15 @@ class CashflowController extends Controller
     private function updateToDbNotification($cashflowSummaryData, $notificationId)
     {
       $cashflowDb = Cashflow::find($notificationId);
-        $cashflowDb->realFilePath = $notification->officeId;
-        $cashflowDb->savedFilePath = $notification->clientId;
-        $cashflowDb->path = $notification->loanId;
+        $cashflowDb->realFilePath = $cashflowSummaryData['realFilePath'];
+        $cashflowDb->savedFilePath = $cashflowSummaryData['savedFilePath'];
+        $cashflowDb->path = $cashflowSummaryData['path'];
         $cashflowDb->processed = 1;
         $cashflowDb->save();
-
+          //sending notification
+            $user = User::all();
+            //$user->notify(new CashflowCreated($cashflowDb));
+            Notification::send(User::all(), new CashflowCreated($cashflowDb));
         return $cashflowDb->id;
     }
     private function emailCashflowNotification($cashflowSummaryData)
