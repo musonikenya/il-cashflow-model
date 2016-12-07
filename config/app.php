@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'Cashflow Model',
+    'name' => 'Musoni Kenya Cashflow Model',
 
     /*
     |--------------------------------------------------------------------------
@@ -25,8 +25,8 @@ return [
     |
     */
 
-    //'env' => env('APP_ENV', 'production'),
-    'env' => env('APP_ENV', 'local'),
+    'env' => env('APP_ENV', 'production'),
+    //'env' => env('APP_ENV', 'local'),
 
     /*
     |--------------------------------------------------------------------------

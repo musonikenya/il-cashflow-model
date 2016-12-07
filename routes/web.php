@@ -1,5 +1,5 @@
 <?php
-
+use App\Notifications\CashflowCreated;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,7 +12,19 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+///////////////////
+//The construct below is to test sending of bulk notification via the channels
+//deactivate log in the .env file
+  $users = App\User::all();
+  $models = App\Cashflow::all();
+      foreach ($models as $model) {
+          foreach ($users as $user) {
+            $user->notify(new CashflowCreated($model));
+            //print_r($user);
+          }
+      }
+/////////////////////////
+  //  return view('welcome');
 });
 
 Auth::routes();

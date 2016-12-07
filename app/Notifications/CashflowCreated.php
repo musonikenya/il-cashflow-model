@@ -2,8 +2,10 @@
 
 namespace App\Notifications;
 
+use App\Cashflow;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
@@ -11,14 +13,16 @@ class CashflowCreated extends Notification
 {
     use Queueable;
 
+    protected $cashflow;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Cashflow $cashflow)
     {
-        //
+        $this->cashflow = $cashflow;
     }
 
     /**
@@ -29,7 +33,8 @@ class CashflowCreated extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        //return ['mail'];
+        return ['database', 'mail', 'slack'];
     }
 
     /**
@@ -41,10 +46,31 @@ class CashflowCreated extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', 'https://laravel.com')
-                    ->line('Thank you for using our application!');
+                    ->subject('New Cashflow Loan Created')
+                    ->success()
+                    ->line('Hi, a new cashflow loan application has been submitted')
+                    ->line('Please login to review it!')
+                    ->action('View Loan', 'https://live.musonisystem.com/kenya/index.php/Loan/Loan/' . $this->cashflow->loanId)
+                    ->line('Thank you for your action!');
+
+
     }
+
+    public function toSlack($notifiable)
+    {
+        $url = 'https://live.musonisystem.com/kenya/index.php/Loan/Loan/' . $this->cashflow->loanId;
+
+        return (new SlackMessage)
+                    ->success()
+                    ->content('New Cashflow Loan Created')
+                    ->attachment(function ($attachment) use ($url) {
+                        $attachment->title('Loan ID', $url)
+                                   ->fields([
+                                        'Time done' => \Carbon\Carbon::now(),
+                                    ]);
+                    });
+    }
+
 
     /**
      * Get the array representation of the notification.
@@ -55,7 +81,7 @@ class CashflowCreated extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'lesson_created' => \Carbon\Carbon::now()
         ];
     }
 }

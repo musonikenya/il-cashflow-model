@@ -94,9 +94,12 @@ class CashflowController extends Controller
         $cashflowDb->processed = 1;
         $cashflowDb->save();
           //sending notification
-            $user = User::all();
-            //$user->notify(new CashflowCreated($cashflowDb));
-            Notification::send(User::all(), new CashflowCreated($cashflowDb));
+            $users = App\User::all();
+            //$model = App\Cashflow::first();
+            $model = Cashflow::find($cashflowDb->id);
+                foreach ($users as $user) {
+                    $user->notify(new CashflowCreated($model));
+                }
         return $cashflowDb->id;
     }
     private function emailCashflowNotification($cashflowSummaryData)

@@ -17,6 +17,7 @@ return [
     */
 
     'driver' => env('MAIL_DRIVER', 'smtp'),
+    //'driver' => env('MAIL_DRIVER', 'log'),
 
     /*
     |--------------------------------------------------------------------------
@@ -59,11 +60,11 @@ return [
         'address' => 'cashflow@staff.musoni.co.ke',
         'name' => 'Musoni Cashflow Model',
     ],
-    'to' => [
+  /*  'to' => [
         'address' => 'support@staff.musoni.co.ke',
         'name' => 'User User',
     ],
-
+*/
     /*
     |--------------------------------------------------------------------------
     | E-Mail Encryption Protocol
