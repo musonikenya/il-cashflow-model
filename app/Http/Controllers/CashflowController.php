@@ -35,7 +35,7 @@ class CashflowController extends Controller
 					if(isset($webhookPost))
 							{
 								$notification = json_decode($webhookPost);
-								http_response_code(200); //ok
+							//	http_response_code(200); //ok
 									if(isset($notification->loanId))
 												{
 													$webHookData = array(
