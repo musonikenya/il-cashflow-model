@@ -30,7 +30,7 @@ class CashflowController extends Controller
     public function index(Request $request)
     {
       $file = public_path('Data/cashLog.txt');
-        file_put_contents($file, $request);
+        file_put_contents($file, $request->all());
 
       error_reporting(0);
       ini_set('xdebug.max_nesting_level', 600);
