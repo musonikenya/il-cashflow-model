@@ -27,7 +27,7 @@ class CashflowController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($request)
+    public function index($request = NULL)
     {
       error_reporting(0);
       ini_set('xdebug.max_nesting_level', 600);
