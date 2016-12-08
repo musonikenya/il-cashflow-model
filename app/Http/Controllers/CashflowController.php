@@ -154,7 +154,6 @@ class CashflowController extends Controller
      */
     public function store(Request $request)
     {
-      return 'we are here';
         return  $this->index($request);
 
     }
