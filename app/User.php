@@ -31,7 +31,8 @@ class User extends Authenticatable
     {
         //  return $this->slack_webhook_url; //use this if you have slack_webhook_url
         //in database
-        $webhookURL = '';
+        $webhookURL = 'https://musonikenya.slack.com/services/hooks/slackbot?token=wzk12tgwgBsAAHUIibDTUJ48&channel=it-correspondence';
+      //  $webhookURL = 'https://musonikenya.slack.com/services/hooks/slackbot?token=wzk12tgwgBsAAHUIibDTUJ48';
         return $webhookURL;
     }
 }

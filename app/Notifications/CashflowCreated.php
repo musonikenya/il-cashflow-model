@@ -33,8 +33,7 @@ class CashflowCreated extends Notification
      */
     public function via($notifiable)
     {
-        //return ['mail'];
-        return ['database', 'mail', 'slack'];
+        return ['mail', 'slack'];
     }
 
     /**
@@ -58,17 +57,9 @@ class CashflowCreated extends Notification
 
     public function toSlack($notifiable)
     {
-        $url = 'https://live.musonisystem.com/kenya/index.php/Loan/Loan/' . $this->cashflow->loanId;
 
         return (new SlackMessage)
-                    ->success()
-                    ->content('New Cashflow Loan Created')
-                    ->attachment(function ($attachment) use ($url) {
-                        $attachment->title('Loan ID', $url)
-                                   ->fields([
-                                        'Time done' => \Carbon\Carbon::now(),
-                                    ]);
-                    });
+                    ->content('New Cashflow Loan Created' . $this->cashflow->loanId);
     }
 
 
@@ -80,8 +71,6 @@ class CashflowCreated extends Notification
      */
     public function toArray($notifiable)
     {
-        return [
-            'lesson_created' => \Carbon\Carbon::now()
-        ];
+        //
     }
 }

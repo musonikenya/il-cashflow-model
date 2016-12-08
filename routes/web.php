@@ -15,16 +15,15 @@ Route::get('/', function () {
 ///////////////////
 //The construct below is to test sending of bulk notification via the channels
 //deactivate log in the .env file
+/*
   $users = App\User::all();
-  $models = App\Cashflow::all();
-      foreach ($models as $model) {
-          foreach ($users as $user) {
-            $user->notify(new CashflowCreated($model));
-            //print_r($user);
-          }
+  $model = App\Cashflow::first();
+      foreach ($users as $user) {
+          $user->notify(new CashflowCreated($model));
       }
+*/
 /////////////////////////
-  //  return view('welcome');
+  return view('welcome');
 });
 
 Auth::routes();
