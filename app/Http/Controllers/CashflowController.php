@@ -27,7 +27,7 @@ class CashflowController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($request)
     {
       error_reporting(0);
       ini_set('xdebug.max_nesting_level', 600);
@@ -154,6 +154,9 @@ class CashflowController extends Controller
      */
     public function store(Request $request)
     {
+
+      $file = public_path('Data/cashLog.txt');
+        file_put_contents($file, $request);
         return  $this->index($request);
 
     }

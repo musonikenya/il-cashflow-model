@@ -57,7 +57,7 @@ class Computecashflowmodel {
               $objReader = PHPExcel_IOFactory::createReader($inputFileType);
               /**  Advise the Reader to load all Worksheets  **/
               $objReader->setLoadAllSheets();
-              /**  Load $inputFileName to a PHPExcel Object  **/
+              /**  Load $inputFileName to a PHPExcel Object   **/
               $objPHPExcel = $objReader->load($inputFile);
       		/*
       		Process Json data
