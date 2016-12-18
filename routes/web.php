@@ -12,21 +12,11 @@ use App\Notifications\CashflowCreated;
 */
 
 Route::get('/', function () {
-///////////////////
-//The construct below is to test sending of bulk notification via the channels
-//deactivate log in the .env file
-/*
-  $users = App\User::all();
-  $model = App\Cashflow::first();
-      foreach ($users as $user) {
-          $user->notify(new CashflowCreated($model));
-      }
-*/
-/////////////////////////
   return view('welcome');
 });
 
 Auth::routes();
 Route::get('/home', 'HomeController@index');
+Route::post('/', 'CashflowController@store');
 
-Route::resource('/musonikenya', 'CashflowController');
+//Route::resource('/', 'CashflowController');

@@ -20,7 +20,7 @@ public function curlOption($urlOption)
       CURLOPT_CUSTOMREQUEST => "GET",
       CURLOPT_SSL_VERIFYPEER => false, //turn this off when going live.
       CURLOPT_HTTPHEADER => array(
-  				"authorization: Basic QVBJQ29uc3VtZXI6V2JMN3dHOGp1OGtqOEZUeA==",
+  				"authorization: Basic QVBJQ29uc3VtZXI6OHFreTZ6R3FUV1AyRDhZNQ==",
   				"cache-control: no-cache",
   				"content-type: application/json",
   				"x-mifos-platform-tenantid: kenya"
@@ -54,7 +54,7 @@ public function curlOption($urlOption)
               CURLOPT_SSL_VERIFYPEER => false, //turn this off when going live
               CURLOPT_POSTFIELDS => $data['postData'],
               CURLOPT_HTTPHEADER => array(
-                "authorization: Basic QVBJQ29uc3VtZXI6V2JMN3dHOGp1OGtqOEZUeA==",
+                "authorization: Basic QVBJQ29uc3VtZXI6OHFreTZ6R3FUV1AyRDhZNQ==",
                 "cache-control: no-cache",
                 "content-type: application/json",
                 "x-mifos-platform-tenantid: kenya"
@@ -85,7 +85,7 @@ public function curlOption($urlOption)
               CURLOPT_SSL_VERIFYPEER => false, //turn this off when going live
               CURLOPT_POSTFIELDS => $data['postData'],
               CURLOPT_HTTPHEADER => array(
-                    "authorization: Basic QVBJQ29uc3VtZXI6V2JMN3dHOGp1OGtqOEZUeA==",
+                    "authorization: Basic QVBJQ29uc3VtZXI6OHFreTZ6R3FUV1AyRDhZNQ==",
                     "cache-control: no-cache",
                     "content-type: multipart/form-data",
                     "x-mifos-platform-tenantid: kenya"
