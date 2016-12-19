@@ -51,10 +51,6 @@
                         <!-- Authentication Links -->
                         @if (Auth::guest())
                             <li><a href="{{ url('/login') }}">Login</a></li>
-                        @elseif(Auth::check())
-                            <div class="top-right links">
-                                <a href="{{ url('/register') }}">Register</a>
-                            </div>
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
