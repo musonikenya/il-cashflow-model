@@ -1,6 +1,6 @@
 const elixir = require('laravel-elixir');
 
-require('laravel-elixir-vue-2');
+//require('laravel-elixir-vue-2');
 
 /*
  |--------------------------------------------------------------------------
@@ -14,6 +14,42 @@ require('laravel-elixir-vue-2');
  */
 
 elixir(mix => {
-    mix.sass('app.scss')
-       .webpack('app.js');
+    //mix.sass('app.scss')
+      // .webpack('app.js');
+	    /********************/
+    /* Copy Stylesheets */
+    /********************/
+
+    // Bootstrap
+    mix.copy('bower_components/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css', 'public/css/bootstrap.min.css');
+
+    // Font awesome
+    mix.copy('bower_components/gentelella/vendors/font-awesome/css/font-awesome.min.css', 'public/css/font-awesome.min.css');
+
+    // Gentelella
+    mix.copy('bower_components/gentelella/build/css/custom.min.css', 'public/css/gentelella.min.css');
+
+    /****************/
+    /* Copy Scripts */
+    /****************/
+
+    // Bootstrap
+    mix.copy('bower_components/gentelella/vendors/bootstrap/dist/js/bootstrap.min.js', 'public/js/bootstrap.min.js');
+
+    // jQuery
+    mix.copy('bower_components/gentelella/vendors/jquery/dist/jquery.min.js', 'public/js/jquery.min.js');
+
+    // Gentelella
+    mix.copy('bower_components/gentelella/build/js/custom.min.js', 'public/js/gentelella.min.js');
+
+    /**************/
+    /* Copy Fonts */
+    /**************/
+
+    // Bootstrap
+    mix.copy('bower_components/gentelella/vendors/bootstrap/fonts/', 'public/fonts');
+
+    // Font awesome
+    mix.copy('bower_components/gentelella/vendors/font-awesome/fonts/', 'public/fonts');   
+	   
 });

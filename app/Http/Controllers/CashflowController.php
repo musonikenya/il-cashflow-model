@@ -30,7 +30,7 @@ class CashflowController extends Controller
     public function index(Request $request)
     {
       $file = public_path('Data/cashLog.txt');
-        file_put_contents($file, file_get_contents("php://input"));
+        file_put_contents($file, $request->all());
 
       error_reporting(0);
       ini_set('xdebug.max_nesting_level', 600);
@@ -58,6 +58,9 @@ class CashflowController extends Controller
 												$summaryStatus =	$this->processCashflowUploads->uploadData($cashflowSummaryData); //sending summary and uploading file
             //save Completed transaction to db
                         $notificationId =  $this->updateToDbNotification($cashflowSummaryData, $notificationId);
+            //emailing notification
+                            //  $this->emailCashflowNotification($cashflowSummaryData);
+
                             return $summaryStatus;
                               /*
 																	if(($summaryStatus['code'] == 200) && ($fileStatus['code'] == 200)){
@@ -114,7 +117,10 @@ class CashflowController extends Controller
                 }
         return $cashflowDb->id;
     }
-
+   // private function emailCashflowNotification($cashflowSummaryData)
+   // {
+   //   Mail::send(new newCashflowModel($order));
+   // }
     /*
         This function is for running test on the local development
     */
