@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCashflowsTable extends Migration
+class CreateCashflowEditsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateCashflowsTable extends Migration
      */
     public function up()
     {
-        Schema::create('cashflows', function (Blueprint $table) {
+        Schema::create('cashflow_edits', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('loanId')->unique()->index();
-            $table->integer('timesEdited')->nullable();
+            $table->integer('cashflowId')->index();
+            $table->string('loanId')->nullable();
             $table->string('officeId')->nullable();
             $table->string('clientId')->nullable();
             $table->string('resourceId')->nullable();
@@ -35,6 +35,6 @@ class CreateCashflowsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cashflows');
+        Schema::dropIfExists('cashflow_edits');
     }
 }

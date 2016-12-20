@@ -29,4 +29,5 @@ Route::get('/', function () {
 Auth::routes();
 Route::get('/home', 'HomeController@index');
 Route::post('/', 'CashflowController@store');
+Route::get('reports/editedLoans', 'ReportsController@editedLoans');
 Route::resource('reports', 'ReportsController');

@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Cashflow extends Model
 {
     protected $fillable = [
-        'file_path', 'loan_id',
+      'loanId', 'officeId', 'clientId', 'resourceId', 'realFilePath', 'savedFilePath', 'path','processed','timesEdited'
     ];
 }

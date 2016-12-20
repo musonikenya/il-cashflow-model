@@ -16,7 +16,7 @@ class CashflowCreated extends Notification
     protected $cashflow;
 
     /**
-     * Create a new notification instance.
+     * Create a new notification  instance.
      *
      * @return void
      */

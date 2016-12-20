@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Cashflow;
+use App\CashflowEdit;
 use Charts;
 
 class ReportsController extends Controller
@@ -18,6 +19,11 @@ class ReportsController extends Controller
         $cashflows = Cashflow::all();
         return view('portal.admin.index', compact('cashflows'));
     }
+    public function editedLoans()
+    {
+        $cashflows = CashflowEdit::all();
+        return view('portal.admin.editedLoans', compact('cashflows'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -26,7 +32,7 @@ class ReportsController extends Controller
      */
     public function create()
     {
-        //
+      
     }
 
     /**

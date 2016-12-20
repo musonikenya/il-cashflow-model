@@ -10,22 +10,22 @@
     <title>{{ config('app.name') }}</title>
 
     <!-- Bootstrap -->
-    <link href="frontEnd/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{asset('frontEnd/vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="frontEnd/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{{asset('frontEnd/vendors/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
     <!-- NProgress -->
-    <link href="frontEnd/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <link href="{{asset('frontEnd/vendors/nprogress/nprogress.css')}}" rel="stylesheet">
     <!-- iCheck -->
-    <link href="frontEnd/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    <link href="{{asset('frontEnd/vendors/iCheck/skins/flat/green.css')}}" rel="stylesheet">
     <!-- Datatables -->
-    <link href="frontEnd/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-    <link href="frontEnd/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
-    <link href="frontEnd/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
-    <link href="frontEnd/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
-    <link href="frontEnd/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+    <link href="{{asset('frontEnd/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{asset('frontEnd/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{asset('frontEnd/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{asset('frontEnd/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{asset('frontEnd/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css')}}" rel="stylesheet">
     @yield('css')
     <!-- Custom Theme Style -->
-    <link href="frontEnd/build/css/custom.min.css" rel="stylesheet">
+    <link href="{{asset('frontEnd/build/css/custom.min.css')}}" rel="stylesheet">
         {!! Charts::assets() !!}
   </head>
 
@@ -43,7 +43,7 @@
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-                <img src="frontEnd/images/img.jpg" alt="..." class="img-circle profile_img">
+                <img src="{{asset('frontEnd/images/img.jpg')}}" alt="..." class="img-circle profile_img">
               </div>
               <div class="profile_info">
                 <span>Welcome,</span>
@@ -59,11 +59,9 @@
               <div class="menu_section">
                 <h3>Options</h3>
                 <ul class="nav side-menu">
-                  <li><a><i class="fa fa-home"></i> Select <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="{{url('reports')}}">Reports</a></li>
-                    </ul>
-                  </li>
+                  <li><a href="{{url('home')}}"><i class="fa fa-home"></i>Dashboard</a></li>
+                  <li><a href="{{url('reports')}}"><i class="fa fa-home"></i>Loans</a></li>
+                  <li><a href="{{url('reports/editedLoans')}}"><i class="fa fa-home"></i>Edited Loans</a></li>
                 </ul>
               </div>
 
@@ -101,7 +99,7 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="frontEnd/images/img.jpg" alt="">{{ Auth::user()->name }}
+                    <img src="{{asset('frontEnd/images/img.jpg')}}" alt="">{{ Auth::user()->name }}
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -147,34 +145,34 @@
     </div>
 
     <!-- jQuery -->
-    <script src="frontEnd/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="{{asset('frontEnd/vendors/jquery/dist/jquery.min.js')}}"></script>
     <!-- Bootstrap -->
-    <script src="frontEnd/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="{{asset('frontEnd/vendors/bootstrap/dist/js/bootstrap.min.js')}}"></script>
     <!-- FastClick -->
-    <script src="frontEnd/vendors/fastclick/lib/fastclick.js"></script>
+    <script src="{{asset('frontEnd/vendors/fastclick/lib/fastclick.js')}}"></script>
     <!-- NProgress -->
-    <script src="frontEnd/vendors/nprogress/nprogress.js"></script>
+    <script src="{{asset('frontEnd/vendors/nprogress/nprogress.js')}}"></script>
     <!-- iCheck -->
-    <script src="frontEnd/vendors/iCheck/icheck.min.js"></script>
+    <script src="{{asset('frontEnd/vendors/iCheck/icheck.min.js')}}"></script>
     <!-- Datatables -->
-    <script src="frontEnd/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="frontEnd/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-    <script src="frontEnd/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="frontEnd/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
-    <script src="frontEnd/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
-    <script src="frontEnd/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-    <script src="frontEnd/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
-    <script src="frontEnd/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-    <script src="frontEnd/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-    <script src="frontEnd/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="frontEnd/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-    <script src="frontEnd/vendors/datatables.net-scroller/js/datatables.scroller.min.js"></script>
-    <script src="frontEnd/vendors/jszip/dist/jszip.min.js"></script>
-    <script src="frontEnd/vendors/pdfmake/build/pdfmake.min.js"></script>
-    <script src="frontEnd/vendors/pdfmake/build/vfs_fonts.js"></script>
+    <script src="{{asset('frontEnd/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('frontEnd/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+    <script src="{{asset('frontEnd/vendors/datatables.net-buttons/js/dataTables.buttons.min.js')}}"></script>
+    <script src="{{asset('frontEnd/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js')}}"></script>
+    <script src="{{asset('frontEnd/vendors/datatables.net-buttons/js/buttons.flash.min.js')}}"></script>
+    <script src="{{asset('frontEnd/vendors/datatables.net-buttons/js/buttons.html5.min.js')}}"></script>
+    <script src="{{asset('frontEnd/vendors/datatables.net-buttons/js/buttons.print.min.js')}}"></script>
+    <script src="{{asset('frontEnd/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js')}}"></script>
+    <script src="{{asset('frontEnd/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js')}}"></script>
+    <script src="{{asset('frontEnd/vendors/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{asset('frontEnd/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js')}}"></script>
+    <script src="{{asset('frontEnd/vendors/datatables.net-scroller/js/datatables.scroller.min.js')}}"></script>
+    <script src="{{asset('frontEnd/vendors/jszip/dist/jszip.min.js')}}"></script>
+    <script src="{{asset('frontEnd/vendors/pdfmake/build/pdfmake.min.js')}}"></script>
+    <script src="{{asset('frontEnd/vendors/pdfmake/build/vfs_fonts.js')}}"></script>
 
     <!-- Custom Theme Scripts -->
-    <script src="frontEnd/build/js/custom.min.js"></script>
+    <script src="{{asset('frontEnd/build/js/custom.min.js')}}"></script>
     @yield('script')
 
     <!-- Datatables -->
