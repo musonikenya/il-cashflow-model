@@ -24,9 +24,9 @@
     <link href="frontEnd/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="frontEnd/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
     @yield('css')
-
     <!-- Custom Theme Style -->
     <link href="frontEnd/build/css/custom.min.css" rel="stylesheet">
+        {!! Charts::assets() !!}
   </head>
 
   <body class="nav-md">
@@ -35,7 +35,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Musoni Cashflow</span></a>
+              <a href="{{url('/home')}}" class="site_title"><i class="fa fa-paw"></i> <span>Musoni Cashflow</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -57,12 +57,11 @@
             <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
               <div class="menu_section">
-                <h3>General</h3>
+                <h3>Options</h3>
                 <ul class="nav side-menu">
-                  <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-home"></i> Select <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{url('reports')}}">Reports</a></li>
-                      <li><a href="index2.html">Dashboard2</a></li>
                     </ul>
                   </li>
                 </ul>

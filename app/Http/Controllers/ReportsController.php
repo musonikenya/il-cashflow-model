@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Cashflow;
+use Charts;
 
 class ReportsController extends Controller
 {
