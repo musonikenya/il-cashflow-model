@@ -106,6 +106,7 @@ class CashflowController extends Controller
             {
               $cashflowDb = new Cashflow;
               $cashflowDb->officeId = $notification->officeId;
+              $cashflowDb->office_Id = $notification->officeId;
               $cashflowDb->clientId = $notification->clientId;
               $cashflowDb->loanId = $notification->loanId;
               $cashflowDb->resourceId = $notification->resourceId;
@@ -116,6 +117,7 @@ class CashflowController extends Controller
             }else{
               $cashflowDb = new CashflowEdit;
               $cashflowDb->officeId = $notification->officeId;
+              $cashflowDb->office_Id = $notification->officeId;
               $cashflowDb->cashflowId = $cashflowId;
               $cashflowDb->clientId = $notification->clientId;
               $cashflowDb->loanId = $notification->loanId;

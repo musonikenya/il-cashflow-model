@@ -35,4 +35,12 @@ class User extends Authenticatable
       //  $webhookURL = 'https://musonikenya.slack.com/services/hooks/slackbot?token=wzk12tgwgBsAAHUIibDTUJ48';
         return $webhookURL;
     }
+    public function role()
+      {
+        return $this->belongsTo('App\Role');
+      }
+    public function office()
+      {
+        return $this->belongsTo('App\Office');
+      }
 }

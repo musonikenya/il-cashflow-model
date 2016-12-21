@@ -4,11 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Cashflow;
+use App\Office;
 use App\CashflowEdit;
 use Charts;
 
 class ReportsController extends Controller
 {
+  public function __construct()
+  {
+      $this->middleware('auth');
+  }
     /**
      * Display a listing of the resource.
      *
@@ -17,6 +22,7 @@ class ReportsController extends Controller
     public function index()
     {
         $cashflows = Cashflow::all();
+
         return view('portal.admin.index', compact('cashflows'));
     }
     public function editedLoans()
@@ -32,7 +38,7 @@ class ReportsController extends Controller
      */
     public function create()
     {
-      
+
     }
 
     /**

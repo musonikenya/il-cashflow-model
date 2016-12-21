@@ -4,14 +4,17 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CashflowEdit extends Model
+class Staff extends Model
 {
   protected $fillable = [
-      'cashflowId', 'loanId', 'officeId', 'clientId', 'resourceId', 'realFilePath', 'savedFilePath', 'path','processed'
+      'name', 'email', 'officeId',
   ];
+  public function role()
+    {
+      return $this->belongsTo('App\Role');
+    }
   public function office()
     {
       return $this->belongsTo('App\Office');
-      
     }
 }

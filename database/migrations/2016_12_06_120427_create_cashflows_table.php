@@ -17,14 +17,16 @@ class CreateCashflowsTable extends Migration
             $table->increments('id');
             $table->string('loanId')->unique()->index();
             $table->integer('timesEdited')->nullable();
-            $table->string('officeId')->nullable();
-            $table->string('clientId')->nullable();
-            $table->string('resourceId')->nullable();
+            $table->integer('officeId')->unsigned()->index();
+            $table->integer('office_Id')->unsigned()->index();
+            $table->integer('clientId')->unsigned()->index();
+            $table->integer('resourceId')->nullable();
             $table->string('realFilePath')->nullable();
             $table->string('savedFilePath')->nullable();
             $table->string('path')->nullable();
-            $table->string('processed');
+            $table->boolean('processed')->default(false)->index();
             $table->timestamps();
+            $table->foreign('office_id')->references('id')->on('offices')->onDelete('restrict');
         });
     }
 
