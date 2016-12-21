@@ -20,14 +20,14 @@ class RolesTableSeeder extends Seeder
           'created_at' => Carbon::now(),
           'updated_at' => Carbon::now(),
       ]);
-      DB::table('Use')->insert([
+      DB::table('roles')->insert([
           'name' => 'User',
           'slug' => 'user',
           'description' => 'Normal User table',
           'created_at' => Carbon::now(),
           'updated_at' => Carbon::now(),
       ]);
-      DB::table('Use')->insert([
+      DB::table('roles')->insert([
           'name' => 'Staff',
           'slug' => 'staff',
           'description' => 'Musoni staff',
