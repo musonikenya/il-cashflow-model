@@ -6,32 +6,32 @@
   <!-- top tiles -->
   <div class="row tile_count">
     <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count text-center">
-      <span class="count_top"><i class="fa fa-user"></i> Total Modeled Loans</span>
+      <span class="count_top"><i class="fa fa-archive"></i> Total Modeled Loans</span>
       <div class="count center">{{$widgets->totalModels}}</div>
       {{--<span class="count_bottom"><i class="green">4% </i> From last Week</span>--}}
     </div>
     <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count text-center">
-      <span class="count_top"><i class="fa fa-clock-o"></i> Previous Top Branch</span>
-      <div class="count blue">{{$widgets->previousWeekTopBranch ? $widgets->previousWeekTopBranch : 'none'}}</div>
+      <span class="count_top"><i class="fa fa-home"></i> Previous Top Branch</span>
+      <div class="count blue" style="font-size: 37px">{{$widgets->previousWeekTopBranch ? $widgets->previousWeekTopBranch : 'none'}}</div>
       {{--<span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> From last Week</span>--}}
     </div>
-    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count text-center">
-      <span class="count_top"><i class="fa fa-user"></i> Current Top Branch</span>
-      <div class="count green">{{$widgets->topBranchInTheWeek}}</div>
+    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count ">
+      <span class="count_top"><i class="fa fa-home"></i> Current Top Branch</span>
+      <div class="count green" style="font-size: 37px">{{$widgets->topBranchInTheWeek}}</div>
       {{--<span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>--}}
     </div>
     <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count text-center">
-      <span class="count_top"><i class="fa fa-user"></i> Todays Models</span>
+      <span class="count_top"><i class="fa fa-archive"></i> Todays Models</span>
       <div class="count">{{$widgets->todayModels}}</div>
       {{--<span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> From last Week</span>--}}
     </div>
     <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count text-center">
-      <span class="count_top"><i class="fa fa-user"></i> Last Week Models</span>
+      <span class="count_top"><i class="fa fa-archive"></i> Last Week Models</span>
       <div class="count">{{$widgets->lastWeekModels}}</div>
       {{--<span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>--}}
     </div>
     <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count text-center">
-      <span class="count_top"><i class="fa fa-user"></i> This Week Models</span>
+      <span class="count_top"><i class="fa fa-archive"></i> This Week Models</span>
       <div class="count">{{$widgets->thisWeekModels}}</div>
       {{--<span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>--}}
     </div>
@@ -49,12 +49,6 @@
             </li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Settings 1</a>
-                </li>
-                <li><a href="#">Settings 2</a>
-                </li>
-              </ul>
             </li>
             <li><a class="close-link"><i class="fa fa-close"></i></a>
             </li>
@@ -75,12 +69,6 @@
             </li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Settings 1</a>
-                </li>
-                <li><a href="#">Settings 2</a>
-                </li>
-              </ul>
             </li>
             <li><a class="close-link"><i class="fa fa-close"></i></a>
             </li>
@@ -104,12 +92,6 @@
             </li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Settings 1</a>
-                </li>
-                <li><a href="#">Settings 2</a>
-                </li>
-              </ul>
             </li>
             <li><a class="close-link"><i class="fa fa-close"></i></a>
             </li>

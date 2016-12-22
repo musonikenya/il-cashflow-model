@@ -4,9 +4,9 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="{{asset('frontEnd/images/favicon.ico')}}" />
 
         <title>{{ config('app.name') }}</title>
-
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
@@ -66,25 +66,26 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
+            @if (Auth::guest())
                 <div class="top-right links">
                     <a href="{{ url('/login') }}">Login</a>
                 </div>
             @endif
             @if(Auth::check())
                 <div class="top-right links">
-                    <a href="{{ url('/register') }}">Register</a>
+                    <a href="{{ url('/home') }}">Dashboard</a>
                 </div>
             @endif
             <div class="content">
                 <div class="title m-b-md">
-                    Musoni Kenya
+                <img src=" {{asset('frontEnd/images/musoni_logo.jpg')}} " alt="Musoni Mobile"style="width:90%;" />
+                    {{--Musoni Kenya--}}
                 </div>
 
                 <div class="links">
-                    <a href="https://musoni.co.ke">Website</a>
-                    <a href="https://www.youtube.com/channel/UCEzRhdReiuN_ptLlDKFfXOw">Youtube</a>
-                    <a href="https://twitter.com/MusoniKenya">Twitter</a>
+                    <a href="https://musoni.co.ke" target="_blank">Website</a>
+                    <a href="https://www.youtube.com/channel/UCEzRhdReiuN_ptLlDKFfXOw" target="_blank">Youtube</a>
+                    <a href="https://twitter.com/MusoniKenya" target="_blank">Twitter</a>
                 </div>
             </div>
         </div>

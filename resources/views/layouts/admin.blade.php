@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="{{asset('frontEnd/images/favicon.ico')}}" />
 
     <title>{{ config('app.name') }}</title>
 
@@ -35,7 +36,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="{{url('/home')}}" class="site_title"><i class="fa fa-paw"></i> <span>Musoni Cashflow</span></a>
+              <a href="{{url('/home')}}" class="site_title"><i class="fa fa-bank"></i> <span>Musoni Cashflow</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -51,7 +52,6 @@
               </div>
             </div>
             <!-- /menu profile quick info -->
-
             <br />
 
             <!-- sidebar menu -->
@@ -60,8 +60,8 @@
                 <h3>Options</h3>
                 <ul class="nav side-menu">
                   <li><a href="{{url('home')}}"><i class="fa fa-home"></i>Dashboard</a></li>
-                  <li><a href="{{url('reports')}}"><i class="fa fa-home"></i>Loans</a></li>
-                  <li><a href="{{url('reports/editedLoans')}}"><i class="fa fa-home"></i>Edited Loans</a></li>
+                  <li><a href="{{url('reports')}}"><i class="fa fa-money"></i>Loans</a></li>
+                  <li><a href="{{url('reports/editedLoans')}}"><i class="fa fa-recycle"></i>Edited Loans</a></li>
                 </ul>
               </div>
 
@@ -80,8 +80,13 @@
               <a data-toggle="tooltip" data-placement="top" title="Lock">
                 <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
               </a>
-              <a data-toggle="tooltip" data-placement="top" title="Logout">
-                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+              <a data-toggle="tooltip" data-placement="top" title="Logout" href="{{ url('/logout') }}"
+                onclick="event.preventDefault();
+                   document.getElementById('logout-form').submit();">
+                   <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                   <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                       {{ csrf_field() }}
+                   </form>
               </a>
             </div>
             <!-- /menu footer buttons -->
@@ -103,14 +108,13 @@
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a href="javascript:;"> Profile</a></li>
+                    <li><a href="https://live.musonisystem.com/kenya/index.php" target="_blank" > Musoni System</a></li>
                     <li>
-                      <a href="javascript:;">
-                        <span class="badge bg-red pull-right">50%</span>
-                        <span>Settings</span>
+                      <a href="https://live.musonisystem.com/kenya/index.php/Loan/Loans" target="_blank">
+                        <span>Musoni Loans</span>
                       </a>
                     </li>
-                    <li><a href="javascript:;">Help</a></li>
+                    {{--<li><a href="javascript:;">Help</a></li>--}}
                     <li>
                       <a href="{{ url('/logout') }}"
                           onclick="event.preventDefault();
