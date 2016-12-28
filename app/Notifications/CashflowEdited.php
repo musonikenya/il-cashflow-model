@@ -45,8 +45,7 @@ class CashflowEdited extends Notification
                   ->subject('Cashflow Loan Edited')
                   ->success()
                   ->line('Hi, created cashflow loan application has been edited')
-                  ->action('View Loan', 'https://demo.musonisystem.com/kenya/index.php/Loan/Loan/' . $this->cashflow->loanId)
-                  ->line('Thank you for your action!');
+                  ->action('View Loan', 'https://live.musonisystem.com/kenya/index.php/Loan/Loan/' . $this->cashflow->loanId);
     }
 
     /**
