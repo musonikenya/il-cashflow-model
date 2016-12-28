@@ -15,7 +15,7 @@ class ReportsController extends Controller
       $this->middleware('auth');
   }
     /**
-     * Display a listing of the resource.
+     * Display a listing of th processed loans.
      *
      * @return \Illuminate\Http\Response
      */
@@ -23,12 +23,17 @@ class ReportsController extends Controller
     {
         $cashflows = Cashflow::all();
 
-        return view('portal.admin.index', compact('cashflows'));
+        return view('portal.loans.index', compact('cashflows'));
     }
+    /**
+     * This function displays a listing of all edited loans
+     * @author Raphael Ndwiga
+     * @return [[Type]] [[Description]]
+     */
     public function editedLoans()
     {
         $cashflows = CashflowEdit::all();
-        return view('portal.admin.editedLoans', compact('cashflows'));
+        return view('portal.loans.editedLoans', compact('cashflows'));
     }
 
     /**
@@ -53,7 +58,7 @@ class ReportsController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * This function prompts downloading of the generated excel document
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

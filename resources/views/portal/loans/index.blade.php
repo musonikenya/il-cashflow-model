@@ -43,7 +43,7 @@
                     <a href="https://demo.musonisystem.com/kenya/index.php/Loan/Loan/{{$cashflow->loanId}}" target="_blank">{{$cashflow->loanId}}</a>
                   </td>
                   <td>{{$cashflow->clientId}}</td>
-                  <td>{{$cashflow->officeId}}</td>
+                  <td>{{$cashflow->office->name}}</td>
                   <td>{{$cashflow->processed == 1 ? 'Processed': 'Pending'}}</td>
                   <td>{{$cashflow->timesEdited >= 1 ? $cashflow->timesEdited: '0'}}</td>
                   <td>{{$cashflow->created_at->diffForhumans()}}</td>

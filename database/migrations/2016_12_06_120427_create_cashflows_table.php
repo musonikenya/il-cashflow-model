@@ -18,7 +18,7 @@ class CreateCashflowsTable extends Migration
             $table->string('loanId')->unique()->index();
             $table->integer('timesEdited')->nullable();
             $table->integer('officeId')->unsigned()->index();
-            $table->integer('office_Id')->unsigned()->index();
+            $table->integer('office_id')->unsigned()->index();
             $table->integer('clientId')->unsigned()->index();
             $table->integer('resourceId')->nullable();
             $table->string('realFilePath')->nullable();

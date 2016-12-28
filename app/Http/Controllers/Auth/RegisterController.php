@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Sheria\UserActivationLibrary;
+use Illuminate\Http\Request;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -34,9 +36,10 @@ class RegisterController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(UserActivationLibrary $userActivationLibrary)
     {
         $this->middleware('guest');
+        $this->userActivationLibrary = $userActivationLibrary;
     }
 
     /**
@@ -48,6 +51,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
+            'username' => 'required|max:255',
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
@@ -63,9 +67,26 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
+            'username' => $data['username'],
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+
     }
+    /**
+     * overides register method in Illuminate\Foundation\Auth\RegistersUsers.
+     *
+     * @param  \Illuminate\Http\Request  $request \
+     * @return \Illuminate\Http\Response
+     */
+  public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+        $user = $this->create($request->all());
+        auth()->logout();
+        $this->userActivationLibrary->sendActivationMail($user);
+        return redirect('/login')->with('activationStatus', true);
+    }
+
 }

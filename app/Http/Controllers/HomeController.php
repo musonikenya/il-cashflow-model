@@ -7,11 +7,13 @@ use App\Cashflow;
 use Charts;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 
 class HomeController extends Controller
 {
   private $offices;
+  private $branch;
     /**
      * Create a new controller instance.
      *
@@ -56,7 +58,7 @@ class HomeController extends Controller
         'todayModels' => Cashflow::whereDate('created_at', '=', date('Y-m-d'))->count(),
         'lastWeekModels' => Cashflow::whereBetween('created_at', [(Carbon::today()->subWeeks(2)), Carbon::today()->subWeek() ])->count(),
         'thisWeekModels' => Cashflow::whereBetween('created_at', [(Carbon::today()->subWeek()), Carbon::today()])->count(),
-        'topBranchInTheWeek' => $this->getBranchByName(),
+        'topBranchInTheWeek' => $this->highActiveBranchInTheWeek(),
         'previousWeekTopBranch' => $this->highActiveBranchInThePreviousWeek()
       ];
         return view('home', compact('groupByDay','groupByOffice', 'groupByDayTrend','widgets'));
@@ -66,29 +68,49 @@ class HomeController extends Controller
       @input array of branch name indexed by their ID
       @ Cashflow::groupBy('officeId')->pluck('officeId')->max() //gets the most common branch
     */
-    private function getBranchByName()
+    private function getBranchByName($branch)
     {
       foreach ($this->offices as $key => $value) {
-        if ($key == $this->highActiveBranchInTheWeek() ) {
+        if ($key == $branch ) {
           return $value;
         }
       }
     }
     /*
-      This function gets the most active branch in the current week
+        The function below gets the best performing branch within the week depending on the number of loans submitted
     */
     private function highActiveBranchInTheWeek()
     {
-      return Cashflow::whereBetween('created_at', [(Carbon::today()->subWeek()), Carbon::today()])
-              ->groupBy('officeId')->pluck('officeId')->max();
+        $models = DB::table('cashflows')
+                         ->select(DB::raw('count(*) as branch, officeId'))
+                         ->whereBetween('created_at', [(Carbon::today()->subWeek()), Carbon::today()])
+                         ->groupBy('officeId')
+                         ->orderBy('branch', 'desc')
+                         ->get();
+        foreach($models as $key => $value){
+          if ($key == 0){
+            return $this->getBranchByName($value->officeId) ;
+          }
+        }
     }
+    /*
+      * This function pulls highest active branch in the previous week based on the created at time stamp
+      * @author Raphael Ndwiga
+      * @return integer
+      * @param null No impute required
+     */
     private function highActiveBranchInThePreviousWeek()
     {
-      return Cashflow::whereBetween('created_at', [(Carbon::today()->subWeeks(2)), Carbon::today()->subWeek() ])
-              ->groupBy('officeId')->pluck('officeId')->max();
-    }
-    private function getOverallActiveBranch()
-    {
-      return Cashflow::groupBy('officeId')->pluck('officeId')->max();
+              $models = DB::table('cashflows')
+                               ->select(DB::raw('count(*) as branch, officeId'))
+                               ->whereBetween('created_at', [(Carbon::today()->subWeeks(2)), Carbon::today()->subWeek() ])
+                               ->groupBy('officeId')
+                               ->orderBy('branch', 'desc')
+                               ->get();
+              foreach($models as $key => $value){
+                if ($key == 0){
+                  return $this->getBranchByName($value->officeId) ;
+                }
+              }
     }
 }

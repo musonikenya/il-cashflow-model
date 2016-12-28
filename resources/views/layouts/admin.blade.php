@@ -38,7 +38,6 @@
             <div class="navbar nav_title" style="border: 0;">
               <a href="{{url('/home')}}" class="site_title"><i class="fa fa-bank"></i> <span>Musoni Cashflow</span></a>
             </div>
-
             <div class="clearfix"></div>
 
             <!-- menu profile quick info -->
@@ -53,7 +52,6 @@
             </div>
             <!-- /menu profile quick info -->
             <br />
-
             <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
               <div class="menu_section">
@@ -62,10 +60,15 @@
                   <li><a href="{{url('home')}}"><i class="fa fa-home"></i>Dashboard</a></li>
                   <li><a href="{{url('reports')}}"><i class="fa fa-money"></i>Loans</a></li>
                   <li><a href="{{url('reports/editedLoans')}}"><i class="fa fa-recycle"></i>Edited Loans</a></li>
+                  @if(Auth::user()->role->id === 1)
+                  <li><a><i class="fa fa-users"></i> Access Management<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{url('admin/users')}}">Users</a></li>
+                    </ul>
+                  </li>
+                  @endif
                 </ul>
               </div>
-
-
             </div>
             <!-- /sidebar menu -->
 
@@ -109,11 +112,9 @@
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
                     <li><a href="https://live.musonisystem.com/kenya/index.php" target="_blank" > Musoni System</a></li>
-                    <li>
-                      <a href="https://live.musonisystem.com/kenya/index.php/Loan/Loans" target="_blank">
-                        <span>Musoni Loans</span>
-                      </a>
-                    </li>
+                    <li><a href="https://live.musonisystem.com/kenya/index.php/Loan/Loans" target="_blank">Musoni Loans</a></li>
+                    <li><a href="{{url('admin/users', Auth::user()->id)}}"><i class="fa fa-lock pull-right"></i>
+                      Change Password</a></li>
                     {{--<li><a href="javascript:;">Help</a></li>--}}
                     <li>
                       <a href="{{ url('/logout') }}"

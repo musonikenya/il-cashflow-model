@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="{{asset('frontEnd/images/favicon.ico')}}" />
 
-    <title>Gentellela Alela! | </title>
+    <title>{{ config('app.name') }}</title>
 
     <!-- Bootstrap -->
     <link href="{{asset('frontEnd/vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
