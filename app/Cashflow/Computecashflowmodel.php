@@ -50,7 +50,7 @@ class Computecashflowmodel {
       			// Including the timestamp during the
       		$fileName= 'Cashflow_loanid_'. $webHookData['loanId'] .'_pluginId_' . $this->supportFunctions->generateRandomId() . '_' . date('m.d.Y.his') ;
             //  $inputFile = storage_path('app/cash_flow_model_20161004.xlsx');
-              $inputFile = public_path('Data/cash_flow_model_20161004.xlsx');
+              $inputFile = public_path(env('CASHFLOW_FILE'));
               /**  Identify the type of $inputFileName  **/
               $inputFileType = PHPExcel_IOFactory::identify($inputFile);
               /**  Create a new Reader of the type defined in $inputFileType  **/

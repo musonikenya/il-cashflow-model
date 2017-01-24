@@ -17,7 +17,7 @@ class Cashflowloanhistorylibrary {
     			/*
     				Processing loan history data
     			*/
-    			$urlExtention = "/datatables/cct_Loanhistory/" . $loanId; //get the loan ID from the webhook post
+    			$urlExtention = "/datatables/cct_CashFlowLoanhistory/" . $loanId; //get the loan ID from the webhook post
     				$cashflowLoanHistory =	$this->cashflowlibrary->curlOption($urlExtention);
     								$clientLoanHistory = array();
   //Loan 1

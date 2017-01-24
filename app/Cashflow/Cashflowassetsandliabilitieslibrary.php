@@ -17,12 +17,18 @@ class Cashflowassetsandliabilitieslibrary {
     			/*
     				Processing assets and liabilities data
     			*/
-    			$urlExtention = "/datatables/cct_CashFlowAssetsandLiabilities/" . $loanId; //get the loan ID from the webhook post
-    				$cashflowAssetsAndLiabilities =	$this->cashflowlibrary->curlOption($urlExtention);
-    									$landYours =		$this->cashflowdropdownslibrary->receiveCashFlowYesNoDropdownData($cashflowAssetsAndLiabilities['0']['YesNo_cd_Is_the_land_yours']); //dropdown yesno
-    							$landlocation =		$this->cashflowdropdownslibrary->receiveCashFlowYesNoDropdownData($cashflowAssetsAndLiabilities['0']['Cashflow_LandLocation_cd_Land_location']); //dropdown landlocation
-    							$houseYours =		$this->cashflowdropdownslibrary->receiveCashFlowYesNoDropdownData($cashflowAssetsAndLiabilities['0']['YesNo_cd_Is_the_house_yours']); //dropdown yesno
-                  $landRateMonth =		$this->cashflowdropdownslibrary->receiveCashFlowMonthDropdownData($cashflowAssetsAndLiabilities['0']['Cashflow_Month_cd_Month_when_land_rent_is_paid']); //month
+    		$urlExtention = "/datatables/cct_CashFlowAssetsandLiabilities/" . $loanId; //get the loan ID from the webhook post
+    		$cashflowAssetsAndLiabilities =	$this->cashflowlibrary->curlOption($urlExtention);
+    			$landYours = $this->cashflowdropdownslibrary->receiveCashFlowYesNoDropdownData($cashflowAssetsAndLiabilities['0']['YesNo_cd_Is_the_land_yours']); //dropdown yesno
+    			$landlocation = $this->cashflowdropdownslibrary->receiveCashFlowYesNoDropdownData($cashflowAssetsAndLiabilities['0']['Cashflow_LandLocation_cd_Land_location']); //dropdown landlocation
+    			$houseYours = $this->cashflowdropdownslibrary->receiveCashFlowYesNoDropdownData($cashflowAssetsAndLiabilities['0']['YesNo_cd_Is_the_house_yours']); //dropdown yesno
+                if($cashflowAssetsAndLiabilities['0']['Cashflow_Month_cd_Month_when_land_rent_is_paid'])
+                {
+                    $landRateMonth = $this->cashflowdropdownslibrary->receiveCashFlowMonthDropdownData($cashflowAssetsAndLiabilities['0']['Cashflow_Month_cd_Month_when_land_rent_is_paid']); //month
+                }else{
+                    $landRateMonth['name'] = '';
+                }
+
 
     							$AssetsAndLiabilities = array(
     								'landOwnership'=> $landYours['name'],
