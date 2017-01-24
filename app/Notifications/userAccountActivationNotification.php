@@ -49,7 +49,7 @@ class userAccountActivationNotification extends Notification
 
         return (new MailMessage)
                     ->subject('Activate your Account')
-                    ->line('Welcome to Sheria Village.')
+                    ->line('Welcome to ' . config('app.name'))
                     //->action('Notification Action', 'https://laravel.com')
                     ->action('Activation Link', $link)
                     ->line('We hope you will have a good experience');

@@ -64,13 +64,8 @@ class CashflowController extends Controller
 												$cashflowSummaryData = 	$this->generatefinancialsummary->generateFinancialSummary($cashflowFile); //getting the summary
 												//Sending the data to server
 												$summaryStatus =	$this->processCashflowUploads->uploadData($cashflowSummaryData); //sending summary and uploading file
-            //save Completed transaction to db
-            //  $this->notificationId = NULL;
-            //  $this->updateNotificationId = NULL;
-                      //  $notificationId =  $this->updateToDbNotification($cashflowSummaryData, $notificationId);
+
                         $this->updateToDbNotification($cashflowSummaryData, $this->notificationId, $this->updateNotificationId);
-            //emailing notification
-                            //  $this->emailCashflowNotification($cashflowSummaryData);
 
                             return $summaryStatus;
                               /*

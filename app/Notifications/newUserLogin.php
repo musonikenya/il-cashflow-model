@@ -49,8 +49,7 @@ class newUserLogin extends Notification
 
         return (new MailMessage)
                     ->subject('New Login Detected')
-                    ->line('You have logged into your account at: ' . Carbon::now() . ' from IP: ' . $this->ip)
-                    ->line('Thank you for using Sheria Village!');
+                    ->line('You have logged into your account at: ' . Carbon::now() . ' from IP: ' . $this->ip);
     }
 
     /**

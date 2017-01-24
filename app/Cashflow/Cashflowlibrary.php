@@ -11,7 +11,7 @@ public function curlOption($urlOption)
     $curl = curl_init();
     curl_setopt_array($curl, array(
       CURLOPT_PORT => "8443",
-      CURLOPT_URL => "https://demo.musonisystem.com:8443/api/v1" . $urlOption ,
+      CURLOPT_URL => env('CASHFLOW_URL') . $urlOption ,
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_ENCODING => "",
       CURLOPT_MAXREDIRS => 10,
@@ -20,10 +20,10 @@ public function curlOption($urlOption)
       CURLOPT_CUSTOMREQUEST => "GET",
       CURLOPT_SSL_VERIFYPEER => false, //turn this off when going live.
       CURLOPT_HTTPHEADER => array(
-  				"authorization: Basic QVBJQ29uc3VtZXI6Z2M1TWNqYnZQczdUckRIOTZURTRX",
+                 env('CASHFLOW_AUTHORIZATION'),
   				"cache-control: no-cache",
   				"content-type: application/json",
-  				"x-mifos-platform-tenantid: kenya"
+                env('CASHFLOW_TENANT')
   			),
     ));
     $response = curl_exec($curl);
@@ -41,7 +41,7 @@ public function curlOption($urlOption)
             $curl = curl_init();
             curl_setopt_array($curl, array(
               CURLOPT_PORT => "8443",
-              CURLOPT_URL => "https://demo.musonisystem.com:8443/api/v1" . $data['urlExtention'],
+              CURLOPT_URL => env('CASHFLOW_URL') . $data['urlExtention'],
               CURLOPT_RETURNTRANSFER => true,
               CURLOPT_ENCODING => "",
               CURLOPT_MAXREDIRS => 10,
@@ -54,10 +54,10 @@ public function curlOption($urlOption)
               CURLOPT_SSL_VERIFYPEER => false, //turn this off when going live
               CURLOPT_POSTFIELDS => $data['postData'],
               CURLOPT_HTTPHEADER => array(
-                "authorization: Basic QVBJQ29uc3VtZXI6Z2M1TWNqYnZQczdUckRIOTZURTRX",
+                  env('CASHFLOW_AUTHORIZATION'),
                 "cache-control: no-cache",
                 "content-type: application/json",
-                "x-mifos-platform-tenantid: kenya"
+                  env('CASHFLOW_TENANT')
               ),
             ));
 
@@ -78,17 +78,17 @@ public function curlOption($urlOption)
   {
             $curl = curl_init();
             curl_setopt_array($curl, array(
-              CURLOPT_URL => "https://demo.musonisystem.com:8443/api/v1" . $data['urlExtention'],
+              CURLOPT_URL => env('CASHFLOW_URL') . $data['urlExtention'],
               CURLOPT_RETURNTRANSFER => true,
               CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
               CURLOPT_POST => true,
               CURLOPT_SSL_VERIFYPEER => false, //turn this off when going live
               CURLOPT_POSTFIELDS => $data['postData'],
               CURLOPT_HTTPHEADER => array(
-                    "authorization: Basic QVBJQ29uc3VtZXI6Z2M1TWNqYnZQczdUckRIOTZURTRX",
+                    env('CASHFLOW_AUTHORIZATION'),
                     "cache-control: no-cache",
                     "content-type: multipart/form-data",
-                    "x-mifos-platform-tenantid: kenya"
+                    env('CASHFLOW_TENANT')
                   ),
             ));
             $response = curl_exec($curl);
