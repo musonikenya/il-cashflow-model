@@ -66,6 +66,7 @@
                       <li><a href="{{url('admin/users')}}">Users</a></li>
                     </ul>
                   </li>
+                    <li><a href="{{url('log-viewer')}}"><i class="fa fa-file-text-o"></i>System Logs</a></li>
                   @endif
                 </ul>
               </div>
