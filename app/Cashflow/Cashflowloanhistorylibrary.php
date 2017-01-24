@@ -2,9 +2,6 @@
 
 namespace App\Cashflow;
 
-use App\Cashflow\Cashflowlibrary;
-use App\Cashflow\Cashflowdropdownslibrary;
-
 class Cashflowloanhistorylibrary {
       protected $cashflowlibrary;
       protected $cashflowdropdownslibrary;

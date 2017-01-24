@@ -1,8 +1,6 @@
 <?php
 namespace App\Cashflow;
 
-use App\Cashflow\Cashflowlibrary;
-
 class CashflowUploadData {
     protected $cashflowlibrary;
 

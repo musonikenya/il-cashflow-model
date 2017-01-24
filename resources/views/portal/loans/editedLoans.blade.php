@@ -34,7 +34,7 @@
               @foreach($cashflows as $cashflow)
                 <tr>
                   <td>
-                    <a href="https://demo.musonisystem.com/kenya/index.php/Loan/Loan/{{$cashflow->loanId}}" target="_blank">{{$cashflow->loanId}}</a>
+                    <a href="{{env('CASHFLOW_LOAN_URL') . $cashflow->loanId}}" target="_blank">{{$cashflow->loanId}}</a>
                   </td>
                   <td>{{$cashflow->clientId}}</td>
                   <td>{{$cashflow->officeId}}</td>

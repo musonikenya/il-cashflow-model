@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Cashflow;
-use App\Cashflow\Cashflowlibrary;
-use App\Cashflow\Cashflowdropdownslibrary;
 
 class Cashflowstatementslibrary {
     protected $cashflowlibrary;

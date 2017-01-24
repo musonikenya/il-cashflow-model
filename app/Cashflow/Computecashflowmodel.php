@@ -1,22 +1,11 @@
 <?php
-/*
+/**
   This is the main class where the magic happens.
   The all the computation occurs at this point.
 */
 namespace App\Cashflow;
 
-use PHPExcel;
 use PHPExcel_IOFactory;
-use Illuminate\Support\Facades\Storage;
-use App\Cashflow; //model
-use App\Cashflow\Supportfunctionslibrary;
-use App\Cashflow\Cashflowloanlibrary;
-use App\Cashflow\Cashflowstatementslibrary;
-use App\Cashflow\Cashflowloanhistorylibrary;
-use App\Cashflow\Cashflowassetsandliabilitieslibrary;
-use App\Cashflow\Cashflowotherinformationlibrary;
-use App\Cashflow\Cashflowcropslibrary;
-use App\Cashflow\Cashflowanimalslibrary;
 
 class Computecashflowmodel {
 

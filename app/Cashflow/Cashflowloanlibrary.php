@@ -2,8 +2,6 @@
 
 namespace App\Cashflow;
 
-use App\Cashflow\Cashflowlibrary;
-
 class Cashflowloanlibrary {
     protected $cashflowlibrary;
 

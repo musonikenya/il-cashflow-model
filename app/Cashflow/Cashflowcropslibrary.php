@@ -2,9 +2,6 @@
 
 namespace App\Cashflow;
 
-use App\Cashflow\Cashflowlibrary;
-use App\Cashflow\Cashflowdropdownslibrary;
-
 class Cashflowcropslibrary {
       protected $cashflowlibrary;
       protected $cashflowdropdownslibrary;
