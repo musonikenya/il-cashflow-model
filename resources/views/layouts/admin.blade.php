@@ -66,7 +66,8 @@
                       <li><a href="{{url('admin/users')}}">Users</a></li>
                     </ul>
                   </li>
-                    <li><a href="{{url('log-viewer')}}"><i class="fa fa-file-text-o"></i>System Logs</a></li>
+                    <li><a href="{{url('log-viewer')}}" target="_blank" ><i class="fa fa-file-text-o"></i>System Logs</a></li>
+                    <li><a href="{{url('loansReload')}}"><i class="fa fa-refresh "></i>Cashflow Reload</a></li>
                   @endif
                 </ul>
               </div>

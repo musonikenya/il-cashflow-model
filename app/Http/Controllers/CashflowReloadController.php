@@ -7,10 +7,6 @@ use App\Cashflow;
 
 class CashflowReloadController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +15,7 @@ class CashflowReloadController extends Controller
     public function index()
     {
         $cashflows = Cashflow::all();
-        return view('portal.loans.index', compact('cashflows'));
+        return view('portal.loans-reload.index', compact('cashflows'));
     }
 
     /**
@@ -40,8 +36,33 @@ class CashflowReloadController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        error_reporting(0);
+        ini_set('xdebug.max_nesting_level', 600);
+        ini_set('max_execution_time', 300);
+        $input = $request->all();
+        $cashflows = Cashflow::all();
+        $reload_data = array(
+            'id' => $input['id'],
+            'loanId' => $input['loanId'],
+            'clientId' => $input['clientId'],
+            'officeId' => $input['officeId'],
+        );
+        $cashflowFile =	$this->newCashflowModel->computeCashFlowModel($reload_data);
+        $cashflowSummaryData = 	$this->generatefinancialsummary->generateFinancialSummary($cashflowFile); //getting the summary
+        $summaryStatus =	$this->processCashflowUploads->uploadData($cashflowSummaryData); //sending summary and uploading file
+        $this->updateDb($reload_data, $cashflowSummaryData);
 
+        return view('portal.loans-reload.index', compact('cashflows'));
+
+    }
+    private function updateDb ($reload_data, $cashflowSummaryData)
+    {
+        $cashflowDb = Cashflow::find($reload_data['id']);
+        $cashflowDb->realFilePath = $cashflowSummaryData['realFilePath'];
+        $cashflowDb->savedFilePath = $cashflowSummaryData['savedFilePath'];
+        $cashflowDb->path = $cashflowSummaryData['path'];
+        $cashflowDb->save();
+        return $cashflowDb->id;
     }
 
     /**

@@ -8,26 +8,9 @@ use App\Notifications\CashflowEdited;
 use App\Cashflow;
 use App\CashflowEdit;
 use App\User;
-use App\Cashflow\Computecashflowmodel;
-use App\Cashflow\Generatefinancialsummary;
-use App\Cashflow\CashflowUploadData;
 
 class CashflowController extends Controller
 {
-  protected $generatefinancialsummary;
-  protected $newCashflowModel;
-  protected $processCashflowUploads;
-  protected $notificationId;
-  protected $updateNotificationId;
-
-  public function __construct() {
-      $this->generatefinancialsummary = new Generatefinancialsummary;
-      $this->newCashflowModel = new Computecashflowmodel;
-      $this->processCashflowUploads = new CashflowUploadData;
-      $this->notificationId = NULL;
-      $this->updateNotificationId = NULL;
-      }
-
     /**
      * Display a listing of the resource.
      *

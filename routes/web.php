@@ -31,5 +31,10 @@ Route::get('/home', 'HomeController@index');
 Route::post('/', 'CashflowController@store');
 Route::get('reports/editedLoans', 'ReportsController@editedLoans');
 Route::resource('reports', 'ReportsController');
+Route::group(['middleware' => 'auth'], function()
+{
+    Route::resource('loansReload', 'CashflowReloadController');
+});
+
 Route::patch('/admin/users/changePassword/{user}', 'UserController@changePassword');
 Route::resource('admin/users', 'UserController');
