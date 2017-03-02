@@ -26,7 +26,7 @@ class CreateCashflowsTable extends Migration
             $table->string('path')->nullable();
             $table->boolean('processed')->default(false)->index();
             $table->timestamps();
-            $table->foreign('office_id')->references('id')->on('offices')->onDelete('restrict');
+           // $table->foreign('office_id')->references('id')->on('offices')->onDelete('restrict');
         });
     }
 
