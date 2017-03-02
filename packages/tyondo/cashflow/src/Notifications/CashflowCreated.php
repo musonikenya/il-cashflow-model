@@ -2,7 +2,7 @@
 
 namespace Tyondo\Cashflow\Notifications;
 
-use App\Cashflow;
+use Tyondo\Cashflow\Models\Cashflow;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\SlackMessage;
