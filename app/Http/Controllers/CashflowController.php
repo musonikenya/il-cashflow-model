@@ -191,7 +191,7 @@ class CashflowController extends Controller
      */
     public function store(Request $request)
     {
-
+        //return 'api call';
       $file = public_path('Data/cashLog.txt');
         file_put_contents($file, $request);
         return  $this->index($request);

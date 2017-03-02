@@ -171,6 +171,7 @@ return [
 
         Collective\Html\HtmlServiceProvider::class,
         Arcanedev\LogViewer\LogViewerServiceProvider::class,
+        Tyondo\Cashflow\CashflowServiceProvider::class,
 
         /*
          * Application Service Providers...
