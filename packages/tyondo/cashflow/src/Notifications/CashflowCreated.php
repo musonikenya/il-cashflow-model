@@ -49,7 +49,7 @@ class CashflowCreated extends Notification
                     ->success()
                     ->line('Hi, a new cashflow loan application has been submitted')
                     ->line('Please login to review it!')
-                    ->action('View Loan', 'https://live.musonisystem.com/kenya/index.php/Loan/Loan/' . $this->cashflow->loanId)
+                    ->action('View Loan', env('CASHFLOW_LOAN_URL') . $this->cashflow->loanId)
                     ->line('Thank you for your action!');
 
 
